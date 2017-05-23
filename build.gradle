@@ -1,0 +1,36 @@
+allprojects {
+  apply plugin: 'idea'
+}
+
+idea {
+  project {
+    languageLevel = '1.8'
+  }
+}
+
+subprojects {
+  apply plugin: 'java'
+  apply plugin: 'eclipse'
+
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+    testCompile 'org.testng:testng:6.4'
+  }
+
+  version = '1.0'
+
+  jar {
+    manifest.attributes provider: 'gradle'
+  }
+
+  plugins.withType(JavaPlugin) {
+    test {
+      useTestNG()
+    }
+  }
+
+}
+
