@@ -1,0 +1,7 @@
+{
+  "type": "record",
+  "name": "DictionaryRecord",
+  "namespace": "com.linkedin.restli.objc.integration",
+  "doc": "Contains no fields. Should have DictionaryRecordTemplate as parent class",
+  "fields": []
+}

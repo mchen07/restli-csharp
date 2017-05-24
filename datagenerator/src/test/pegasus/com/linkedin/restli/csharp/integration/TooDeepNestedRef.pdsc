@@ -1,0 +1,9 @@
+{
+  "type": "typeref",
+  "name": "TooDeepNestedRef",
+  "namespace": "com.linkedin.restli.objc.integration",
+  "ref": {
+    "type": "array",
+    "items": "IntArrayArrayArrayRef"
+  }
+}
