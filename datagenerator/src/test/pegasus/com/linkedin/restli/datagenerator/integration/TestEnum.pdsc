@@ -1,7 +1,7 @@
 {
   "type": "enum",
   "name": "TestEnum",
-  "namespace": "com.linkedin.restli.objc.integration",
+  "namespace": "com.linkedin.restli.datagenerator.integration",
   "doc": "Doc for the enum",
   "symbols": [ "SYMBOL_1", "SYMBOL_2", "SYMBOL_3" ],
   "symbolDocs": {

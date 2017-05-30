@@ -1,7 +1,7 @@
 {
   "type": "record",
   "name": "NestedRecord",
-  "namespace": "com.linkedin.restli.objc.integration",
+  "namespace": "com.linkedin.restli.datagenerator.integration",
   "doc": "A record which contains an object of its own type, to allow recursive tests on updates",
   "fields": [
     {

@@ -1,7 +1,7 @@
 {
   "type": "record",
   "name": "NestedSimpleRecord",
-  "namespace": "com.linkedin.restli.objc.integration",
+  "namespace": "com.linkedin.restli.datagenerator.integration",
   "fields": [
     {
       "name": "simpleRecordValue",

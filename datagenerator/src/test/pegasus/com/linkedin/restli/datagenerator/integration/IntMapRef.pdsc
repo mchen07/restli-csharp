@@ -1,7 +1,7 @@
 {
   "type": "typeref",
   "name": "IntMapRef",
-  "namespace": "com.linkedin.restli.objc.integration",
+  "namespace": "com.linkedin.restli.datagenerator.integration",
   "ref": {
     "type": "map",
     "values": "int"

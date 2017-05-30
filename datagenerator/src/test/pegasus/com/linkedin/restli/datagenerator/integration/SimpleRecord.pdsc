@@ -1,7 +1,7 @@
 {
   "type": "record",
-  "name": "SimpleRecordProjection",
-  "namespace": "com.linkedin.restli.objc.integration",
+  "name": "SimpleRecord",
+  "namespace": "com.linkedin.restli.datagenerator.integration",
   "fields": [
     {
       "name": "stringField",
@@ -11,6 +11,11 @@
       "name": "intValue",
       "type": "int",
       "default": 1
+    },
+    {
+      "name": "anotherIntValue",
+      "type": "int",
+      "default": 2
     }
   ]
 }

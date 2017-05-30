@@ -1,6 +1,6 @@
 {
   "type": "typeref",
   "name": "IntArrayRefRef",
-  "namespace": "com.linkedin.restli.objc.integration",
+  "namespace": "com.linkedin.restli.datagenerator.integration",
   "ref": "IntArrayRef"
 }

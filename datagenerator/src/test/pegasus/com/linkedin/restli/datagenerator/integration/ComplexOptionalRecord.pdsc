@@ -1,7 +1,7 @@
 {
   "type": "record",
   "name": "ComplexOptionalRecord",
-  "namespace": "com.linkedin.restli.objc.integration",
+  "namespace": "com.linkedin.restli.datagenerator.integration",
   "doc": "Contains fields of all supported complex schema types\nEvery field is optional",
   "fields": [
     {
