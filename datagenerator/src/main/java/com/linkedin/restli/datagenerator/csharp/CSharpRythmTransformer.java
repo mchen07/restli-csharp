@@ -1,6 +1,7 @@
 package com.linkedin.restli.datagenerator.csharp;
 
 
+import com.alibaba.fastjson.JSON;
 import com.linkedin.data.schema.DataSchema;
 import com.linkedin.data.schema.RecordDataSchema;
 import com.linkedin.pegasus.generator.spec.ClassTemplateSpec;
@@ -46,5 +47,13 @@ public class CSharpRythmTransformer {
     } else {
       return "???"; //TODO FIX THIS
     }
+  }
+
+  public static String getNullableType(RecordDataSchema.Field field) {
+    return typeNameMap.get(field.getType().getType()) + (field.getType().getType() != DataSchema.Type.STRING ? "?" : "");
+  }
+
+  public static String hasDefault(RecordDataSchema.Field field) {
+    return Boolean.toString(field.getDefault() != null);
   }
 }
