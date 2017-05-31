@@ -79,7 +79,7 @@ public class CSharpRythmGenerator {
     config.put(RythmConfigurationKey.RESOURCE_LOADER_IMPLS.getKey(), loader);
     Rythm.init(config);
     loader.setEngine(Rythm.engine());
-    //Rythm.engine().registerTransformer(ObjCRythmTransformer.class);
+    Rythm.engine().registerTransformer(CSharpRythmTransformer.class);
   }
 
   public void generate() throws IOException {
@@ -113,6 +113,7 @@ public class CSharpRythmGenerator {
         EnumDataSchema schema = (EnumDataSchema) spec.getSchema();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("className", schema.getName());
+        params.put("doc", schema.getDoc());
         params.put("symbols", schema.getSymbols());
         params.put("symbolDocs", schema.getSymbolDocs());
         try {
@@ -133,6 +134,7 @@ public class CSharpRythmGenerator {
         RecordDataSchema schema = (RecordDataSchema) spec.getSchema();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("className", schema.getName());
+        params.put("doc", schema.getDoc());
         params.put("fields", schema.getFields());
         try {
           final String modelsTemplate = TEMPLATE_PATH_ROOT + File.separator + "record.rythm";
