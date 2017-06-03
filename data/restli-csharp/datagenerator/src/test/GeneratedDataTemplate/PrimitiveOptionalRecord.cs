@@ -14,21 +14,27 @@ namespace PrimitiveOptionalRecord
   public class PrimitiveOptionalRecord
   {
     ///<summary>I will make the doc look casual</summary>
+    // optional, has default value
     public bool? BooleanField { get; }
     public bool HasBooleanField { get; }
     ///<summary>so that you know it is not codegen-ed</summary>
+    // optional, has default value
     public int? IntField { get; }
     public bool HasIntField { get; }
-    
+
+    // optional
     public long? LongField { get; }
 
     ///<summary>intentionally not leave a doc for the previous field</summary>
+    // optional, has default value
     public float? FloatField { get; }
     public bool HasFloatField { get; }
-    
+
+    // optional, has default value
     public double? DoubleField { get; }
     public bool HasDoubleField { get; }
-    
+
+    // optional
     public string StringField { get; }
 
 
@@ -36,8 +42,8 @@ namespace PrimitiveOptionalRecord
     {
       object value;
       bool status;
-      // Retrieve data for booleanField
-      status = data.TryGetValue("booleanField", out value);
+      // Retrieve data for BooleanField
+      status = data.TryGetValue("BooleanField", out value);
       if (status)
       {
         HasBooleanField = true;
@@ -45,11 +51,11 @@ namespace PrimitiveOptionalRecord
       }
       else
       {
-        BooleanField = (bool?)false;
+        BooleanField = false;
         HasBooleanField = false;
       }
-      // Retrieve data for intField
-      status = data.TryGetValue("intField", out value);
+      // Retrieve data for IntField
+      status = data.TryGetValue("IntField", out value);
       if (status)
       {
         HasIntField = true;
@@ -57,19 +63,19 @@ namespace PrimitiveOptionalRecord
       }
       else
       {
-        IntField = (int?)123;
+        IntField = 123;
         HasIntField = false;
       }
-      // Retrieve data for longField
-      status = data.TryGetValue("longField", out value);
+      // Retrieve data for LongField
+      status = data.TryGetValue("LongField", out value);
       if (status)
       {
 
         LongField = (long?)value;
       }
 
-      // Retrieve data for floatField
-      status = data.TryGetValue("floatField", out value);
+      // Retrieve data for FloatField
+      status = data.TryGetValue("FloatField", out value);
       if (status)
       {
         HasFloatField = true;
@@ -77,11 +83,11 @@ namespace PrimitiveOptionalRecord
       }
       else
       {
-        FloatField = (float?)23.4;
+        FloatField = 23.4F;
         HasFloatField = false;
       }
-      // Retrieve data for doubleField
-      status = data.TryGetValue("doubleField", out value);
+      // Retrieve data for DoubleField
+      status = data.TryGetValue("DoubleField", out value);
       if (status)
       {
         HasDoubleField = true;
@@ -89,11 +95,11 @@ namespace PrimitiveOptionalRecord
       }
       else
       {
-        DoubleField = (double?)3.14159;
+        DoubleField = 3.14159;
         HasDoubleField = false;
       }
-      // Retrieve data for stringField
-      status = data.TryGetValue("stringField", out value);
+      // Retrieve data for StringField
+      status = data.TryGetValue("StringField", out value);
       if (status)
       {
 
@@ -104,7 +110,7 @@ namespace PrimitiveOptionalRecord
 
     public PrimitiveOptionalRecord(Builder builder)
     {
-      // Retrieve data for booleanField
+      // Retrieve data for BooleanField
       if (builder.BooleanField != null)
       {
         HasBooleanField = true;
@@ -112,10 +118,10 @@ namespace PrimitiveOptionalRecord
       }
       else
       {
-        BooleanField = (bool?)false;
+        BooleanField = false;
         HasBooleanField = false;
       }
-      // Retrieve data for intField
+      // Retrieve data for IntField
       if (builder.IntField != null)
       {
         HasIntField = true;
@@ -123,17 +129,17 @@ namespace PrimitiveOptionalRecord
       }
       else
       {
-        IntField = (int?)123;
+        IntField = 123;
         HasIntField = false;
       }
-      // Retrieve data for longField
+      // Retrieve data for LongField
       if (builder.LongField != null)
       {
 
         LongField = (long?)builder.LongField;
       }
 
-      // Retrieve data for floatField
+      // Retrieve data for FloatField
       if (builder.FloatField != null)
       {
         HasFloatField = true;
@@ -141,10 +147,10 @@ namespace PrimitiveOptionalRecord
       }
       else
       {
-        FloatField = (float?)23.4;
+        FloatField = 23.4F;
         HasFloatField = false;
       }
-      // Retrieve data for doubleField
+      // Retrieve data for DoubleField
       if (builder.DoubleField != null)
       {
         HasDoubleField = true;
@@ -152,10 +158,10 @@ namespace PrimitiveOptionalRecord
       }
       else
       {
-        DoubleField = (double?)3.14159;
+        DoubleField = 3.14159;
         HasDoubleField = false;
       }
-      // Retrieve data for stringField
+      // Retrieve data for StringField
       if (builder.StringField != null)
       {
 

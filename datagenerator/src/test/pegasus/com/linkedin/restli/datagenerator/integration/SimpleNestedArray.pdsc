@@ -1,0 +1,20 @@
+{
+  "doc"  : "Test simple nested array",
+  "type" : "record",
+  "name" : "SimpleNestedArray",
+  "namespace" : "com.linkedin.restli.datagenerator.integration",
+  "fields" : [
+    {
+      "name" : "intArray",
+      "type" :
+      {
+        "type" : "array",
+        "items" :
+        {
+          "type" : "array",
+          "items" : "int"
+        }
+      }
+    }
+  ]
+}

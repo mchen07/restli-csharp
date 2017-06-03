@@ -10,13 +10,16 @@ namespace SimpleRecord
     
   public class SimpleRecord
   {
-    
+
+    // required
     public string StringField { get; }
 
-    
+
+    // required, has default value
     public int IntValue { get; }
     public bool HasIntValue { get; }
-    
+
+    // required, has default value
     public int AnotherIntValue { get; }
     public bool HasAnotherIntValue { get; }
 
@@ -24,16 +27,16 @@ namespace SimpleRecord
     {
       object value;
       bool status;
-      // Retrieve data for stringField
-      status = data.TryGetValue("stringField", out value);
+      // Retrieve data for StringField
+      status = data.TryGetValue("StringField", out value);
       if (status)
       {
 
         StringField = (string)value;
       }
 
-      // Retrieve data for intValue
-      status = data.TryGetValue("intValue", out value);
+      // Retrieve data for IntValue
+      status = data.TryGetValue("IntValue", out value);
       if (status)
       {
         HasIntValue = true;
@@ -41,11 +44,11 @@ namespace SimpleRecord
       }
       else
       {
-        IntValue = (int)1;
+        IntValue = 1;
         HasIntValue = false;
       }
-      // Retrieve data for anotherIntValue
-      status = data.TryGetValue("anotherIntValue", out value);
+      // Retrieve data for AnotherIntValue
+      status = data.TryGetValue("AnotherIntValue", out value);
       if (status)
       {
         HasAnotherIntValue = true;
@@ -53,14 +56,14 @@ namespace SimpleRecord
       }
       else
       {
-        AnotherIntValue = (int)2;
+        AnotherIntValue = 2;
         HasAnotherIntValue = false;
       }
     }
 
     public SimpleRecord(Builder builder)
     {
-      // Retrieve data for stringField
+      // Retrieve data for StringField
       if (builder.StringField != null)
       {
 
@@ -68,9 +71,9 @@ namespace SimpleRecord
       }
       else
       {
-        throw new System.ArgumentNullException("Required field with no default must be included in builder: stringField");
+        throw new System.ArgumentNullException("Required field with no default must be included in builder: StringField");
       }
-      // Retrieve data for intValue
+      // Retrieve data for IntValue
       if (builder.IntValue != null)
       {
         HasIntValue = true;
@@ -78,10 +81,10 @@ namespace SimpleRecord
       }
       else
       {
-        IntValue = (int)1;
+        IntValue = 1;
         HasIntValue = false;
       }
-      // Retrieve data for anotherIntValue
+      // Retrieve data for AnotherIntValue
       if (builder.AnotherIntValue != null)
       {
         HasAnotherIntValue = true;
@@ -89,7 +92,7 @@ namespace SimpleRecord
       }
       else
       {
-        AnotherIntValue = (int)2;
+        AnotherIntValue = 2;
         HasAnotherIntValue = false;
       }
     }

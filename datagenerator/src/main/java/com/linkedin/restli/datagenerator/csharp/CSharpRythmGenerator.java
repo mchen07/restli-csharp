@@ -1,14 +1,19 @@
 package com.linkedin.restli.datagenerator.csharp;
 
+import com.linkedin.data.schema.ArrayDataSchema;
 import com.linkedin.data.schema.DataSchema;
 import com.linkedin.data.schema.DataSchemaLocation;
 import com.linkedin.data.schema.EnumDataSchema;
 import com.linkedin.data.schema.RecordDataSchema;
+import com.linkedin.data.schema.UnionDataSchema;
 import com.linkedin.pegasus.generator.DataSchemaParser;
 import com.linkedin.pegasus.generator.TemplateSpecGenerator;
+import com.linkedin.pegasus.generator.spec.ArrayTemplateSpec;
 import com.linkedin.pegasus.generator.spec.ClassTemplateSpec;
 import com.linkedin.pegasus.generator.spec.EnumTemplateSpec;
 import com.linkedin.pegasus.generator.spec.RecordTemplateSpec;
+import com.linkedin.pegasus.generator.spec.UnionTemplateSpec;
+import com.sun.prism.impl.Disposer;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -18,6 +23,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import jdk.nashorn.internal.runtime.arrays.ArrayData;
 import org.rythmengine.Rythm;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -32,7 +38,7 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * Class to generate C# files from the Rythm files and PDSC templates.
+ * Class to generate C# files from Rythm files and PDSC templates.
  *
  * @author Evan Williams
  */
@@ -47,6 +53,13 @@ public class CSharpRythmGenerator {
   }
 
   protected final CommandLine _cl;
+
+  // Mapping class types to path of Rythm template file
+  private static Map<Class, String> templateMap = new HashMap<Class, String>();
+  static {
+    templateMap.put(CSharpEnum.class, TEMPLATE_PATH_ROOT + File.separator + "enum.rythm");
+    templateMap.put(CSharpRecord.class, TEMPLATE_PATH_ROOT + File.separator + "record.rythm");
+  }
 
   public static void main(String[] args) throws IOException {
     CommandLine cl = null;
@@ -96,59 +109,74 @@ public class CSharpRythmGenerator {
       System.out.println(spec.getSchema().toString()); //TODO DEBUG
     }
 
+    final CSharpDataTemplateGenerator dataTemplateGenerator = new CSharpDataTemplateGenerator();
+
     //TODO TEST
 
-    generateResultFile(specGenerator.getGeneratedSpecs(), outputDirectory);
+    final int renderedCount = generateResultFiles(dataTemplateGenerator, specGenerator.getGeneratedSpecs(), outputDirectory);
+
+    LOG.info("Generated files for " + renderedCount + " models");
   }
 
   protected void generateTemplateSpecs(TemplateSpecGenerator specGenerator, DataSchemaParser.ParseResult parseResult) {
     parseResult.getSchemaAndLocations().forEach(specGenerator::generate);
   }
 
-  protected void generateResultFile(Collection<ClassTemplateSpec> specs, File outputDirectory) {
+  protected int generateResultFiles(CSharpDataTemplateGenerator dataTemplateGenerator, Collection<ClassTemplateSpec> specs, File outputDirectory) throws IOException {
 
-    for (ClassTemplateSpec spec : specs) {
+    specs.forEach(dataTemplateGenerator::generate);
 
-      if (spec instanceof EnumTemplateSpec) {
-        EnumDataSchema schema = (EnumDataSchema) spec.getSchema();
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("className", schema.getName());
-        params.put("doc", schema.getDoc());
-        params.put("symbols", schema.getSymbols());
-        params.put("symbolDocs", schema.getSymbolDocs());
-        try {
-          final String modelsTemplate = TEMPLATE_PATH_ROOT + File.separator + "enum.rythm";
-          final String renderResult = Rythm.renderIfTemplateExists(modelsTemplate, params);
-          if (renderResult.isEmpty()) {
-            throw new IOException("The enum template does not exist at '" + modelsTemplate + "'");
-          } else {
-            outputDirectory.mkdirs();
-            writeToFile(new File(outputDirectory, spec.getClassName() + ".cs"), renderResult);
-          }
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
+    int renderedCount = 0;
+    while (true) {
+      final Set<CSharpType> unprocessedTypes = dataTemplateGenerator.getUnprocessedTypes();
+      System.out.println(renderedCount + " files so far, types up next: " + unprocessedTypes.toString());
+      if (unprocessedTypes.isEmpty()) {
+        break;
       }
 
-      else if (spec instanceof RecordTemplateSpec) {
-        RecordDataSchema schema = (RecordDataSchema) spec.getSchema();
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("className", schema.getName());
-        params.put("doc", schema.getDoc());
-        params.put("fields", schema.getFields());
-        try {
-          final String modelsTemplate = TEMPLATE_PATH_ROOT + File.separator + "record.rythm";
-          final String renderResult = Rythm.renderIfTemplateExists(modelsTemplate, params);
-          if (renderResult.isEmpty()) {
-            throw new IOException("The record template does not exist at '" + modelsTemplate + "'");
-          } else {
-            outputDirectory.mkdirs();
-            writeToFile(new File(outputDirectory, spec.getClassName() + ".cs"), renderResult);
+      for (CSharpType type : unprocessedTypes) {
+        System.out.println(type + " " + type.getSpec() + " " + type.getSpec().getSchema()); // TODO REMOVE
+        final ClassTemplateSpec spec = type.getSpec();
+
+        if (type instanceof CSharpComplexType) {
+          final CSharpComplexType templateType = (CSharpComplexType) type;
+          try {
+            final String modelsTemplate = getTemplateName(templateType);
+            final String renderResult = renderToString(modelsTemplate, templateType);
+            if (renderResult.isEmpty()) {
+              throw new IOException("The rythm template does not exist at '" + modelsTemplate + "'");
+            } else {
+              outputDirectory.mkdirs();
+              writeToFile(new File(outputDirectory, templateType.getName() + ".cs"), renderResult);
+              renderedCount++;
+            }
+          } catch (IOException e) {
+            LOG.error("Failed to generate file for " + templateType.getName());
+            throw e;
           }
-        } catch (IOException e) {
-          throw new RuntimeException(e);
         }
       }
+    }
+
+    return renderedCount;
+  }
+
+  public String getTemplateName(CSharpComplexType type) {
+    String path = templateMap.get(type.getClass());
+    if (path != null) {
+      return path;
+    } else {
+      throw new IllegalArgumentException("Type does not have associated template: " + type.getClass().getName());
+    }
+  }
+
+  private String renderToString(String templatePath, CSharpType type)
+      throws IOException {
+    final String result = Rythm.renderIfTemplateExists(templatePath, type, this);
+    if (result.isEmpty()) {
+      throw new IOException("The template does not exist: " + templatePath);
+    } else {
+      return result;
     }
   }
 
