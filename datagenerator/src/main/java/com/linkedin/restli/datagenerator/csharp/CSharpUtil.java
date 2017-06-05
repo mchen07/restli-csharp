@@ -46,11 +46,16 @@ public class CSharpUtil {
     return spec;
   }
 
-  public static String stringify(Object obj) {
-    if (obj instanceof DataList && ((DataList) obj).isEmpty()) {
-      return "new List<>()"; //TODO FIX
-    } else if (obj instanceof DataMap && ((DataMap) obj).isEmpty()) {
-      return "new Map<>()"; //TODO FIX
+  public static String stringify(CSharpType type, Object obj) {
+    if (type instanceof CSharpCollectionType) {
+      String elementType = ((CSharpCollectionType) type).getElementType().getName();
+      if (type instanceof CSharpArray && ((DataList) obj).isEmpty()) {
+        return "new IReadOnlyList<" + elementType + ">()";
+      } else if (type instanceof CSharpMap && ((DataMap) obj).isEmpty()) {
+        return "new IReadOnlyDictionary<string, " + elementType + ">()";
+      } else {
+        return null;
+      }
     } else {
       return null;
     }

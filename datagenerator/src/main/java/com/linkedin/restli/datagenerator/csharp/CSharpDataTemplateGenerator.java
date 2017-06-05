@@ -45,7 +45,7 @@ public class CSharpDataTemplateGenerator {
 
     if (spec == null) {
       result = null;
-    } else if (false) { //shouldCheckDeprecated(spec, _voyagerUtil.getSkipDeprecatedArgs()) && isDeprecated(spec)) {
+    } else if (isDeprecated(spec)) { // && shouldCheckDeprecated(spec, _voyagerUtil.getSkipDeprecatedArgs())
       result = null;
     } else {
       result = _generatedClasses.get(spec);
@@ -69,8 +69,8 @@ public class CSharpDataTemplateGenerator {
               result = new CSharpEnum(spec, enclosingType); //ObjCEnum(spec, enclosingType, _voyagerUtil.getPrefixedName(spec));
 //            } else if (spec instanceof FixedTemplateSpec) {
 //              result = new CSharpType(spec); //ObjCFixed(spec);
-//            } else if (spec instanceof MapTemplateSpec) {
-//              result = new CSharpType(spec); //ObjCMap(spec, this);
+            } else if (spec instanceof MapTemplateSpec) {
+              result = new CSharpMap(spec, this); //ObjCMap(spec, this);
             } else if (spec instanceof PrimitiveTemplateSpec) {
               result = new CSharpPrimitive(spec); //ObjCPrimitive(spec);
             } else if (spec instanceof RecordTemplateSpec) {

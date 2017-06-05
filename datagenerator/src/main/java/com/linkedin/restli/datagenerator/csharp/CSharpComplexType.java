@@ -32,4 +32,6 @@ public class CSharpComplexType extends CSharpType {
   public String getDoc() {
     return ((NamedDataSchema) getSpec().getSchema()).getDoc();
   }
+
+  public String getNamespace() { return getSpec().getNamespace(); }
 }

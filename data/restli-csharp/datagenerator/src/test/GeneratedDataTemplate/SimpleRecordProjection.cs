@@ -8,7 +8,7 @@ namespace com.linkedin.restli.datagenerator.integration
 {
 
     
-  public class SimpleRecord
+  public class SimpleRecordProjection
   {
 
     // required
@@ -19,11 +19,7 @@ namespace com.linkedin.restli.datagenerator.integration
     public int IntValue { get; }
     public bool HasIntValue { get; }
 
-    // required, has default value
-    public int AnotherIntValue { get; }
-    public bool HasAnotherIntValue { get; }
-
-    public SimpleRecord(Dictionary<string, object> data)
+    public SimpleRecordProjection(Dictionary<string, object> data)
     {
       object value;
       bool status;
@@ -47,21 +43,9 @@ namespace com.linkedin.restli.datagenerator.integration
         IntValue = 1;
         HasIntValue = false;
       }
-      // Retrieve data for AnotherIntValue
-      status = data.TryGetValue("AnotherIntValue", out value);
-      if (status)
-      {
-        AnotherIntValue = (int)value;
-        HasAnotherIntValue = true;
-      }
-      else
-      {
-        AnotherIntValue = 2;
-        HasAnotherIntValue = false;
-      }
     }
 
-    public SimpleRecord(Builder builder)
+    public SimpleRecordProjection(Builder builder)
     {
       // Retrieve data for StringField
       if (builder.StringField != null)
@@ -84,17 +68,6 @@ namespace com.linkedin.restli.datagenerator.integration
         IntValue = 1;
         HasIntValue = false;
       }
-      // Retrieve data for AnotherIntValue
-      if (builder.AnotherIntValue != null)
-      {
-        AnotherIntValue = (int)builder.AnotherIntValue;
-        HasAnotherIntValue = true;
-      }
-      else
-      {
-        AnotherIntValue = 2;
-        HasAnotherIntValue = false;
-      }
     }
   }
 
@@ -102,11 +75,10 @@ namespace com.linkedin.restli.datagenerator.integration
   {
     public string StringField { get; set; }
     public int? IntValue { get; set; }
-    public int? AnotherIntValue { get; set; }
 
-    public SimpleRecord Build()
+    public SimpleRecordProjection Build()
     {
-      return new SimpleRecord(this);
+      return new SimpleRecordProjection(this);
     }
   }
 }

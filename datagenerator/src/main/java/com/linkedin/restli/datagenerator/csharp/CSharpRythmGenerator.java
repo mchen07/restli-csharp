@@ -106,7 +106,7 @@ public class CSharpRythmGenerator {
 
 
     for (ClassTemplateSpec spec : specGenerator.getGeneratedSpecs()) {
-      System.out.println(spec.getSchema().toString()); //TODO DEBUG
+      System.out.println(spec.getClassName() + " has " + spec.getEnclosingClass()); //TODO DEBUG
     }
 
     final CSharpDataTemplateGenerator dataTemplateGenerator = new CSharpDataTemplateGenerator();
@@ -135,7 +135,7 @@ public class CSharpRythmGenerator {
       }
 
       for (CSharpType type : unprocessedTypes) {
-        System.out.println(type + " " + type.getSpec() + " " + type.getSpec().getSchema()); // TODO REMOVE
+        System.out.println(type + " " + type.getSpec().getSchema()); // TODO REMOVE
         final ClassTemplateSpec spec = type.getSpec();
 
         if (type instanceof CSharpComplexType) {

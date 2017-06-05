@@ -3,14 +3,14 @@
 namespace com.linkedin.restli.datagenerator.integration
 {
   
-  public enum EnumInRecord {
+  public enum EnumInMapRecord {
     
-    A,
+    Alice,
     
-    ///<summary>Doc for the B field in the inline enum!</summary>
-    B,
+    Bob,
     
-    C,
+    ///<summary>This is the Carol doc!</summary>
+    Carol,
 
     @UNKNOWN
   }

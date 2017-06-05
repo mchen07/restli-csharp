@@ -21,6 +21,6 @@ public class CSharpArray extends CSharpCollectionType {
 
   @Override
   public String getName() {
-    return "List<" + getElementType().getName() + ">";
+    return "IReadOnlyList<" + getElementType().getName() + ">";
   }
 }
