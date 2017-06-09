@@ -18,6 +18,11 @@ public class CSharpEnum extends CSharpComplexType {
     _enum = (EnumTemplateSpec) spec;
   }
 
+  @Override
+  public String getDataMapParseName() {
+    return "string";
+  }
+
   public List<String> getSymbols() {
     return _enum.getSchema().getSymbols();
   }

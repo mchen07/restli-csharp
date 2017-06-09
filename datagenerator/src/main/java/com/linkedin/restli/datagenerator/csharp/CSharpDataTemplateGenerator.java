@@ -42,6 +42,7 @@ public class CSharpDataTemplateGenerator {
 
   public CSharpType generate(ClassTemplateSpec spec, ClassTemplateSpec dataClass) {
     CSharpType result;
+    System.out.println("generate: " + spec.getClassName());
 
     if (spec == null) {
       result = null;
@@ -52,57 +53,58 @@ public class CSharpDataTemplateGenerator {
 
       if (result == null) {
         try {
-          result = null; //TODO REMOVE?
-          if (result == null) {
-            final ClassTemplateSpec enclosingClass = spec.getEnclosingClass();
-            final CSharpType enclosingType;
+          final ClassTemplateSpec enclosingClass = spec.getEnclosingClass();
+          final CSharpType enclosingType;
 
-            if (enclosingClass == null) {
-              enclosingType = null;
-            } else {
-              enclosingType = generate(enclosingClass, dataClass);
-            }
+          if (enclosingClass == null) {
+            enclosingType = null;
+          } else {
+            enclosingType = generate(enclosingClass, dataClass);
+          }
 
-            if (spec instanceof ArrayTemplateSpec) {
-              result = new CSharpArray(spec, this); //ObjCArray(spec, this);
-            } else if (spec instanceof EnumTemplateSpec) {
-              result = new CSharpEnum(spec, enclosingType); //ObjCEnum(spec, enclosingType, _voyagerUtil.getPrefixedName(spec));
+          if (spec instanceof ArrayTemplateSpec) {
+            result = new CSharpArray(spec, this); //ObjCArray(spec, this);
+          } else if (spec instanceof EnumTemplateSpec) {
+            result = new CSharpEnum(spec, enclosingType); //ObjCEnum(spec, enclosingType, _voyagerUtil.getPrefixedName(spec));
 //            } else if (spec instanceof FixedTemplateSpec) {
 //              result = new CSharpType(spec); //ObjCFixed(spec);
-            } else if (spec instanceof MapTemplateSpec) {
-              result = new CSharpMap(spec, this); //ObjCMap(spec, this);
-            } else if (spec instanceof PrimitiveTemplateSpec) {
-              result = new CSharpPrimitive(spec); //ObjCPrimitive(spec);
-            } else if (spec instanceof RecordTemplateSpec) {
-              result = new CSharpRecord(spec, enclosingType, this); //ObjCRecord(spec, enclosingType, _voyagerUtil.getPrefixedName(spec), this);
+          } else if (spec instanceof MapTemplateSpec) {
+            result = new CSharpMap(spec, this); //ObjCMap(spec, this);
+          } else if (spec instanceof PrimitiveTemplateSpec) {
+            result = new CSharpPrimitive(spec); //ObjCPrimitive(spec);
+          } else if (spec instanceof RecordTemplateSpec) {
+            result = new CSharpRecord(spec, enclosingType, this); //ObjCRecord(spec, enclosingType, _voyagerUtil.getPrefixedName(spec), this);
 //            } else if (spec instanceof TyperefTemplateSpec && dataClass == null) {
 //              // use dataClass for custom typeref if there is
 //              result = new CSharpType(spec); //ObjCTyperef(spec);
-//            } else if (spec instanceof UnionTemplateSpec) {
-//              result = new CSharpType(spec); //ObjCUnion(spec, enclosingType, _voyagerUtil.getPrefixedName(spec), this);
-            } else if (dataClass != null) {
-              result = generate(dataClass);
-            } else if (enclosingType != null) {
-              result = new CSharpComplexType(spec, enclosingType); //ObjCComplexType(spec, enclosingType, _voyagerUtil.getPrefixedName(spec));
-            } else {
-              throw new IllegalArgumentException("Unrecognized class: " + spec.getFullName());
-            }
-
-            if (spec instanceof EnumTemplateSpec || spec instanceof RecordTemplateSpec || spec instanceof UnionTemplateSpec) { //result instanceof ObjCComplexType) {
-              final ClassTemplateSpec originalSpec = _generatedClassNames.get(result.getReference());
-              if (originalSpec == null) {
-                _generatedClassNames.put(result.getReference(), spec);
-              } else {
-                LOG.warn(String.format("Duplicate classes detected: %s and %s", originalSpec.getFullName(), spec.getFullName()));
-                throw new IllegalArgumentException(
-                    String.format("Duplicate classes detected: %s and %s", originalSpec.getFullName(), spec.getFullName()));
-              }
-            }
+          } else if (spec instanceof UnionTemplateSpec) {
+            result = new CSharpUnion(spec, enclosingType, this); //ObjCUnion(spec, enclosingType, _voyagerUtil.getPrefixedName(spec), this);
+          } else if (dataClass != null) {
+            result = generate(dataClass);
+          } else if (enclosingType != null) {
+            result = new CSharpComplexType(spec, enclosingType); //ObjCComplexType(spec, enclosingType, _voyagerUtil.getPrefixedName(spec));
+          } else {
+            throw new IllegalArgumentException("Unrecognized class: " + spec.getFullName());
           }
+
+          if (result instanceof CSharpComplexType && !(result instanceof CSharpUnion)) {
+            final ClassTemplateSpec originalSpec = _generatedClassNames.get(result.getReference());
+            if (originalSpec == null) {
+              _generatedClassNames.put(result.getReference(), spec);
+            } else {
+              LOG.warn(String.format("Duplicate classes detected: %s and %s", originalSpec.getFullName(), spec.getFullName()));
+              throw new IllegalArgumentException(
+                  String.format("Duplicate classes detected: %s and %s", originalSpec.getFullName(), spec.getFullName()));
+            }
+          } else if (result instanceof CSharpUnion && enclosingType instanceof CSharpRecord) {
+            ((CSharpRecord) enclosingType).addUnnamedUnion((CSharpUnion) result);
+          }
+
 
           _generatedClasses.put(spec, result);
           _unprocessedTypes.add(result);
         } catch (RuntimeException e) {
+          System.out.println("ERROR: " + e.getMessage());
           _messageBuilder.append(e.getMessage()).append("\n");
         }
       }

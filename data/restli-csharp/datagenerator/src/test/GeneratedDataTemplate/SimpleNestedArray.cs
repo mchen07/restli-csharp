@@ -6,47 +6,204 @@ using System;
 
 namespace com.linkedin.restli.datagenerator.integration
 {
-
-    ///<summary>Test simple nested array</summary>
+  /// <summary>Test simple nested array</summary>
   public class SimpleNestedArray
   {
 
     // required
-    public IReadOnlyList<IReadOnlyList<int>> IntArray { get; }
+    public IReadOnlyList<IReadOnlyList<IReadOnlyList<int>>> intArray { get; }
+
+
+    // required
+    public IReadOnlyList<IReadOnlyList<SimpleRecord>> recordArray { get; }
+
+
+    // required
+    public IReadOnlyList<IReadOnlyDictionary<string, IReadOnlyList<IReadOnlyDictionary<string, SimpleRecord>>>> hybridMapArray { get; }
+
+
+    // required
+    public int justAnInt { get; }
+
+
+    // required
+    public IReadOnlyDictionary<string, EnumInSimpleNestedArray> enumMap { get; }
 
 
     public SimpleNestedArray(Dictionary<string, object> data)
     {
       object value;
       bool status;
-      // Retrieve data for IntArray
-      status = data.TryGetValue("IntArray", out value);
+      // Retrieve data for intArray
+      status = data.TryGetValue("intArray", out value);
       if (status)
       {
+        IReadOnlyList<IReadOnlyList<IReadOnlyList<int>>> data0 = (IReadOnlyList<IReadOnlyList<IReadOnlyList<int>>>)value;
+        List<IReadOnlyList<IReadOnlyList<int>>> result0 = new List<IReadOnlyList<IReadOnlyList<int>>>();
+        foreach (IReadOnlyList<IReadOnlyList<int>> data1 in data0)
+        {
+          List<IReadOnlyList<int>> result1 = new List<IReadOnlyList<int>>();
+          foreach (IReadOnlyList<int> data2 in data1)
+          {
+            List<int> result2 = new List<int>();
+            foreach (int data3 in data2)
+            {
+              int result3;
+              result3 = (int)data3;
+              result2.Add(result3);
+            }
+            result1.Add(result2);
+          }
+          result0.Add(result1);
+        }
+        intArray = result0;
 
-        IntArray = (IReadOnlyList<IReadOnlyList<int>>)value;
+      }
+
+      // Retrieve data for recordArray
+      status = data.TryGetValue("recordArray", out value);
+      if (status)
+      {
+        IReadOnlyList<IReadOnlyList<Dictionary<string, object>>> data0 = (IReadOnlyList<IReadOnlyList<Dictionary<string, object>>>)value;
+        List<IReadOnlyList<SimpleRecord>> result0 = new List<IReadOnlyList<SimpleRecord>>();
+        foreach (IReadOnlyList<Dictionary<string, object>> data1 in data0)
+        {
+          List<SimpleRecord> result1 = new List<SimpleRecord>();
+          foreach (Dictionary<string, object> data2 in data1)
+          {
+            SimpleRecord result2;
+            result2 = new SimpleRecord(data2);
+            result1.Add(result2);
+          }
+          result0.Add(result1);
+        }
+        recordArray = result0;
+
+      }
+
+      // Retrieve data for hybridMapArray
+      status = data.TryGetValue("hybridMapArray", out value);
+      if (status)
+      {
+        IReadOnlyList<IReadOnlyDictionary<string, IReadOnlyList<IReadOnlyDictionary<string, Dictionary<string, object>>>>> data0 = (IReadOnlyList<IReadOnlyDictionary<string, IReadOnlyList<IReadOnlyDictionary<string, Dictionary<string, object>>>>>)value;
+        List<IReadOnlyDictionary<string, IReadOnlyList<IReadOnlyDictionary<string, SimpleRecord>>>> result0 = new List<IReadOnlyDictionary<string, IReadOnlyList<IReadOnlyDictionary<string, SimpleRecord>>>>();
+        foreach (IReadOnlyDictionary<string, IReadOnlyList<IReadOnlyDictionary<string, Dictionary<string, object>>>> data1 in data0)
+        {
+          Dictionary<string, IReadOnlyList<IReadOnlyDictionary<string, SimpleRecord>>> result1 = new Dictionary<string, IReadOnlyList<IReadOnlyDictionary<string, SimpleRecord>>>();
+          foreach (KeyValuePair<string, IReadOnlyList<IReadOnlyDictionary<string, Dictionary<string, object>>>> data2pair in data1)
+          {
+            IReadOnlyList<IReadOnlyDictionary<string, Dictionary<string, object>>> data2 = data2pair.Value;
+            List<IReadOnlyDictionary<string, SimpleRecord>> result2 = new List<IReadOnlyDictionary<string, SimpleRecord>>();
+            foreach (IReadOnlyDictionary<string, Dictionary<string, object>> data3 in data2)
+            {
+              Dictionary<string, SimpleRecord> result3 = new Dictionary<string, SimpleRecord>();
+              foreach (KeyValuePair<string, Dictionary<string, object>> data4pair in data3)
+              {
+                Dictionary<string, object> data4 = data4pair.Value;
+                SimpleRecord result4;
+                result4 = new SimpleRecord(data4);
+                result3.Add(data4pair.Key, result4);
+              }
+              result2.Add(result3);
+            }
+            result1.Add(data2pair.Key, result2);
+          }
+          result0.Add(result1);
+        }
+        hybridMapArray = result0;
+
+      }
+
+      // Retrieve data for justAnInt
+      status = data.TryGetValue("justAnInt", out value);
+      if (status)
+      {
+        justAnInt = (int)value;
+
+      }
+
+      // Retrieve data for enumMap
+      status = data.TryGetValue("enumMap", out value);
+      if (status)
+      {
+        IReadOnlyDictionary<string, string> data0 = (IReadOnlyDictionary<string, string>)value;
+        Dictionary<string, EnumInSimpleNestedArray> result0 = new Dictionary<string, EnumInSimpleNestedArray>();
+        foreach (KeyValuePair<string, string> data1pair in data0)
+        {
+          string data1 = data1pair.Value;
+          EnumInSimpleNestedArray result1;
+          result1 = new EnumInSimpleNestedArray(data1);
+          result0.Add(data1pair.Key, result1);
+        }
+        enumMap = result0;
+
       }
 
     }
 
-    public SimpleNestedArray(Builder builder)
+    public SimpleNestedArray(SimpleNestedArrayBuilder builder)
     {
-      // Retrieve data for IntArray
-      if (builder.IntArray != null)
+      // Retrieve data for intArray
+      if (builder.intArray != null)
       {
+        intArray = (IReadOnlyList<IReadOnlyList<IReadOnlyList<int>>>)builder.intArray;
 
-        IntArray = (IReadOnlyList<IReadOnlyList<int>>)builder.IntArray;
       }
       else
       {
-        throw new System.ArgumentNullException("Required field with no default must be included in builder: IntArray");
+        throw new System.ArgumentNullException("Required field with no default must be included in builder: intArray");
+      }
+      // Retrieve data for recordArray
+      if (builder.recordArray != null)
+      {
+        recordArray = (IReadOnlyList<IReadOnlyList<SimpleRecord>>)builder.recordArray;
+
+      }
+      else
+      {
+        throw new System.ArgumentNullException("Required field with no default must be included in builder: recordArray");
+      }
+      // Retrieve data for hybridMapArray
+      if (builder.hybridMapArray != null)
+      {
+        hybridMapArray = (IReadOnlyList<IReadOnlyDictionary<string, IReadOnlyList<IReadOnlyDictionary<string, SimpleRecord>>>>)builder.hybridMapArray;
+
+      }
+      else
+      {
+        throw new System.ArgumentNullException("Required field with no default must be included in builder: hybridMapArray");
+      }
+      // Retrieve data for justAnInt
+      if (builder.justAnInt != null)
+      {
+        justAnInt = (int)builder.justAnInt;
+
+      }
+      else
+      {
+        throw new System.ArgumentNullException("Required field with no default must be included in builder: justAnInt");
+      }
+      // Retrieve data for enumMap
+      if (builder.enumMap != null)
+      {
+        enumMap = (IReadOnlyDictionary<string, EnumInSimpleNestedArray>)builder.enumMap;
+
+      }
+      else
+      {
+        throw new System.ArgumentNullException("Required field with no default must be included in builder: enumMap");
       }
     }
+
   }
 
-  public class Builder
+  public class SimpleNestedArrayBuilder
   {
-    public IReadOnlyList<IReadOnlyList<int>> IntArray { get; set; }
+    public IReadOnlyList<IReadOnlyList<IReadOnlyList<int>>> intArray { get; set; }
+    public IReadOnlyList<IReadOnlyList<SimpleRecord>> recordArray { get; set; }
+    public IReadOnlyList<IReadOnlyDictionary<string, IReadOnlyList<IReadOnlyDictionary<string, SimpleRecord>>>> hybridMapArray { get; set; }
+    public int? justAnInt { get; set; }
+    public IReadOnlyDictionary<string, EnumInSimpleNestedArray> enumMap { get; set; }
 
     public SimpleNestedArray Build()
     {

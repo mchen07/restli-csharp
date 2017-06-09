@@ -1,8 +1,12 @@
 @import com.linkedin.restli.datagenerator.csharp.CSharpRecord;
+@import com.linkedin.restli.datagenerator.csharp.CSharpUnion;
+@import com.linkedin.restli.datagenerator.csharp.CSharpArray;
+@import com.linkedin.restli.datagenerator.csharp.CSharpCollectionType;
 @import com.linkedin.restli.datagenerator.csharp.CSharpRecord.Field;
 @import com.linkedin.restli.datagenerator.csharp.CSharpRythmGenerator;
-@args CSharpRecord cSharpRecord
-@args CSharpRythmGenerator generator
+@import com.linkedin.restli.datagenerator.csharp.CSharpUtil;
+@import org.rythmengine.RythmEngine
+@args CSharpRecord cSharpRecord, CSharpRythmGenerator generator, RythmEngine engine
 using System.Collections.Generic;
 using System;
 
@@ -12,73 +16,88 @@ using System;
 
 namespace @cSharpRecord.getNamespace()
 {
-
-    @cSharpRecord.getDoc().restli_comment()
+  @cSharpRecord.getDoc().restli_comment().restli_addIndent(2)
   public class @cSharpRecord.getName()
   {
-    @for (Field field : cSharpRecord.getFields()) {
-    @if (field.getDoc()) {    @field.getDoc().restli_comment()}
+@for (Field field : cSharpRecord.getFields()) {
+@if (field.getDoc()) {
+    @field.getDoc().restli_comment()
+}
     // @field.getOptionalityComment()
-    public @(field.getTypeString()) @(field.getVariableName()) { get; }
-    @if (field.hasDefaultValue()) {
-    public bool Has@(field.getVariableName()) { get; }
-    }
-    }
+    public @(field.getTypeString()) @(field.getName()) { get; }
+@if (field.hasDefaultValue()) {
+    public bool has@(field.getName().capFirst()) { get; }
+}
+}
 
     public @(cSharpRecord.getName())(Dictionary<string, object> data)
     {
       object value;
       bool status;
-      @for (Field field : cSharpRecord.getFields()) {
-      // Retrieve data for @field.getVariableName()
-      status = data.TryGetValue("@field.getVariableName()", out value);
+@for (Field field : cSharpRecord.getFields()) {
+      // Retrieve data for @field.getName()
+      status = data.TryGetValue("@field.getName()", out value);
       if (status)
       {
-        @field.getVariableName() = (@field.getTypeString())value;
-        @if (field.hasDefaultValue()) {
-        Has@field.getVariableName() = true;
-        }
+@if (field.getType() instanceof CSharpCollectionType) {
+        @field.getType().getDataMapParseName() data0 = (@field.getType().getDataMapParseName())value;
+        @field.getType().getNameMutable() result0 = new @(field.getType().getNameMutable())();
+        @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, field.getType(), "data", "result", 1).restli_addIndent(8)
+        @field.getName() = result0;
+} else {
+        @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, field.getType(), "value", field.getName(), 1).restli_addIndent(8)
+        @* @field.getName() = (@field.getTypeString())value; //TODO COMMENT *@
+}
+@if (field.hasDefaultValue()) {
+        has@field.getName().capFirst() = true;
+}
       }
-      @if (field.hasDefaultValue()) {
+@if (field.hasDefaultValue()) {
       else
       {
-        @field.getVariableName() = @field.getDefaultValueLiteral();
-        Has@field.getVariableName() = false;
-      }}
+        @field.getName() = @field.getDefaultValueLiteral();
+        has@field.getName().capFirst() = false;
       }
+}
+}
     }
 
-    public @(cSharpRecord.getName())(Builder builder)
+    public @(cSharpRecord.getName())(@(cSharpRecord.getName())Builder builder)
     {
-      @for (Field field : cSharpRecord.getFields()) {
-      // Retrieve data for @field.getVariableName()
-      if (builder.@(field.getVariableName()) != null)
+@for (Field field : cSharpRecord.getFields()) {
+      // Retrieve data for @field.getName()
+      if (builder.@(field.getName()) != null)
       {
-        @field.getVariableName() = (@field.getTypeString())builder.@(field.getVariableName());
-        @if (field.hasDefaultValue()) {
-        Has@field.getVariableName() = true;
-        }
+        @field.getName() = (@field.getTypeString())builder.@(field.getName());
+@if (field.hasDefaultValue()) {
+        has@field.getName().capFirst() = true;
+}
       }
-      @if (field.hasDefaultValue()) {
+@if (field.hasDefaultValue()) {
       else
       {
-        @field.getVariableName() = @field.getDefaultValueLiteral();
-        Has@field.getVariableName() = false;
-      }} else if(!field.isOptional()) {
+        @field.getName() = @field.getDefaultValueLiteral();
+        has@field.getName().capFirst() = false;
+      }
+} else if(!field.isOptional()) {
       else
       {
-        throw new System.ArgumentNullException("Required field with no default must be included in builder: @field.getVariableName()");
+        throw new System.ArgumentNullException("Required field with no default must be included in builder: @field.getName()");
       }
-      }
-      }
+}
+}
     }
+
+@for (CSharpUnion cSharpUnion : cSharpRecord.getUnnamedUnions()) {
+    @CSharpUtil.invokeRythmTemplate("inner_class_union", engine, cSharpUnion).restli_addIndent(4)
+}
   }
 
-  public class Builder
+  public class @(cSharpRecord.getName())Builder
   {
-    @for (Field field : cSharpRecord.getFields()) {
-    public @(field.getTypeString(true)) @(field.getVariableName()) { get; set; }
-    }
+@for (Field field : cSharpRecord.getFields()) {
+    public @(field.getTypeString(true)) @(field.getName()) { get; set; }
+}
 
     public @cSharpRecord.getName() Build()
     {

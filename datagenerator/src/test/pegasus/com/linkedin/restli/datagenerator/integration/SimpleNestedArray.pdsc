@@ -12,7 +12,65 @@
         "items" :
         {
           "type" : "array",
-          "items" : "int"
+          "items" :
+          {
+            "type" : "array",
+            "items" : "int"
+          }
+        }
+      }
+    },
+    {
+      "name" : "recordArray",
+      "type" :
+      {
+        "type" : "array",
+        "items" :
+        {
+          "type" : "array",
+          "items" : "SimpleRecord"
+        }
+      }
+    },
+    {
+      "name" : "hybridMapArray",
+      "type" :
+      {
+        "type" : "array",
+        "items" :
+        {
+          "type" : "map",
+          "values" :
+          {
+            "type" : "array",
+            "items" :
+            {
+              "type" : "map",
+              "values" : "SimpleRecord"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name" : "justAnInt",
+      "type" : "int"
+    },
+    {
+      "name" : "enumMap",
+      "type" :
+      {
+        "type" : "map",
+        "values" :
+        {
+          "name" : "EnumInSimpleNestedArray",
+          "type" : "enum",
+          "doc" : "This num is inline in SimpleNestedArray!",
+          "symbols": [ "X", "Y", "Z" ],
+          "symbolDocs": {
+            "X": "Doc for X",
+            "Y": "Doc for Y"
+          }
         }
       }
     }

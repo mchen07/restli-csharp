@@ -25,6 +25,11 @@ public class CSharpComplexType extends CSharpType {
     return CSharpUtil.escapeReserved(super.getName()); //_enclosingType == null ? "" : _enclosingType.getName()); TODO what?
   }
 
+  @Override
+  public String getDataMapParseName() {
+    return "Dictionary<string, object>";
+  }
+
   public CSharpType getEnclosingType() {
     return _enclosingType;
   }

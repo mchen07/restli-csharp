@@ -1,0 +1,28 @@
+@import com.linkedin.restli.datagenerator.csharp.CSharpType;
+@import com.linkedin.restli.datagenerator.csharp.CSharpUnion;
+@import com.linkedin.restli.datagenerator.csharp.CSharpUnion.Member;
+@import org.rythmengine.RythmEngine;
+@args CSharpUnion cSharpUnion, RythmEngine engine
+public class @cSharpUnion.getName()
+{
+@for (Map.Entry entry : cSharpUnion.getMembers().entrySet()) {
+  public @(((Member) entry.getValue()).type.getName(true)) as@(((Member) entry.getValue()).type.getName().capFirst()) { get; }
+}
+  public Mode? dataMode { get; }
+
+  public enum Mode
+  {
+@for (Map.Entry entry : cSharpUnion.getMembers().entrySet()) {
+    @(entry.getKey().capFirst()),
+}
+    NULL
+  }
+@for (Map.Entry entry : cSharpUnion.getMembers().entrySet()) {
+
+  public @(cSharpUnion.getName())(@(entry.restli_getMemberListEntryType()) value)
+  {
+    as@(((Member) entry.getValue()).type.getName().capFirst()) = value;
+    dataMode = Mode.@(entry.getKey().capFirst());
+  }
+}
+}

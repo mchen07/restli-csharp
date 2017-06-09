@@ -23,4 +23,18 @@ public class CSharpArray extends CSharpCollectionType {
   public String getName() {
     return "IReadOnlyList<" + getElementType().getName() + ">";
   }
+
+  /**
+   * Returns a mutable list of immutable types. The reason for this is that
+   * C# cannot handle casting a nested list/dictionary object; it can only handle
+   * casting the outer layer. Thus, the inner types must be immutable.
+   * @return Mutable list of immutable element types
+   */
+  @Override
+  public String getNameMutable() { return "List<" + getElementType().getName() + ">"; }
+
+  @Override
+  public String getDataMapParseName() {
+    return "IReadOnlyList<" + getElementType().getDataMapParseName() + ">";
+  }
 }

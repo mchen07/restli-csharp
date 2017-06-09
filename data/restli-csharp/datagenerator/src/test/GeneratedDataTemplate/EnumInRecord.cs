@@ -7,7 +7,7 @@ namespace com.linkedin.restli.datagenerator.integration
     
     A,
     
-    ///<summary>Doc for the B field in the inline enum!</summary>
+    /// <summary>Doc for the B field in the inline enum!</summary>
     B,
     
     C,

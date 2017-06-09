@@ -106,7 +106,7 @@ public class CSharpRythmGenerator {
 
 
     for (ClassTemplateSpec spec : specGenerator.getGeneratedSpecs()) {
-      System.out.println(spec.getClassName() + " has " + spec.getEnclosingClass()); //TODO DEBUG
+      System.out.println(spec.toString() + " (" + spec.getClassName() + ") has " + spec.getEnclosingClass()); //TODO DEBUG
     }
 
     final CSharpDataTemplateGenerator dataTemplateGenerator = new CSharpDataTemplateGenerator();
@@ -138,13 +138,13 @@ public class CSharpRythmGenerator {
         System.out.println(type + " " + type.getSpec().getSchema()); // TODO REMOVE
         final ClassTemplateSpec spec = type.getSpec();
 
-        if (type instanceof CSharpComplexType) {
+        if (type instanceof CSharpComplexType && !(type instanceof CSharpUnion)) {
           final CSharpComplexType templateType = (CSharpComplexType) type;
           try {
             final String modelsTemplate = getTemplateName(templateType);
             final String renderResult = renderToString(modelsTemplate, templateType);
             if (renderResult.isEmpty()) {
-              throw new IOException("The rythm template does not exist at '" + modelsTemplate + "'");
+              throw new IOException("Rythm template does not exist at '" + modelsTemplate + "'");
             } else {
               outputDirectory.mkdirs();
               writeToFile(new File(outputDirectory, templateType.getName() + ".cs"), renderResult);
@@ -172,7 +172,7 @@ public class CSharpRythmGenerator {
 
   private String renderToString(String templatePath, CSharpType type)
       throws IOException {
-    final String result = Rythm.renderIfTemplateExists(templatePath, type, this);
+    final String result = Rythm.renderIfTemplateExists(templatePath, type, this, Rythm.engine());
     if (result.isEmpty()) {
       throw new IOException("The template does not exist: " + templatePath);
     } else {

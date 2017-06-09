@@ -33,9 +33,9 @@ public class CSharpRythmTransformer {
     if (comment == null || comment.isEmpty()) {
       return "";
     } else if (comment.contains("\n")) {
-      return "///<summary>\n///" + comment.replaceAll("\n", "\n///") + "\n///</summary>";
+      return "/// <summary>\n/// " + comment.replaceAll("\n", "\n/// ") + "\n/// </summary>";
     } else {
-      return "///<summary>" + comment + "</summary>";
+      return "/// <summary>" + comment + "</summary>";
     }
   }
 
@@ -55,5 +55,45 @@ public class CSharpRythmTransformer {
 
   public static String hasDefault(RecordDataSchema.Field field) {
     return Boolean.toString(field.getDefault() != null);
+  }
+
+  /**
+   * Add n spaces to the start of each line, starting from the second line.
+   * obj is Object instead of String because rythm considers the variable
+   * created from assigning an template invocation result as an Object.
+   *
+   * @param obj source string
+   * @param n number of spaces
+   * @return indented string
+   */
+  public static String addIndent(Object obj, int n)
+  {
+    String s = obj.toString();
+
+    String[] lines = s.split(GeneratorConstants.NEWLINE);
+    String spaces = CSharpUtil.spaces(n);
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < lines.length; i++)
+    {
+      if (i > 0)
+      {
+        sb.append(spaces);
+      }
+      sb.append(lines[i]);
+      if (i < lines.length - 1)
+      {
+        sb.append(GeneratorConstants.NEWLINE);
+      }
+    }
+    return sb.toString();
+  }
+
+  public static String getMemberListEntryType(Object obj) {
+    if (obj instanceof Map.Entry) {
+      Map.Entry entry = (Map.Entry) obj;
+      return ((CSharpUnion.Member) entry.getValue()).type.getName();
+    } else {
+      return null;
+    }
   }
 }

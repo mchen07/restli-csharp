@@ -5,12 +5,16 @@ import com.linkedin.data.DataMap;
 import com.linkedin.data.schema.NamedDataSchema;
 import com.linkedin.pegasus.generator.spec.ClassTemplateSpec;
 import com.linkedin.pegasus.generator.spec.CustomInfoSpec;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
+import org.rythmengine.RythmEngine;
 
 
 /**
@@ -59,5 +63,26 @@ public class CSharpUtil {
     } else {
       return null;
     }
+  }
+
+  // Generate spaces
+  public static String spaces(int n)
+  {
+    return StringUtils.repeat(" ", n);
+  }
+
+  /**
+   * Invokes the Rythm template with the given name and pass the arguments. This can be used in place of template
+   * invocation in Rythm template to workaround Rythm limitation in argument passing.
+   */
+  public static String invokeRythmTemplate(String template, RythmEngine engine, Object... args) {
+    Object[] argsWithEngine = Arrays.copyOf(args, args.length + 1);
+    argsWithEngine[args.length] = engine;
+    String rendered =
+        engine.renderIfTemplateExists(CSharpRythmGenerator.TEMPLATE_PATH_ROOT + '/' + template + ".rythm", argsWithEngine);
+    if (rendered.isEmpty()) {
+      throw new RuntimeException("Rythm template '" + template + "' does not exist.");
+    }
+    return rendered;
   }
 }

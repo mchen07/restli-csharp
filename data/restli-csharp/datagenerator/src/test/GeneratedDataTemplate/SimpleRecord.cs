@@ -6,103 +6,103 @@ using System;
 
 namespace com.linkedin.restli.datagenerator.integration
 {
-
-    
+  
   public class SimpleRecord
   {
 
     // required
-    public string StringField { get; }
+    public string stringField { get; }
 
 
     // required, has default value
-    public int IntValue { get; }
-    public bool HasIntValue { get; }
+    public int intValue { get; }
+    public bool hasIntValue { get; }
 
     // required, has default value
-    public int AnotherIntValue { get; }
-    public bool HasAnotherIntValue { get; }
+    public int anotherIntValue { get; }
+    public bool hasAnotherIntValue { get; }
 
     public SimpleRecord(Dictionary<string, object> data)
     {
       object value;
       bool status;
-      // Retrieve data for StringField
-      status = data.TryGetValue("StringField", out value);
+      // Retrieve data for stringField
+      status = data.TryGetValue("stringField", out value);
       if (status)
       {
-        StringField = (string)value;
+        stringField = (string)value;
 
       }
 
-      // Retrieve data for IntValue
-      status = data.TryGetValue("IntValue", out value);
+      // Retrieve data for intValue
+      status = data.TryGetValue("intValue", out value);
       if (status)
       {
-        IntValue = (int)value;
-        HasIntValue = true;
+        intValue = (int)value;
+        hasIntValue = true;
       }
       else
       {
-        IntValue = 1;
-        HasIntValue = false;
+        intValue = 1;
+        hasIntValue = false;
       }
-      // Retrieve data for AnotherIntValue
-      status = data.TryGetValue("AnotherIntValue", out value);
+      // Retrieve data for anotherIntValue
+      status = data.TryGetValue("anotherIntValue", out value);
       if (status)
       {
-        AnotherIntValue = (int)value;
-        HasAnotherIntValue = true;
+        anotherIntValue = (int)value;
+        hasAnotherIntValue = true;
       }
       else
       {
-        AnotherIntValue = 2;
-        HasAnotherIntValue = false;
+        anotherIntValue = 2;
+        hasAnotherIntValue = false;
       }
     }
 
-    public SimpleRecord(Builder builder)
+    public SimpleRecord(SimpleRecordBuilder builder)
     {
-      // Retrieve data for StringField
-      if (builder.StringField != null)
+      // Retrieve data for stringField
+      if (builder.stringField != null)
       {
-        StringField = (string)builder.StringField;
+        stringField = (string)builder.stringField;
 
       }
       else
       {
-        throw new System.ArgumentNullException("Required field with no default must be included in builder: StringField");
+        throw new System.ArgumentNullException("Required field with no default must be included in builder: stringField");
       }
-      // Retrieve data for IntValue
-      if (builder.IntValue != null)
+      // Retrieve data for intValue
+      if (builder.intValue != null)
       {
-        IntValue = (int)builder.IntValue;
-        HasIntValue = true;
-      }
-      else
-      {
-        IntValue = 1;
-        HasIntValue = false;
-      }
-      // Retrieve data for AnotherIntValue
-      if (builder.AnotherIntValue != null)
-      {
-        AnotherIntValue = (int)builder.AnotherIntValue;
-        HasAnotherIntValue = true;
+        intValue = (int)builder.intValue;
+        hasIntValue = true;
       }
       else
       {
-        AnotherIntValue = 2;
-        HasAnotherIntValue = false;
+        intValue = 1;
+        hasIntValue = false;
+      }
+      // Retrieve data for anotherIntValue
+      if (builder.anotherIntValue != null)
+      {
+        anotherIntValue = (int)builder.anotherIntValue;
+        hasAnotherIntValue = true;
+      }
+      else
+      {
+        anotherIntValue = 2;
+        hasAnotherIntValue = false;
       }
     }
+
   }
 
-  public class Builder
+  public class SimpleRecordBuilder
   {
-    public string StringField { get; set; }
-    public int? IntValue { get; set; }
-    public int? AnotherIntValue { get; set; }
+    public string stringField { get; set; }
+    public int? intValue { get; set; }
+    public int? anotherIntValue { get; set; }
 
     public SimpleRecord Build()
     {

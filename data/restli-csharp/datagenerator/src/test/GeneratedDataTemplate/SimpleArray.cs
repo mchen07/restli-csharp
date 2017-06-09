@@ -6,116 +6,116 @@ using System;
 
 namespace com.linkedin.restli.datagenerator.integration
 {
-
-    ///<summary>Test simple arrays</summary>
+  /// <summary>Test simple arrays</summary>
   public class SimpleArray
   {
 
     // required
-    public IReadOnlyList<int> IntArray { get; }
+    public IReadOnlyList<int> intArray { get; }
 
 
     // required
-    public IReadOnlyList<string> StringArray { get; }
+    public IReadOnlyList<string> stringArray { get; }
 
 
     // required
-    public IReadOnlyList<bool> BooleanArray { get; }
+    public IReadOnlyList<bool> booleanArray { get; }
 
 
     // required
-    public IReadOnlyList<EnumInRecord> EnumArray { get; }
+    public IReadOnlyList<EnumInRecord> enumArray { get; }
 
 
     public SimpleArray(Dictionary<string, object> data)
     {
       object value;
       bool status;
-      // Retrieve data for IntArray
-      status = data.TryGetValue("IntArray", out value);
+      // Retrieve data for intArray
+      status = data.TryGetValue("intArray", out value);
       if (status)
       {
+        intArray = (IReadOnlyList<int>)value;
 
-        IntArray = (IReadOnlyList<int>)value;
       }
 
-      // Retrieve data for StringArray
-      status = data.TryGetValue("StringArray", out value);
+      // Retrieve data for stringArray
+      status = data.TryGetValue("stringArray", out value);
       if (status)
       {
+        stringArray = (IReadOnlyList<string>)value;
 
-        StringArray = (IReadOnlyList<string>)value;
       }
 
-      // Retrieve data for BooleanArray
-      status = data.TryGetValue("BooleanArray", out value);
+      // Retrieve data for booleanArray
+      status = data.TryGetValue("booleanArray", out value);
       if (status)
       {
+        booleanArray = (IReadOnlyList<bool>)value;
 
-        BooleanArray = (IReadOnlyList<bool>)value;
       }
 
-      // Retrieve data for EnumArray
-      status = data.TryGetValue("EnumArray", out value);
+      // Retrieve data for enumArray
+      status = data.TryGetValue("enumArray", out value);
       if (status)
       {
+        enumArray = (IReadOnlyList<EnumInRecord>)value;
 
-        EnumArray = (IReadOnlyList<EnumInRecord>)value;
       }
 
     }
 
-    public SimpleArray(Builder builder)
+    public SimpleArray(SimpleArrayBuilder builder)
     {
-      // Retrieve data for IntArray
-      if (builder.IntArray != null)
+      // Retrieve data for intArray
+      if (builder.intArray != null)
       {
+        intArray = (IReadOnlyList<int>)builder.intArray;
 
-        IntArray = (IReadOnlyList<int>)builder.IntArray;
       }
       else
       {
-        throw new System.ArgumentNullException("Required field with no default must be included in builder: IntArray");
+        throw new System.ArgumentNullException("Required field with no default must be included in builder: intArray");
       }
-      // Retrieve data for StringArray
-      if (builder.StringArray != null)
+      // Retrieve data for stringArray
+      if (builder.stringArray != null)
       {
+        stringArray = (IReadOnlyList<string>)builder.stringArray;
 
-        StringArray = (IReadOnlyList<string>)builder.StringArray;
       }
       else
       {
-        throw new System.ArgumentNullException("Required field with no default must be included in builder: StringArray");
+        throw new System.ArgumentNullException("Required field with no default must be included in builder: stringArray");
       }
-      // Retrieve data for BooleanArray
-      if (builder.BooleanArray != null)
+      // Retrieve data for booleanArray
+      if (builder.booleanArray != null)
       {
+        booleanArray = (IReadOnlyList<bool>)builder.booleanArray;
 
-        BooleanArray = (IReadOnlyList<bool>)builder.BooleanArray;
       }
       else
       {
-        throw new System.ArgumentNullException("Required field with no default must be included in builder: BooleanArray");
+        throw new System.ArgumentNullException("Required field with no default must be included in builder: booleanArray");
       }
-      // Retrieve data for EnumArray
-      if (builder.EnumArray != null)
+      // Retrieve data for enumArray
+      if (builder.enumArray != null)
       {
+        enumArray = (IReadOnlyList<EnumInRecord>)builder.enumArray;
 
-        EnumArray = (IReadOnlyList<EnumInRecord>)builder.EnumArray;
       }
       else
       {
-        throw new System.ArgumentNullException("Required field with no default must be included in builder: EnumArray");
+        throw new System.ArgumentNullException("Required field with no default must be included in builder: enumArray");
       }
     }
+
   }
 
-  public class Builder
+  public class SimpleArrayBuilder
   {
-    public IReadOnlyList<int> IntArray { get; set; }
-    public IReadOnlyList<string> StringArray { get; set; }
-    public IReadOnlyList<bool> BooleanArray { get; set; }
-    public IReadOnlyList<EnumInRecord> EnumArray { get; set; }
+    public IReadOnlyList<int> intArray { get; set; }
+    public IReadOnlyList<string> stringArray { get; set; }
+    public IReadOnlyList<bool> booleanArray { get; set; }
+    public IReadOnlyList<EnumInRecord> enumArray { get; set; }
 
     public SimpleArray Build()
     {

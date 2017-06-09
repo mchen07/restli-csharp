@@ -9,6 +9,7 @@ import com.linkedin.pegasus.generator.spec.RecordTemplateSpec;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,11 +46,24 @@ public class CSharpRecord extends CSharpComplexType {
   private final CSharpDataTemplateGenerator _dataTemplateGenerator;
   private final RecordTemplateSpec _record;
   private List<Field> _fields;
+  private List<CSharpUnion> _unnamedUnions;
 
   public CSharpRecord(ClassTemplateSpec spec, CSharpType enclosingType, CSharpDataTemplateGenerator dataTemplateGenerator) {
     super(spec, enclosingType);
     _dataTemplateGenerator = dataTemplateGenerator;
     _record = (RecordTemplateSpec) spec;
+    _unnamedUnions = new ArrayList<>();
+  }
+
+  public List<CSharpUnion> getUnnamedUnions() {
+    return _unnamedUnions;
+  }
+
+  public void addUnnamedUnion(CSharpUnion type) {
+    if (_unnamedUnions == null) {
+      _unnamedUnions = new ArrayList<>();
+    }
+    _unnamedUnions.add(type);
   }
 
   public boolean containsFieldWithName(String fieldName, List<Pattern> skipDeprecatedArgs)  {
@@ -128,12 +142,15 @@ public class CSharpRecord extends CSharpComplexType {
       return _type;
     }
 
+    /**
+     * Return a string representing this field type in a C#-readable format,
+     * with the nullable decorator appended to the type name if primitive field
+     * is optional or user coerces nullable.
+     * @param coerceNullable  Will always add nullable decorator to primitive types if true
+     * @return  String representing this field type in a C#-readable format
+     */
     public String getTypeString(boolean coerceNullable) {
-      if (_type instanceof CSharpPrimitive) {
-        return ((CSharpPrimitive) _type).getName(coerceNullable || isOptional());
-      } else {
-        return _type.getName();
-      }
+      return _type.getName(coerceNullable || isOptional());
     }
 
     public String getTypeString() {
@@ -151,11 +168,6 @@ public class CSharpRecord extends CSharpComplexType {
     public String getName() {
       String fieldName = getSchemaFieldName();
       return CSharpUtil.escapeReserved(fieldName);
-    }
-
-    public String getVariableName() {
-      String name = getName();
-      return name.substring(0, 1).toUpperCase() + name.substring(1); //TODO CHECk FOR DEFAULT VALUES?
     }
 
     public String getDoc() {

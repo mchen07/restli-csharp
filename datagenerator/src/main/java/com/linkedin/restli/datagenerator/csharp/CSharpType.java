@@ -26,11 +26,21 @@ public abstract class CSharpType { //TODO abstract?
     return getSpec().getClassName();
   }
 
+  public String getName(boolean optional) { return getName(); }
+
+  public String getNameMutable() { return getName(); }
+
+  public String getDataMapParseName() { return getName(); }
+
   public String getReference() {
     return getName();
   }
 
   public ClassTemplateSpec getSpec() {
     return _spec;
+  }
+
+  public Set<CSharpComplexType> getReferencedComplexTypes(List<Pattern> skipDeprecatedArgs) {
+    return Collections.emptySet();
   }
 }
