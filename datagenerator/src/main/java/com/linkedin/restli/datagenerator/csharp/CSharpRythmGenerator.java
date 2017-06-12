@@ -120,7 +120,6 @@ public class CSharpRythmGenerator {
 
       for (CSharpType type : unprocessedTypes) {
         final ClassTemplateSpec spec = type.getSpec();
-        System.out.println("namespace of " + spec.getClassName() + " = " + spec.getNamespace());
 
         if (type instanceof CSharpComplexType && !(type instanceof CSharpUnion)) {
           final CSharpComplexType templateType = (CSharpComplexType) type;
