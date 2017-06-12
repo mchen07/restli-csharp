@@ -19,22 +19,28 @@ public class CSharpArray extends CSharpCollectionType {
     _elementType = dataTemplateGenerator.generate(itemSpec, _array.getItemDataClass());
   }
 
-  @Override
-  public String getName() {
-    return "IReadOnlyList<" + getElementType().getName() + ">";
-  }
-
   /**
-   * Returns a mutable list of immutable types. The reason for this is that
-   * C# cannot handle casting a nested list/dictionary object; it can only handle
-   * casting the outer layer. Thus, the inner types must be immutable.
-   * @return Mutable list of immutable element types
+   * If param modifier is MUTABLE:
+   *  Returns a mutable list of immutable types. The reason for this is that
+   *  C# cannot handle casting a nested list/dictionary object; it can only handle
+   *  casting the outer layer. Thus, the inner types must be immutable.
+   * If param modifier is DATAMAP_PARSE:
+   *  Returns a mutable list of types that are readable by the constructors
+   *  of each datamodel. For instance, all record types would be represented
+   *  as Dictionary(string, object)
+   * Else:
+   *  Return immutable list.
+   * @return String representation of this list type in C#
    */
   @Override
-  public String getNameMutable() { return "List<" + getElementType().getName() + ">"; }
-
-  @Override
-  public String getDataMapParseName() {
-    return "List<" + getElementType().getDataMapParseName() + ">";
+  public String getName(NameModifier modifier) {
+    switch (modifier) {
+      case MUTABLE:
+        return "List<" + getElementType().getName(NameModifier.NONE) + ">";
+      case DATAMAP_PARSE:
+        return "List<" + getElementType().getName(NameModifier.DATAMAP_PARSE) + ">";
+      default:
+        return "IReadOnlyList<" + getElementType().getName(NameModifier.NONE) + ">";
+    }
   }
 }

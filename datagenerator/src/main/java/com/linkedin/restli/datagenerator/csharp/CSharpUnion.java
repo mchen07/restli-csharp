@@ -38,8 +38,25 @@ public class CSharpUnion extends CSharpComplexType {
     _union = (UnionTemplateSpec) spec;
   }
 
-  public String getName() {
-    return super.getName();// + "_Class";
+  @Override
+  public String getName(NameModifier modifier) {
+    switch (modifier) {
+      case IN_BUILDER:
+        if (_enclosingType != null) {
+          return _enclosingType.getName(NameModifier.NONE) + "." + getName(NameModifier.NONE);
+        }
+        // else use default case
+      default:
+        return super.getName(modifier);
+    }
+  }
+
+  public String getNameInBuilder() {
+    if (_enclosingType == null) {
+      return getName();
+    } else {
+      return _enclosingType.getName() + "." + getName();
+    }
   }
 
   /**

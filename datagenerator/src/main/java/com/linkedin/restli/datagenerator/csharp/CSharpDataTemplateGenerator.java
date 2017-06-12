@@ -4,20 +4,16 @@ package com.linkedin.restli.datagenerator.csharp;
 import com.linkedin.pegasus.generator.spec.ArrayTemplateSpec;
 import com.linkedin.pegasus.generator.spec.ClassTemplateSpec;
 import com.linkedin.pegasus.generator.spec.EnumTemplateSpec;
-import com.linkedin.pegasus.generator.spec.FixedTemplateSpec;
 import com.linkedin.pegasus.generator.spec.MapTemplateSpec;
 import com.linkedin.pegasus.generator.spec.PrimitiveTemplateSpec;
 import com.linkedin.pegasus.generator.spec.RecordTemplateSpec;
-import com.linkedin.pegasus.generator.spec.TyperefTemplateSpec;
 import com.linkedin.pegasus.generator.spec.UnionTemplateSpec;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,11 +38,10 @@ public class CSharpDataTemplateGenerator {
 
   public CSharpType generate(ClassTemplateSpec spec, ClassTemplateSpec dataClass) {
     CSharpType result;
-    System.out.println("generate: " + spec.getClassName());
 
     if (spec == null) {
       result = null;
-    } else if (isDeprecated(spec)) { // && shouldCheckDeprecated(spec, _voyagerUtil.getSkipDeprecatedArgs())
+    } else if (isDeprecated(spec)) {
       result = null;
     } else {
       result = _generatedClasses.get(spec);
@@ -63,26 +58,26 @@ public class CSharpDataTemplateGenerator {
           }
 
           if (spec instanceof ArrayTemplateSpec) {
-            result = new CSharpArray(spec, this); //ObjCArray(spec, this);
+            result = new CSharpArray(spec, this);
           } else if (spec instanceof EnumTemplateSpec) {
-            result = new CSharpEnum(spec, enclosingType); //ObjCEnum(spec, enclosingType, _voyagerUtil.getPrefixedName(spec));
+            result = new CSharpEnum(spec, enclosingType);
 //            } else if (spec instanceof FixedTemplateSpec) {
 //              result = new CSharpType(spec); //ObjCFixed(spec);
           } else if (spec instanceof MapTemplateSpec) {
-            result = new CSharpMap(spec, this); //ObjCMap(spec, this);
+            result = new CSharpMap(spec, this);
           } else if (spec instanceof PrimitiveTemplateSpec) {
             result = new CSharpPrimitive(spec); //ObjCPrimitive(spec);
           } else if (spec instanceof RecordTemplateSpec) {
-            result = new CSharpRecord(spec, enclosingType, this); //ObjCRecord(spec, enclosingType, _voyagerUtil.getPrefixedName(spec), this);
+            result = new CSharpRecord(spec, enclosingType, this);
 //            } else if (spec instanceof TyperefTemplateSpec && dataClass == null) {
 //              // use dataClass for custom typeref if there is
 //              result = new CSharpType(spec); //ObjCTyperef(spec);
           } else if (spec instanceof UnionTemplateSpec) {
-            result = new CSharpUnion(spec, enclosingType, this); //ObjCUnion(spec, enclosingType, _voyagerUtil.getPrefixedName(spec), this);
+            result = new CSharpUnion(spec, enclosingType, this);
           } else if (dataClass != null) {
             result = generate(dataClass);
           } else if (enclosingType != null) {
-            result = new CSharpComplexType(spec, enclosingType); //ObjCComplexType(spec, enclosingType, _voyagerUtil.getPrefixedName(spec));
+            result = new CSharpComplexType(spec, enclosingType);
           } else {
             throw new IllegalArgumentException("Unrecognized class: " + spec.getFullName());
           }

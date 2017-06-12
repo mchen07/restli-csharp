@@ -1,19 +1,8 @@
 package com.linkedin.restli.datagenerator.csharp;
 
-import com.linkedin.data.schema.ArrayDataSchema;
-import com.linkedin.data.schema.DataSchema;
-import com.linkedin.data.schema.DataSchemaLocation;
-import com.linkedin.data.schema.EnumDataSchema;
-import com.linkedin.data.schema.RecordDataSchema;
-import com.linkedin.data.schema.UnionDataSchema;
 import com.linkedin.pegasus.generator.DataSchemaParser;
 import com.linkedin.pegasus.generator.TemplateSpecGenerator;
-import com.linkedin.pegasus.generator.spec.ArrayTemplateSpec;
 import com.linkedin.pegasus.generator.spec.ClassTemplateSpec;
-import com.linkedin.pegasus.generator.spec.EnumTemplateSpec;
-import com.linkedin.pegasus.generator.spec.RecordTemplateSpec;
-import com.linkedin.pegasus.generator.spec.UnionTemplateSpec;
-import com.sun.prism.impl.Disposer;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -23,7 +12,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import jdk.nashorn.internal.runtime.arrays.ArrayData;
 import org.rythmengine.Rythm;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -44,6 +32,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CSharpRythmGenerator {
   public static final String TEMPLATE_PATH_ROOT = "rythm";
+  private static final String C_SHARP_FILE_EXTENSION = ".cs";
   private static final Options _options = new Options();
   private static final Logger LOG = LoggerFactory.getLogger(CSharpRythmGenerator.class);
   static {
@@ -52,7 +41,7 @@ public class CSharpRythmGenerator {
     _options.addOption(Option.builder().longOpt("source").required().hasArgs().build());
   }
 
-  protected final CommandLine _cl;
+  private final CommandLine _cl;
 
   // Mapping class types to path of Rythm template file
   private static Map<Class, String> templateMap = new HashMap<Class, String>();
@@ -104,39 +93,34 @@ public class CSharpRythmGenerator {
     final TemplateSpecGenerator specGenerator = new TemplateSpecGenerator(schemaParser.getSchemaResolver());
     generateTemplateSpecs(specGenerator, parseResult);
 
-
-    for (ClassTemplateSpec spec : specGenerator.getGeneratedSpecs()) {
-      System.out.println(spec.toString() + " (" + spec.getClassName() + ") has " + spec.getEnclosingClass()); //TODO DEBUG
-    }
-
     final CSharpDataTemplateGenerator dataTemplateGenerator = new CSharpDataTemplateGenerator();
-
-    //TODO TEST
 
     final int renderedCount = generateResultFiles(dataTemplateGenerator, specGenerator.getGeneratedSpecs(), outputDirectory);
 
     LOG.info("Generated files for " + renderedCount + " models");
   }
 
-  protected void generateTemplateSpecs(TemplateSpecGenerator specGenerator, DataSchemaParser.ParseResult parseResult) {
+  private void generateTemplateSpecs(TemplateSpecGenerator specGenerator, DataSchemaParser.ParseResult parseResult) {
     parseResult.getSchemaAndLocations().forEach(specGenerator::generate);
   }
 
-  protected int generateResultFiles(CSharpDataTemplateGenerator dataTemplateGenerator, Collection<ClassTemplateSpec> specs, File outputDirectory) throws IOException {
+  private int generateResultFiles(CSharpDataTemplateGenerator dataTemplateGenerator,
+                                  Collection<ClassTemplateSpec> specs,
+                                  File outputDirectory)
+      throws IOException {
 
     specs.forEach(dataTemplateGenerator::generate);
 
     int renderedCount = 0;
     while (true) {
       final Set<CSharpType> unprocessedTypes = dataTemplateGenerator.getUnprocessedTypes();
-      System.out.println(renderedCount + " files so far, types up next: " + unprocessedTypes.toString());
       if (unprocessedTypes.isEmpty()) {
         break;
       }
 
       for (CSharpType type : unprocessedTypes) {
-        System.out.println(type + " " + type.getSpec().getSchema()); // TODO REMOVE
         final ClassTemplateSpec spec = type.getSpec();
+        System.out.println("namespace of " + spec.getClassName() + " = " + spec.getNamespace());
 
         if (type instanceof CSharpComplexType && !(type instanceof CSharpUnion)) {
           final CSharpComplexType templateType = (CSharpComplexType) type;
@@ -147,7 +131,7 @@ public class CSharpRythmGenerator {
               throw new IOException("Rythm template does not exist at '" + modelsTemplate + "'");
             } else {
               outputDirectory.mkdirs();
-              writeToFile(new File(outputDirectory, templateType.getName() + ".cs"), renderResult);
+              writeToFile(new File(outputDirectory, templateType.getName() + C_SHARP_FILE_EXTENSION), renderResult);
               renderedCount++;
             }
           } catch (IOException e) {

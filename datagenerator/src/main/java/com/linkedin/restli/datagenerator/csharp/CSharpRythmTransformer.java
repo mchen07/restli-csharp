@@ -39,16 +39,6 @@ public class CSharpRythmTransformer {
     }
   }
 
-  public static String getType(RecordDataSchema.Field field) {
-    if (field == null) {
-      return "";
-    } else if (field.getType().isPrimitive()) {
-      return typeNameMap.get(field.getType().getType()) + (field.getOptional() && field.getType().getType() != DataSchema.Type.STRING ? "?" : "");
-    } else {
-      return "???"; //TODO FIX THIS
-    }
-  }
-
   public static String getNullableType(RecordDataSchema.Field field) {
     return typeNameMap.get(field.getType().getType()) + (field.getType().getType() != DataSchema.Type.STRING ? "?" : "");
   }
@@ -88,6 +78,19 @@ public class CSharpRythmTransformer {
     return sb.toString();
   }
 
+  public static String generatedFrom(CSharpType type) {
+    final String location = type.getSpec().getLocation();
+    if (location != null) {
+      return "\n// Generated from " + location.substring(location.lastIndexOf("/com/") + 1);
+    } else {
+      return "";
+    }
+  }
+
+  /**
+   * Helper method to get string representation of object type
+   * within a union's member list.
+   */
   public static String getMemberListEntryType(Object obj) {
     if (obj instanceof Map.Entry) {
       Map.Entry entry = (Map.Entry) obj;

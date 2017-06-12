@@ -2,6 +2,7 @@ package com.linkedin.restli.datagenerator.csharp;
 
 
 import com.linkedin.pegasus.generator.spec.ClassTemplateSpec;
+import com.sun.org.apache.xerces.internal.impl.dv.dtd.NMTOKENDatatypeValidator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -15,22 +16,19 @@ import java.util.regex.Pattern;
  *
  * @author Evan Williams
  */
-public abstract class CSharpType { //TODO abstract?
+public abstract class CSharpType {
   private final ClassTemplateSpec _spec;
+  public enum NameModifier {NONE, NULLABLE, MUTABLE, DATAMAP_PARSE, IN_BUILDER}
 
   public CSharpType(ClassTemplateSpec spec) {
     _spec = spec;
   }
 
-  public String getName() {
-    return getSpec().getClassName();
+  public final String getName() {
+    return getName(NameModifier.NONE);
   }
 
-  public String getName(boolean optional) { return getName(); }
-
-  public String getNameMutable() { return getName(); }
-
-  public String getDataMapParseName() { return getName(); }
+  public String getName(NameModifier modifier) { return getSpec().getClassName(); }
 
   public String getReference() {
     return getName();

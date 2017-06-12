@@ -19,8 +19,13 @@ public class CSharpEnum extends CSharpComplexType {
   }
 
   @Override
-  public String getDataMapParseName() {
-    return "string";
+  public String getName(NameModifier modifier) {
+    switch (modifier) {
+      case DATAMAP_PARSE:
+        return "string";
+      default:
+        return super.getName(NameModifier.NONE);
+    }
   }
 
   public List<String> getSymbols() {

@@ -1,12 +1,8 @@
-@import com.linkedin.restli.datagenerator.csharp.CSharpRecord;
-@import com.linkedin.restli.datagenerator.csharp.CSharpUnion;
 @import com.linkedin.restli.datagenerator.csharp.CSharpArray;
 @import com.linkedin.restli.datagenerator.csharp.CSharpType;
 @import com.linkedin.restli.datagenerator.csharp.CSharpMap;
 @import com.linkedin.restli.datagenerator.csharp.CSharpComplexType;
 @import com.linkedin.restli.datagenerator.csharp.CSharpPrimitive;
-@import com.linkedin.restli.datagenerator.csharp.CSharpRecord.Field;
-@import com.linkedin.restli.datagenerator.csharp.CSharpRythmGenerator;
 @import com.linkedin.restli.datagenerator.csharp.CSharpUtil;
 @import org.rythmengine.RythmEngine;
 @args CSharpType cSharpType, String sourceName, String targetName, int level, RythmEngine engine

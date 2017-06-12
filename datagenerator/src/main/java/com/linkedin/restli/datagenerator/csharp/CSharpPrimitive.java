@@ -14,22 +14,28 @@ public CSharpPrimitive(ClassTemplateSpec spec) {
 }
 
   @Override
-  public String getName() {
-    return getName(false);
+  public String getName(NameModifier modifier) {
+    switch (modifier) {
+      case NULLABLE:
+      case IN_BUILDER:
+        return getName(true);
+      default:
+        return getName(false);
+    }
   }
 
-  public String getName(boolean optional) {
+  private String getName(boolean nullable) {
     switch (getSpec().getSchema().getType()) {
       case BOOLEAN:
-        return "bool" + getOptionalOperator(optional);
+        return "bool" + getNullableOperator(nullable);
       case LONG:
-        return "long" + getOptionalOperator(optional);
+        return "long" + getNullableOperator(nullable);
       case INT:
-        return "int" + getOptionalOperator(optional);
+        return "int" + getNullableOperator(nullable);
       case FLOAT:
-        return "float" + getOptionalOperator(optional);
+        return "float" + getNullableOperator(nullable);
       case DOUBLE:
-        return "double" + getOptionalOperator(optional);
+        return "double" + getNullableOperator(nullable);
       case STRING:
       case BYTES:
         return "string";
@@ -40,7 +46,7 @@ public CSharpPrimitive(ClassTemplateSpec spec) {
     }
   }
 
-  private String getOptionalOperator(boolean optional) {
-    return optional ? "?" : "";
+  private String getNullableOperator(boolean nullable) {
+    return nullable ? "?" : "";
   }
 }

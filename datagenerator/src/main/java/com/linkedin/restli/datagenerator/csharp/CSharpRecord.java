@@ -80,27 +80,6 @@ public class CSharpRecord extends CSharpComplexType {
     return getFields(new ArrayList<Pattern>());
   }
 
-//  @Override
-//  public Set<CSharpComplexType> getReferencedComplexTypes(List<Pattern> skipDeprecatedArgs) {
-//    final Set<CSharpComplexType> referenced = new TreeSet<>(nameComparator);
-//
-//    for (Field field : getFields(skipDeprecatedArgs)) {
-//      final CSharpType fieldType = field.getType();
-//      if (fieldType instanceof CSharpComplexType) {
-//        referenced.add((CSharpComplexType) fieldType);
-//      } else if (fieldType instanceof CSharpCollectionType) {
-//        final CSharpCollectionType collection = (CSharpCollectionType) fieldType;
-//        if (collection.getTerminalType() instanceof CSharpComplexType) {
-//          referenced.add((CSharpComplexType) collection.getTerminalType());
-//        }
-//      }
-//    }
-//
-//    referenced.remove(this);
-//
-//    return referenced;
-//  }
-//
   public List<Field> getFields(List<Pattern> skipDeprecatedArgs) {
     return getFields(FieldOptionalFilter.BOTH, FieldDefaultValueFilter.BOTH, skipDeprecatedArgs);
   }
@@ -145,16 +124,23 @@ public class CSharpRecord extends CSharpComplexType {
     /**
      * Return a string representing this field type in a C#-readable format,
      * with the nullable decorator appended to the type name if primitive field
-     * is optional or user coerces nullable.
-     * @param coerceNullable  Will always add nullable decorator to primitive types if true
+     * is optional or user uses NULLABLE modifier to coerce nullable.
+     * @param modifier  Will always add nullable decorator to primitive types if NULLABLE
      * @return  String representing this field type in a C#-readable format
      */
-    public String getTypeString(boolean coerceNullable) {
-      return _type.getName(coerceNullable || isOptional());
+    public String getTypeString(NameModifier modifier) {
+      switch(modifier) {
+        case NULLABLE:
+          return _type.getName(NameModifier.NULLABLE);
+        case IN_BUILDER:
+          return _type.getName(NameModifier.IN_BUILDER);
+        default:
+          return _type.getName(isOptional() ? NameModifier.NULLABLE : NameModifier.NONE);
+      }
     }
 
     public String getTypeString() {
-      return getTypeString(false);
+      return getTypeString(NameModifier.NONE);
     }
 
     public RecordTemplateSpec.Field getSpecField() {
