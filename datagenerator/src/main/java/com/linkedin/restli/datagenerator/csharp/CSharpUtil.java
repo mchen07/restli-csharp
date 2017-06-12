@@ -57,6 +57,13 @@ public class CSharpUtil {
       } else {
         return null;
       }
+    } else if (type instanceof CSharpEnum) {
+      String enumType = type.getName(CSharpType.NameModifier.NONE);
+      if (obj instanceof String) {
+        return "new " + enumType + "(\"" + obj + "\")";
+      } else {
+        return null;
+      }
     } else {
       return null;
     }

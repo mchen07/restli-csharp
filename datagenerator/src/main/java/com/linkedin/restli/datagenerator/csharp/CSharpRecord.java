@@ -179,7 +179,7 @@ public class CSharpRecord extends CSharpComplexType {
       }
 
       final DataSchema fieldSchema = _specField.getSchemaField().getType();
-      if (fieldSchema.isComplex() && fieldSchema.getDereferencedType() != DataSchema.Type.ENUM) {
+      if (fieldSchema.isComplex()) {
         final String stringified = CSharpUtil.stringify(getType(), defaultValue);
         if (stringified == null) {
           throw new RuntimeException("Default value for complex types on field " + _specField.getSchemaField().getName() + " is currently not supported by Pegasus C# Data Templates.");

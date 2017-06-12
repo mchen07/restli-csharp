@@ -36,7 +36,7 @@ namespace com.linkedin.restli.datagenerator.integration
       }
       else
       {
-        enumField = "SYMBOL_2";
+        enumField = new TestEnum("SYMBOL_2");
         hasEnumField = false;
       }
       // Retrieve data for primitiveUnion
@@ -65,7 +65,7 @@ namespace com.linkedin.restli.datagenerator.integration
       }
       else
       {
-        enumField = "SYMBOL_2";
+        enumField = new TestEnum("SYMBOL_2");
         hasEnumField = false;
       }
       // Retrieve data for primitiveUnion
