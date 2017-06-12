@@ -106,7 +106,7 @@ public class CSharpRythmGenerator {
 
   private int generateResultFiles(CSharpDataTemplateGenerator dataTemplateGenerator,
                                   Collection<ClassTemplateSpec> specs,
-                                  File outputDirectory)
+                                  File parentOutputDirectory)
       throws IOException {
 
     specs.forEach(dataTemplateGenerator::generate);
@@ -129,6 +129,7 @@ public class CSharpRythmGenerator {
             if (renderResult.isEmpty()) {
               throw new IOException("Rythm template does not exist at '" + modelsTemplate + "'");
             } else {
+              File outputDirectory = templateType.getOutputDirectory(parentOutputDirectory);
               outputDirectory.mkdirs();
               writeToFile(new File(outputDirectory, templateType.getName() + C_SHARP_FILE_EXTENSION), renderResult);
               renderedCount++;

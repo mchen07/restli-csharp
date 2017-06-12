@@ -27,13 +27,17 @@ namespace com.linkedin.restli.datagenerator.integration
       {
         value = Value.SYMBOL_1;
       }
-      if (data.Equals("SYMBOL_2"))
+      else if (data.Equals("SYMBOL_2"))
       {
         value = Value.SYMBOL_2;
       }
-      if (data.Equals("SYMBOL_3"))
+      else if (data.Equals("SYMBOL_3"))
       {
         value = Value.SYMBOL_3;
+      }
+      else
+      {
+        throw new System.ArgumentNullException("Argument in enum constructor invalid for enum: TestEnum");
       }
     }
   }

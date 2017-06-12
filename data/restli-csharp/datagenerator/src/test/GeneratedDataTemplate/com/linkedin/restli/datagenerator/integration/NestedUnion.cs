@@ -101,7 +101,7 @@ namespace com.linkedin.restli.datagenerator.integration
 
   public class NestedUnionBuilder
   {
-    public IReadOnlyList<NestedUnion.UnionInArray> unionInArray { get; set; }
+    public IReadOnlyList<UnionInArray> unionInArray { get; set; }
 
     public NestedUnion Build()
     {
