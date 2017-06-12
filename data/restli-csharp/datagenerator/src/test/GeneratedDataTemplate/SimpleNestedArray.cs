@@ -38,12 +38,12 @@ namespace com.linkedin.restli.datagenerator.integration
       status = data.TryGetValue("intArray", out value);
       if (status)
       {
-        IReadOnlyList<IReadOnlyList<IReadOnlyList<int>>> data0 = (IReadOnlyList<IReadOnlyList<IReadOnlyList<int>>>)value;
+        List<List<List<int>>> data0 = (List<List<List<int>>>)value;
         List<IReadOnlyList<IReadOnlyList<int>>> result0 = new List<IReadOnlyList<IReadOnlyList<int>>>();
-        foreach (IReadOnlyList<IReadOnlyList<int>> data1 in data0)
+        foreach (List<List<int>> data1 in data0)
         {
           List<IReadOnlyList<int>> result1 = new List<IReadOnlyList<int>>();
-          foreach (IReadOnlyList<int> data2 in data1)
+          foreach (List<int> data2 in data1)
           {
             List<int> result2 = new List<int>();
             foreach (int data3 in data2)
@@ -64,9 +64,9 @@ namespace com.linkedin.restli.datagenerator.integration
       status = data.TryGetValue("recordArray", out value);
       if (status)
       {
-        IReadOnlyList<IReadOnlyList<Dictionary<string, object>>> data0 = (IReadOnlyList<IReadOnlyList<Dictionary<string, object>>>)value;
+        List<List<Dictionary<string, object>>> data0 = (List<List<Dictionary<string, object>>>)value;
         List<IReadOnlyList<SimpleRecord>> result0 = new List<IReadOnlyList<SimpleRecord>>();
-        foreach (IReadOnlyList<Dictionary<string, object>> data1 in data0)
+        foreach (List<Dictionary<string, object>> data1 in data0)
         {
           List<SimpleRecord> result1 = new List<SimpleRecord>();
           foreach (Dictionary<string, object> data2 in data1)
@@ -85,16 +85,16 @@ namespace com.linkedin.restli.datagenerator.integration
       status = data.TryGetValue("hybridMapArray", out value);
       if (status)
       {
-        IReadOnlyList<IReadOnlyDictionary<string, IReadOnlyList<IReadOnlyDictionary<string, Dictionary<string, object>>>>> data0 = (IReadOnlyList<IReadOnlyDictionary<string, IReadOnlyList<IReadOnlyDictionary<string, Dictionary<string, object>>>>>)value;
+        List<Dictionary<string, List<Dictionary<string, Dictionary<string, object>>>>> data0 = (List<Dictionary<string, List<Dictionary<string, Dictionary<string, object>>>>>)value;
         List<IReadOnlyDictionary<string, IReadOnlyList<IReadOnlyDictionary<string, SimpleRecord>>>> result0 = new List<IReadOnlyDictionary<string, IReadOnlyList<IReadOnlyDictionary<string, SimpleRecord>>>>();
-        foreach (IReadOnlyDictionary<string, IReadOnlyList<IReadOnlyDictionary<string, Dictionary<string, object>>>> data1 in data0)
+        foreach (Dictionary<string, List<Dictionary<string, Dictionary<string, object>>>> data1 in data0)
         {
           Dictionary<string, IReadOnlyList<IReadOnlyDictionary<string, SimpleRecord>>> result1 = new Dictionary<string, IReadOnlyList<IReadOnlyDictionary<string, SimpleRecord>>>();
-          foreach (KeyValuePair<string, IReadOnlyList<IReadOnlyDictionary<string, Dictionary<string, object>>>> data2pair in data1)
+          foreach (KeyValuePair<string, List<Dictionary<string, Dictionary<string, object>>>> data2pair in data1)
           {
-            IReadOnlyList<IReadOnlyDictionary<string, Dictionary<string, object>>> data2 = data2pair.Value;
+            List<Dictionary<string, Dictionary<string, object>>> data2 = data2pair.Value;
             List<IReadOnlyDictionary<string, SimpleRecord>> result2 = new List<IReadOnlyDictionary<string, SimpleRecord>>();
-            foreach (IReadOnlyDictionary<string, Dictionary<string, object>> data3 in data2)
+            foreach (Dictionary<string, Dictionary<string, object>> data3 in data2)
             {
               Dictionary<string, SimpleRecord> result3 = new Dictionary<string, SimpleRecord>();
               foreach (KeyValuePair<string, Dictionary<string, object>> data4pair in data3)
@@ -126,7 +126,7 @@ namespace com.linkedin.restli.datagenerator.integration
       status = data.TryGetValue("enumMap", out value);
       if (status)
       {
-        IReadOnlyDictionary<string, string> data0 = (IReadOnlyDictionary<string, string>)value;
+        Dictionary<string, string> data0 = (Dictionary<string, string>)value;
         Dictionary<string, EnumInSimpleNestedArray> result0 = new Dictionary<string, EnumInSimpleNestedArray>();
         foreach (KeyValuePair<string, string> data1pair in data0)
         {

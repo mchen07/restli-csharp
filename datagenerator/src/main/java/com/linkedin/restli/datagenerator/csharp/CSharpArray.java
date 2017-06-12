@@ -35,6 +35,6 @@ public class CSharpArray extends CSharpCollectionType {
 
   @Override
   public String getDataMapParseName() {
-    return "IReadOnlyList<" + getElementType().getDataMapParseName() + ">";
+    return "List<" + getElementType().getDataMapParseName() + ">";
   }
 }

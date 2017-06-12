@@ -17,6 +17,21 @@ public class @cSharpUnion.getName()
 }
     NULL
   }
+
+  public @(cSharpUnion.getName())(Dictionary<string, object> dataMap)
+  {
+    foreach (KeyValuePair<string, object> dataPair in dataMap)
+    {
+@for (Map.Entry entry : cSharpUnion.getMembers().entrySet()) {
+      if (dataPair.Key.Equals("@(((Member) entry.getValue()).type.getName())"))
+      {
+        as@(((Member) entry.getValue()).type.getName().capFirst()) = (@(((Member) entry.getValue()).type.getName()))dataPair.Value;
+        dataMode = @(entry.getKey().capFirst());
+      }
+}
+    }
+  }
+
 @for (Map.Entry entry : cSharpUnion.getMembers().entrySet()) {
 
   public @(cSharpUnion.getName())(@(entry.restli_getMemberListEntryType()) value)

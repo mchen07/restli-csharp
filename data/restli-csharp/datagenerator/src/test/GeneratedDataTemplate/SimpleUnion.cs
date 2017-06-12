@@ -25,7 +25,7 @@ namespace com.linkedin.restli.datagenerator.integration
       status = data.TryGetValue("primitiveUnion", out value);
       if (status)
       {
-        primitiveUnion = (PrimitiveUnion)value;
+        primitiveUnion = new PrimitiveUnion(value);
 
       }
 
@@ -58,6 +58,11 @@ namespace com.linkedin.restli.datagenerator.integration
         NULL
       }
     
+      public PrimitiveUnion(Dictionary<string, object> dataMap)
+      {
+    
+      }
+    
       public PrimitiveUnion(string value)
       {
         asString = value;
@@ -69,11 +74,6 @@ namespace com.linkedin.restli.datagenerator.integration
         asInt = value;
         dataMode = Mode.Int;
       }
-    }
-    
-    public class PrimitiveUnionBuilder
-    {
-    
     }
   }
 

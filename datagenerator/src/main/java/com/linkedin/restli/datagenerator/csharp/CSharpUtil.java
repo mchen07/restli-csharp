@@ -28,7 +28,8 @@ public class CSharpUtil {
           "interface", "internal", "is", "lock", "long", "namespace", "new", "null", "object", "operator", "out",
           "override", "params", "private", "protected", "public", "readonly", "return", "sbyte", "sealed", "uint",
           "short", "sizeof", "stackalloc", "static", "string", "struct", "switch", "this", "throw", "true", "try",
-          "typeof", "ref", "ulong", "unchecked", "unsafe", "ushort", "using", "virtual", "volatile", "void", "while")));
+          "typeof", "ref", "ulong", "unchecked", "unsafe", "ushort", "using", "virtual", "volatile", "void", "while",
+          "List", "IReadOnlyList", "Dictionary", "IReadOnlyDictionary")));
 
   public static boolean isReserved(String name) {
     return _reserved.contains(name);

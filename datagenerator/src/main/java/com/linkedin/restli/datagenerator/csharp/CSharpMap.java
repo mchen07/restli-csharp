@@ -34,6 +34,6 @@ public class CSharpMap extends CSharpCollectionType {
 
   @Override
   public String getDataMapParseName() {
-    return "IReadOnlyDictionary<string, " + getElementType().getDataMapParseName() + ">";
+    return "Dictionary<string, " + getElementType().getDataMapParseName() + ">";
   }
 }

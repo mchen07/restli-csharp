@@ -36,8 +36,7 @@ namespace @cSharpRecord.getNamespace()
       bool status;
 @for (Field field : cSharpRecord.getFields()) {
       // Retrieve data for @field.getName()
-      status = data.TryGetValue("@field.getName()", out value);
-      if (status)
+      if (data.TryGetValue("@field.getName()", out value))
       {
 @if (field.getType() instanceof CSharpCollectionType) {
         @field.getType().getDataMapParseName() data0 = (@field.getType().getDataMapParseName())value;
