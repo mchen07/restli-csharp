@@ -1,0 +1,23 @@
+@import com.linkedin.restli.datagenerator.csharp.CSharpRecord;
+@import com.linkedin.restli.datagenerator.csharp.CSharpUnion;
+@import com.linkedin.restli.datagenerator.csharp.CSharpArray;
+@import com.linkedin.restli.datagenerator.csharp.CSharpType;
+@import com.linkedin.restli.datagenerator.csharp.CSharpMap;
+@import com.linkedin.restli.datagenerator.csharp.CSharpComplexType;
+@import com.linkedin.restli.datagenerator.csharp.CSharpPrimitive;
+@import com.linkedin.restli.datagenerator.csharp.CSharpRecord.Field;
+@import com.linkedin.restli.datagenerator.csharp.CSharpRythmGenerator;
+@import com.linkedin.restli.datagenerator.csharp.CSharpUtil;
+@import org.rythmengine.RythmEngine;
+@args CSharpType cSharpType, String sourceName, String targetName, int level, RythmEngine engine
+@if (cSharpType instanceof CSharpArray) {
+@CSharpUtil.invokeRythmTemplate("record_field_parse_array", engine, cSharpType, sourceName, targetName, level)
+} else if (cSharpType instanceof CSharpMap) {
+@CSharpUtil.invokeRythmTemplate("record_field_parse_map", engine, cSharpType, sourceName, targetName, level)
+}else if (cSharpType instanceof CSharpComplexType) {
+@(targetName + (level > 1 ? level - 1 : "")) = new @(cSharpType.getName())(@(sourceName + (level > 1 ? level - 1 : "")));
+} else if (cSharpType instanceof CSharpPrimitive) {
+@(targetName + (level > 1 ? level - 1 : "")) = (@cSharpType.getName())@(sourceName + (level > 1 ? level - 1 : ""));
+} else {
+//TODO FINISH
+}

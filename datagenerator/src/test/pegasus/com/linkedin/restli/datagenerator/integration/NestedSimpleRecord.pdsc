@@ -1,0 +1,64 @@
+{
+  "type": "record",
+  "name": "NestedSimpleRecord",
+  "namespace": "com.linkedin.restli.datagenerator.integration",
+  "fields": [
+    {
+      "name": "simpleRecordValue",
+      "type": "SimpleRecord",
+      "optional": true
+    },
+    {
+      "name": "collectionWithDefault",
+      "type": {
+        "type": "array",
+        "items": "SimpleRecord"
+      },
+      "optional": true,
+      "default": []
+    },
+    {
+      "name": "triple",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": "SimpleRecord"
+          }
+        }
+      }
+    },
+    {
+      "name": "dict",
+      "type": {
+        "type": "map",
+        "values": {
+          "type": "map",
+          "values": "SimpleRecordProjection"
+        }
+      },
+      "optional": true
+    },
+    {
+      "name": "mixed",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "map",
+          "values": {
+            "type": "array",
+            "items": "SimpleRecord"
+          }
+        }
+      },
+      "optional": true
+    },
+    {
+      "name": "union",
+      "type": ["SimpleRecord", "SimpleRecordProjection", "string"],
+      "optional": true
+    }
+  ]
+}

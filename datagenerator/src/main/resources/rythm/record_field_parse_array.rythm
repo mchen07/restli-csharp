@@ -1,0 +1,15 @@
+@import com.linkedin.restli.datagenerator.csharp.CSharpRecord;
+@import com.linkedin.restli.datagenerator.csharp.CSharpUnion;
+@import com.linkedin.restli.datagenerator.csharp.CSharpArray;
+@import com.linkedin.restli.datagenerator.csharp.CSharpCollectionType;
+@import com.linkedin.restli.datagenerator.csharp.CSharpRecord.Field;
+@import com.linkedin.restli.datagenerator.csharp.CSharpRythmGenerator;
+@import com.linkedin.restli.datagenerator.csharp.CSharpUtil;
+@import org.rythmengine.RythmEngine;
+@args CSharpArray cSharpArray, String sourceName, String targetName, int level, RythmEngine engine
+foreach (@cSharpArray.getElementType().getDataMapParseName() @(sourceName + level) in @(sourceName + (level-1)))
+{
+  @cSharpArray.getElementType().getNameMutable() result@(level)@if (cSharpArray.getElementType() instanceof CSharpCollectionType){ = new @(cSharpArray.getElementType().getNameMutable())()};
+  @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, cSharpArray.getElementType(), sourceName, targetName, level+1).restli_addIndent(2)
+  result@(level - 1).Add(result@(level));
+}
