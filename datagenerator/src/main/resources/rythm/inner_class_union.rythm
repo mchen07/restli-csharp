@@ -12,9 +12,9 @@ public class @cSharpUnion.getName() : UnionTemplate
 @for (Map.Entry entry : memberEntrySet) {
   public @(((Member) entry.getValue()).type.getName(CSharpType.NameModifier.NULLABLE)) as@(entry.getKey().capFirst()) { get; }
 }
+@if (hasMembers) {
   public Mode? dataMode { get; }
 
-@if (hasMembers) {
   public enum Mode
   {
 @for (Map.Entry entry : memberEntrySet) {

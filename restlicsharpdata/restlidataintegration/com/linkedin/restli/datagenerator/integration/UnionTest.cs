@@ -29,21 +29,21 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for unionEmpty
       if (data.TryGetValue("unionEmpty", out value))
       {
-        unionEmpty = new UnionEmpty(value);
+        unionEmpty = new UnionEmpty((Dictionary<string, object>)value);
 
       }
 
       // Retrieve data for unionWithoutNull
       if (data.TryGetValue("unionWithoutNull", out value))
       {
-        unionWithoutNull = new UnionWithoutNull(value);
+        unionWithoutNull = new UnionWithoutNull((Dictionary<string, object>)value);
 
       }
 
       // Retrieve data for unionWithInline
       if (data.TryGetValue("unionWithInline", out value))
       {
-        unionWithInline = new UnionWithInline(value);
+        unionWithInline = new UnionWithInline((Dictionary<string, object>)value);
 
       }
 
@@ -86,8 +86,6 @@ namespace com.linkedin.restli.datagenerator.integration
     
     public class UnionEmpty : UnionTemplate
     {
-      public Mode? dataMode { get; }
-    
     
     
       public UnionEmpty(Dictionary<string, object> dataMap)
