@@ -7,7 +7,7 @@
   boolean hasMembers = !cSharpUnion.getMembers().entrySet().isEmpty();
   Set<Map.Entry<String, CSharpUnion.Member>> memberEntrySet = cSharpUnion.getMembers().entrySet();
 }
-public class @cSharpUnion.getName()
+public class @cSharpUnion.getName() : UnionTemplate
 {
 @for (Map.Entry entry : memberEntrySet) {
   public @(((Member) entry.getValue()).type.getName(CSharpType.NameModifier.NULLABLE)) as@(entry.getKey().capFirst()) { get; }
