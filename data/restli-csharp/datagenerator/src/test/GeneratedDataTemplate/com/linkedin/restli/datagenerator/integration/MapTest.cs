@@ -721,6 +721,7 @@ namespace com.linkedin.restli.datagenerator.integration
             break;
           }
         }
+        throw new System.ArgumentNullException("Unable to find argument of valid type in union constructor: UnionMap");
       }
     
     

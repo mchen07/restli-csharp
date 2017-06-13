@@ -3,37 +3,45 @@
 @import com.linkedin.restli.datagenerator.csharp.CSharpUnion.Member;
 @import org.rythmengine.RythmEngine;
 @args CSharpUnion cSharpUnion, RythmEngine engine
+@{
+  boolean hasMembers = !cSharpUnion.getMembers().entrySet().isEmpty();
+  Set<Map.Entry<String, CSharpUnion.Member>> memberEntrySet = cSharpUnion.getMembers().entrySet();
+}
 public class @cSharpUnion.getName()
 {
-@for (Map.Entry entry : cSharpUnion.getMembers().entrySet()) {
+@for (Map.Entry entry : memberEntrySet) {
   public @(((Member) entry.getValue()).type.getName(CSharpType.NameModifier.NULLABLE)) as@(entry.getKey().capFirst()) { get; }
 }
   public Mode? dataMode { get; }
 
+@if (hasMembers) {
   public enum Mode
   {
-@for (Map.Entry entry : cSharpUnion.getMembers().entrySet()) {
+@for (Map.Entry entry : memberEntrySet) {
     @(entry.getKey().capFirst())@if (!entry_isLast) {,}
 }
   }
+}
 
   public @(cSharpUnion.getName())(Dictionary<string, object> dataMap)
   {
+@if (hasMembers) {
     foreach (KeyValuePair<string, object> dataPair in dataMap)
     {
-@for (Map.Entry entry : cSharpUnion.getMembers().entrySet()) {
+@for (Map.Entry entry : memberEntrySet) {
       if (dataPair.Key.Equals("@(entry.getKey().capFirst())"))
       {
         as@(entry.getKey().capFirst()) = (@(((Member) entry.getValue()).type.getName()))dataPair.Value;
         dataMode = Mode.@(entry.getKey().capFirst());
-        break;
+        return;
       }
 }
     }
-@//    throw new System.ArgumentNullException("Unable to find argument of valid type in union constructor: @(cSharpUnion.getName())");
+    throw new System.ArgumentNullException("Unable to find argument of valid type in union constructor: @(cSharpUnion.getName())");
+}
   }
 
-@for (Map.Entry entry : cSharpUnion.getMembers().entrySet()) {
+@for (Map.Entry entry : memberEntrySet) {
 
   public @(cSharpUnion.getName())(@(entry.restli_getMemberListEntryType()) value)
   {

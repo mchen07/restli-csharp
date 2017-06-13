@@ -82,22 +82,20 @@ namespace com.linkedin.restli.datagenerator.integration
       }
     }
 
+    
     public class UnionEmpty
     {
       public Mode? dataMode { get; }
     
-      public enum Mode
-      {
-      }
+    
     
       public UnionEmpty(Dictionary<string, object> dataMap)
       {
-        foreach (KeyValuePair<string, object> dataPair in dataMap)
-        {
-        }
+    
       }
     
     }
+    
     public class UnionWithInline
     {
       public IReadOnlyList<string> asArray { get; }
@@ -134,63 +132,64 @@ namespace com.linkedin.restli.datagenerator.integration
           {
             asArray = (IReadOnlyList<string>)dataPair.Value;
             dataMode = Mode.Array;
-            break;
+            return;
           }
           if (dataPair.Key.Equals("Float"))
           {
             asFloat = (float)dataPair.Value;
             dataMode = Mode.Float;
-            break;
+            return;
           }
           if (dataPair.Key.Equals("Bytes"))
           {
             asBytes = (string)dataPair.Value;
             dataMode = Mode.Bytes;
-            break;
+            return;
           }
           if (dataPair.Key.Equals("Long"))
           {
             asLong = (long)dataPair.Value;
             dataMode = Mode.Long;
-            break;
+            return;
           }
           if (dataPair.Key.Equals("EnumInUnionTest"))
           {
             asEnumInUnionTest = (EnumInUnionTest)dataPair.Value;
             dataMode = Mode.EnumInUnionTest;
-            break;
+            return;
           }
           if (dataPair.Key.Equals("String"))
           {
             asString = (string)dataPair.Value;
             dataMode = Mode.String;
-            break;
+            return;
           }
           if (dataPair.Key.Equals("Double"))
           {
             asDouble = (double)dataPair.Value;
             dataMode = Mode.Double;
-            break;
+            return;
           }
           if (dataPair.Key.Equals("Map"))
           {
             asMap = (IReadOnlyDictionary<string, long>)dataPair.Value;
             dataMode = Mode.Map;
-            break;
+            return;
           }
           if (dataPair.Key.Equals("Int"))
           {
             asInt = (int)dataPair.Value;
             dataMode = Mode.Int;
-            break;
+            return;
           }
           if (dataPair.Key.Equals("RecordInUnionTest"))
           {
             asRecordInUnionTest = (RecordInUnionTest)dataPair.Value;
             dataMode = Mode.RecordInUnionTest;
-            break;
+            return;
           }
         }
+        throw new System.ArgumentNullException("Unable to find argument of valid type in union constructor: UnionWithInline");
       }
     
     
@@ -254,6 +253,7 @@ namespace com.linkedin.restli.datagenerator.integration
         dataMode = Mode.RecordInUnionTest;
       }
     }
+    
     public class UnionWithoutNull
     {
       public IReadOnlyList<string> asArray { get; }
@@ -292,69 +292,70 @@ namespace com.linkedin.restli.datagenerator.integration
           {
             asArray = (IReadOnlyList<string>)dataPair.Value;
             dataMode = Mode.Array;
-            break;
+            return;
           }
           if (dataPair.Key.Equals("Float"))
           {
             asFloat = (float)dataPair.Value;
             dataMode = Mode.Float;
-            break;
+            return;
           }
           if (dataPair.Key.Equals("Bytes"))
           {
             asBytes = (string)dataPair.Value;
             dataMode = Mode.Bytes;
-            break;
+            return;
           }
           if (dataPair.Key.Equals("Long"))
           {
             asLong = (long)dataPair.Value;
             dataMode = Mode.Long;
-            break;
+            return;
           }
           if (dataPair.Key.Equals("SimpleRecord"))
           {
             asSimpleRecord = (SimpleRecord)dataPair.Value;
             dataMode = Mode.SimpleRecord;
-            break;
+            return;
           }
           if (dataPair.Key.Equals("TestEnum"))
           {
             asTestEnum = (TestEnum)dataPair.Value;
             dataMode = Mode.TestEnum;
-            break;
+            return;
           }
           if (dataPair.Key.Equals("String"))
           {
             asString = (string)dataPair.Value;
             dataMode = Mode.String;
-            break;
+            return;
           }
           if (dataPair.Key.Equals("Boolean"))
           {
             asBoolean = (bool)dataPair.Value;
             dataMode = Mode.Boolean;
-            break;
+            return;
           }
           if (dataPair.Key.Equals("Double"))
           {
             asDouble = (double)dataPair.Value;
             dataMode = Mode.Double;
-            break;
+            return;
           }
           if (dataPair.Key.Equals("Map"))
           {
             asMap = (IReadOnlyDictionary<string, long>)dataPair.Value;
             dataMode = Mode.Map;
-            break;
+            return;
           }
           if (dataPair.Key.Equals("Int"))
           {
             asInt = (int)dataPair.Value;
             dataMode = Mode.Int;
-            break;
+            return;
           }
         }
+        throw new System.ArgumentNullException("Unable to find argument of valid type in union constructor: UnionWithoutNull");
       }
     
     
