@@ -1,0 +1,48 @@
+{
+  "doc"  : "Test generation of C# bindings for unions",
+  "type" : "record",
+  "name" : "UnionTest",
+  "namespace" : "com.linkedin.restli.datagenerator.integration",
+  "fields" : [
+    {
+      "name" : "unionEmpty",
+      "type" : [
+      ]
+    },
+    {
+      "name" : "unionWithoutNull",
+      "type" : [
+        "int",
+        "long",
+        "float",
+        "double",
+        "boolean",
+        "string",
+        "bytes",
+        "TestEnum",
+        "SimpleRecord",
+        { "type" : "array", "items" : "string" },
+        { "type" : "map", "values" : "long" }
+      ]
+    },
+    {
+      "name" : "unionWithInline",
+      "type" : [
+        "int",
+        "long",
+        "float",
+        "double",
+        "string",
+        "bytes",
+        { "type" : "enum", "name" : "EnumInUnionTest", "symbols" : [ "A", "B", "C" ] },
+        { "type" : "record", "name" : "RecordInUnionTest",
+          "fields" : [
+            { "name" : "a", "type" : "int" }
+          ]
+        },
+        { "type" : "array", "items" : "string" },
+        { "type" : "map", "values" : "long" }
+      ]
+    }
+  ]
+}

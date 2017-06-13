@@ -6,16 +6,15 @@
 public class @cSharpUnion.getName()
 {
 @for (Map.Entry entry : cSharpUnion.getMembers().entrySet()) {
-  public @(((Member) entry.getValue()).type.getName(CSharpType.NameModifier.NULLABLE)) as@(((Member) entry.getValue()).type.getName().capFirst()) { get; }
+  public @(((Member) entry.getValue()).type.getName(CSharpType.NameModifier.NULLABLE)) as@(entry.getKey().capFirst()) { get; }
 }
   public Mode? dataMode { get; }
 
   public enum Mode
   {
 @for (Map.Entry entry : cSharpUnion.getMembers().entrySet()) {
-    @(entry.getKey().capFirst()),
+    @(entry.getKey().capFirst())@if (!entry_isLast) {,}
 }
-    NULL
   }
 
   public @(cSharpUnion.getName())(Dictionary<string, object> dataMap)
@@ -23,22 +22,22 @@ public class @cSharpUnion.getName()
     foreach (KeyValuePair<string, object> dataPair in dataMap)
     {
 @for (Map.Entry entry : cSharpUnion.getMembers().entrySet()) {
-      if (dataPair.Key.Equals("@(((Member) entry.getValue()).type.getName())"))
+      if (dataPair.Key.Equals("@(entry.getKey().capFirst())"))
       {
-        as@(((Member) entry.getValue()).type.getName().capFirst()) = (@(((Member) entry.getValue()).type.getName()))dataPair.Value;
+        as@(entry.getKey().capFirst()) = (@(((Member) entry.getValue()).type.getName()))dataPair.Value;
         dataMode = Mode.@(entry.getKey().capFirst());
         break;
       }
 }
     }
-    throw new System.ArgumentNullException("Unable to find argument of valid type in union constructor: @(cSharpUnion.getName())");
+@//    throw new System.ArgumentNullException("Unable to find argument of valid type in union constructor: @(cSharpUnion.getName())");
   }
 
 @for (Map.Entry entry : cSharpUnion.getMembers().entrySet()) {
 
   public @(cSharpUnion.getName())(@(entry.restli_getMemberListEntryType()) value)
   {
-    as@(((Member) entry.getValue()).type.getName().capFirst()) = value;
+    as@(entry.getKey().capFirst()) = value;
     dataMode = Mode.@(entry.getKey().capFirst());
   }
 }
