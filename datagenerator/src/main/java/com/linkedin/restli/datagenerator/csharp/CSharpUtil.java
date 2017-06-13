@@ -49,11 +49,8 @@ public class CSharpUtil {
 
   public static String stringify(CSharpType type, Object obj) {
     if (type instanceof CSharpCollectionType) {
-      String elementType = ((CSharpCollectionType) type).getElementType().getName();
-      if (type instanceof CSharpArray && ((DataList) obj).isEmpty()) {
-        return "new IReadOnlyList<" + elementType + ">()";
-      } else if (type instanceof CSharpMap && ((DataMap) obj).isEmpty()) {
-        return "new IReadOnlyDictionary<string, " + elementType + ">()";
+      if (((DataList) obj).isEmpty()) {
+        return "new " + type.getName(CSharpType.NameModifier.MUTABLE) + "()";
       } else {
         return null;
       }

@@ -28,7 +28,8 @@
             "items": "SimpleRecord"
           }
         }
-      }
+      },
+      "default": []
     },
     {
       "name": "dict",

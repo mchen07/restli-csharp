@@ -19,9 +19,9 @@ namespace com.linkedin.restli.datagenerator.integration
     public IReadOnlyList<SimpleRecord> collectionWithDefault { get; }
     public bool hasCollectionWithDefault { get; }
 
-    // required, has default value
+    // required
     public IReadOnlyList<IReadOnlyList<IReadOnlyList<SimpleRecord>>> triple { get; }
-    public bool hasTriple { get; }
+
 
     // optional
     public IReadOnlyDictionary<string, IReadOnlyDictionary<string, SimpleRecordProjection>> dict { get; }
@@ -82,13 +82,9 @@ namespace com.linkedin.restli.datagenerator.integration
           result0.Add(result1);
         }
         triple = result0;
-        hasTriple = true;
+
       }
-      else
-      {
-        triple = new List<IReadOnlyList<IReadOnlyList<SimpleRecord>>>();
-        hasTriple = false;
-      }
+
       // Retrieve data for dict
       if (data.TryGetValue("dict", out value))
       {
@@ -163,12 +159,11 @@ namespace com.linkedin.restli.datagenerator.integration
       if (builder.triple != null)
       {
         triple = (IReadOnlyList<IReadOnlyList<IReadOnlyList<SimpleRecord>>>)builder.triple;
-        hasTriple = true;
+
       }
       else
       {
-        triple = new List<IReadOnlyList<IReadOnlyList<SimpleRecord>>>();
-        hasTriple = false;
+        throw new System.ArgumentNullException("Required field with no default must be included in builder: triple");
       }
       // Retrieve data for dict
       if (builder.dict != null)
