@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  */
 public abstract class CSharpType {
   private final ClassTemplateSpec _spec;
-  public enum NameModifier {NONE, NULLABLE, MUTABLE, DATAMAP_PARSE, IN_BUILDER}
+  public enum NameModifier {NONE, NULLABLE, MUTABLE, DEEP_MUTABLE, DATAMAP_PARSE, IN_BUILDER}
 
   public CSharpType(ClassTemplateSpec spec) {
     _spec = spec;

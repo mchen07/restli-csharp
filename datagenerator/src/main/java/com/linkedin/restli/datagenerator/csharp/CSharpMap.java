@@ -34,6 +34,9 @@ public class CSharpMap extends CSharpCollectionType {
   @Override
   public String getName(NameModifier modifier) {
     switch (modifier) {
+      case DEEP_MUTABLE:
+      case IN_BUILDER:
+        return "Dictionary<string, " + getElementType().getName(NameModifier.DEEP_MUTABLE) + ">";
       case MUTABLE:
         return "Dictionary<string, " + getElementType().getName(NameModifier.NONE) + ">";
       case DATAMAP_PARSE:

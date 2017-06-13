@@ -35,6 +35,9 @@ public class CSharpArray extends CSharpCollectionType {
   @Override
   public String getName(NameModifier modifier) {
     switch (modifier) {
+      case DEEP_MUTABLE:
+      case IN_BUILDER:
+        return "List<" + getElementType().getName(NameModifier.DEEP_MUTABLE) + ">";
       case MUTABLE:
         return "List<" + getElementType().getName(NameModifier.NONE) + ">";
       case DATAMAP_PARSE:
