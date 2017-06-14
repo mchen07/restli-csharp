@@ -21,6 +21,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for a
       if (data.TryGetValue("a", out value))
       {
+        
         a = (int)value;
 
       }

@@ -45,4 +45,9 @@ public class CSharpComplexType extends CSharpType {
     String childPath = getNamespace().replaceAll("\\.", "/");
     return new File(parentPath, childPath);
   }
+
+  @Override
+  public String getInitializationExpression(String identifier) {
+    return "new " + getName(NameModifier.NONE) + "((" + getName(NameModifier.DATAMAP_PARSE) + ")" + identifier + ")";
+  }
 }

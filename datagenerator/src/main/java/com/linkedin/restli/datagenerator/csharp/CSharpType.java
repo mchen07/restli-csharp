@@ -41,4 +41,6 @@ public abstract class CSharpType {
   public Set<CSharpComplexType> getReferencedComplexTypes(List<Pattern> skipDeprecatedArgs) {
     return Collections.emptySet();
   }
+
+  public abstract String getInitializationExpression(String identifier);
 }

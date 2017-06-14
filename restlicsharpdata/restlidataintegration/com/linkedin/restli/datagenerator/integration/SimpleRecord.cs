@@ -29,6 +29,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for stringField
       if (data.TryGetValue("stringField", out value))
       {
+        
         stringField = (string)value;
 
       }
@@ -36,6 +37,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for intValue
       if (data.TryGetValue("intValue", out value))
       {
+        
         intValue = (int)value;
         hasIntValue = true;
       }
@@ -47,6 +49,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for anotherIntValue
       if (data.TryGetValue("anotherIntValue", out value))
       {
+        
         anotherIntValue = (int)value;
         hasAnotherIntValue = true;
       }

@@ -2,6 +2,7 @@ package com.linkedin.restli.datagenerator.csharp;
 
 
 import com.linkedin.pegasus.generator.spec.ClassTemplateSpec;
+import javax.naming.OperationNotSupportedException;
 
 
 /**
@@ -33,5 +34,14 @@ public abstract class CSharpCollectionType extends CSharpType {
     } else {
       return getElementType();
     }
+  }
+
+  /*
+   * This method should not be used. CSharp collection types cannot be properly initialized
+   * with a single expression.
+   */
+  @Override
+  public String getInitializationExpression(String identifier) {
+    return null;
   }
 }

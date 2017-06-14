@@ -37,8 +37,9 @@ public CSharpPrimitive(ClassTemplateSpec spec) {
       case DOUBLE:
         return "double" + getNullableOperator(nullable);
       case STRING:
-      case BYTES:
         return "string";
+      case BYTES:
+        return "Bytes";
       case NULL:
         throw new RuntimeException("NULL DataSchema type is not supported in C#");
       default:
@@ -48,5 +49,15 @@ public CSharpPrimitive(ClassTemplateSpec spec) {
 
   private String getNullableOperator(boolean nullable) {
     return nullable ? "?" : "";
+  }
+
+  @Override
+  public String getInitializationExpression(String identifier) {
+    switch (getSpec().getSchema().getType()) {
+      case BYTES:
+        return "new Bytes(BytesUtil.StringToBytes((string)" + identifier + "))";
+      default:
+        return "(" + getName(NameModifier.NONE) + ")" + identifier;
+    }
   }
 }

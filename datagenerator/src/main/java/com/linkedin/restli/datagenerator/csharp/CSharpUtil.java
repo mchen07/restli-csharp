@@ -86,4 +86,13 @@ public class CSharpUtil {
     }
     return rendered;
   }
+
+  public static String toCapitalized(Object obj) {
+    if (obj instanceof String) {
+      String s = (String) obj;
+      return s.substring(0, 1).toUpperCase() + s.substring(1);
+    } else {
+      return null;
+    }
+  }
 }

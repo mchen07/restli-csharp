@@ -6,14 +6,13 @@
 @import com.linkedin.restli.datagenerator.csharp.CSharpUtil;
 @import org.rythmengine.RythmEngine;
 @args CSharpType cSharpType, String sourceName, String targetName, int level, RythmEngine engine
+@{
+  String levelSuffix = (level > 1 ? (level - 1) + "" : "");
+}
 @if (cSharpType instanceof CSharpArray) {
 @CSharpUtil.invokeRythmTemplate("record_field_parse_array", engine, cSharpType, sourceName, targetName, level)
 } else if (cSharpType instanceof CSharpMap) {
 @CSharpUtil.invokeRythmTemplate("record_field_parse_map", engine, cSharpType, sourceName, targetName, level)
-}else if (cSharpType instanceof CSharpComplexType) {
-@(targetName + (level > 1 ? level - 1 : "")) = new @(cSharpType.getName())((@cSharpType.getName(CSharpType.NameModifier.DATAMAP_PARSE))@(sourceName + (level > 1 ? level - 1 : "")));
-} else if (cSharpType instanceof CSharpPrimitive) {
-@(targetName + (level > 1 ? level - 1 : "")) = (@cSharpType.getName())@(sourceName + (level > 1 ? level - 1 : ""));
 } else {
-//TODO FINISH
+@(targetName + levelSuffix) = @cSharpType.getInitializationExpression(sourceName + levelSuffix);
 }
