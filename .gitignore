@@ -36,3 +36,5 @@ restlicsharpdata/Debug
 restlicsharpdata/obj
 restlicsharpdata/bin
 *.exe
+*.csproj
+*.csproj.user

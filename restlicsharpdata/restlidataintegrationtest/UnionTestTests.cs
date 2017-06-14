@@ -13,16 +13,22 @@ namespace restlicsharpdata.restlidataintegration
         public void UnionTest_DataMap_IntAndString()
         {
             UnionTest u;
-
-            Dictionary<string, object> data = new Dictionary<string, object>();
+            
             Dictionary<string, object> dataUnionEmpty = new Dictionary<string, object>();
-            Dictionary<string, object> dataUnionWithoutNull = new Dictionary<string, object>();
-            dataUnionWithoutNull.Add("int", 20);
-            Dictionary<string, object> dataUnionWithInline = new Dictionary<string, object>();
-            dataUnionWithInline.Add("string", "hello, world!");
-            data.Add("unionEmpty", dataUnionEmpty);
-            data.Add("unionWithoutNull", dataUnionWithoutNull);
-            data.Add("unionWithInline", dataUnionWithInline);
+            Dictionary<string, object> dataUnionWithoutNull = new Dictionary<string, object>()
+            {
+                { "int", 20 }
+            };
+            Dictionary<string, object> dataUnionWithInline = new Dictionary<string, object>()
+            {
+                { "string", "hello, world!" }
+            };
+            Dictionary<string, object> data = new Dictionary<string, object>()
+            {
+                { "unionEmpty", dataUnionEmpty },
+                { "unionWithoutNull", dataUnionWithoutNull },
+                { "unionWithInline", dataUnionWithInline }
+            };
 
             u = new UnionTest(data);
 
@@ -41,19 +47,27 @@ namespace restlicsharpdata.restlidataintegration
         public void UnionTest_DataMap_BytesAndMap()
         {
             UnionTest u;
-
-            Dictionary<string, object> data = new Dictionary<string, object>();
+            
             Dictionary<string, object> dataUnionEmpty = new Dictionary<string, object>();
-            Dictionary<string, object> dataUnionWithoutNull = new Dictionary<string, object>();
-            dataUnionWithoutNull.Add("bytes", "\u0000\u0001\u0002\u0003");
-            Dictionary<string, object> dataUnionWithInline = new Dictionary<string, object>();
-            Dictionary<string, long> stringToLong = new Dictionary<string, long>();
-            stringToLong.Add("key", 9999);
-            dataUnionWithInline.Add("map", stringToLong);
-            data.Add("unionEmpty", dataUnionEmpty);
-            data.Add("unionWithoutNull", dataUnionWithoutNull);
-            data.Add("unionWithInline", dataUnionWithInline);
-
+            Dictionary<string, object> dataUnionWithoutNull = new Dictionary<string, object>()
+            {
+                { "bytes", "\u0000\u0001\u0002\u0003" }
+            };
+            Dictionary<string, object> dataUnionWithInline = new Dictionary<string, object>()
+            {
+                { "map", new Dictionary<string, long>()
+                    {
+                    { "key", 9999 }
+                    }
+                }
+            };
+            Dictionary<string, object> data = new Dictionary<string, object>()
+            {
+                { "unionEmpty", dataUnionEmpty },
+                { "unionWithoutNull", dataUnionWithoutNull },
+                { "unionWithInline", dataUnionWithInline }
+            };
+            
             u = new UnionTest(data);
 
             Assert.IsInstanceOfType(u.unionEmpty, typeof(UnionTest.UnionEmpty));
@@ -65,9 +79,7 @@ namespace restlicsharpdata.restlidataintegration
             CollectionAssert.AreEqual(expectedBytes, u.unionWithoutNull.asBytes.GetBytes());
 
             Assert.AreEqual(UnionTest.UnionWithInline.Mode.Map, u.unionWithInline.dataMode);
-            long actualLong;
-            u.unionWithInline.asMap.TryGetValue("key", out actualLong);
-            Assert.AreEqual(9999, actualLong);
+            Assert.AreEqual(9999, u.unionWithInline.asMap["key"]);
         }
 
         [TestMethod]

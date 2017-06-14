@@ -14,10 +14,12 @@ namespace restlicsharpdata.restlidataintegration
         {
             SimpleRecord s;
 
-            Dictionary<string, object> data = new Dictionary<string, object>();
-            data.Add("stringField", "hello");
-            data.Add("intValue", 5);
-            data.Add("anotherIntValue", 6);
+            Dictionary<string, object> data = new Dictionary<string, object>()
+            {
+                { "stringField", "hello" },
+                { "intValue", 5 },
+                { "anotherIntValue", 6 }
+            };           
 
             s = new SimpleRecord(data);
 
@@ -33,8 +35,10 @@ namespace restlicsharpdata.restlidataintegration
         {
             SimpleRecord s;
 
-            Dictionary<string, object> data = new Dictionary<string, object>();
-            data.Add("stringField", "foobar");
+            Dictionary<string, object> data = new Dictionary<string, object>()
+            {
+                { "stringField", "foobar" }
+            };
 
             s = new SimpleRecord(data);
 
