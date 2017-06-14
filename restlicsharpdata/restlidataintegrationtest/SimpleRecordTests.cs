@@ -82,7 +82,7 @@ namespace restlicsharpdata.restlidataintegration
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedException(typeof(ArgumentException))]
         public void SimpleRecord_Builder_OmitRequired()
         {
             SimpleRecord s;
