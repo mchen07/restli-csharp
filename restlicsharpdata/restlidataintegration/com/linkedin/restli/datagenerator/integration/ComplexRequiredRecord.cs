@@ -32,6 +32,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for enumField
       if (data.TryGetValue("enumField", out value))
       {
+        
         enumField = new TestEnum((string)value);
         hasEnumField = true;
       }
@@ -43,6 +44,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for primitiveUnion
       if (data.TryGetValue("primitiveUnion", out value))
       {
+        
         primitiveUnion = new PrimitiveUnion((Dictionary<string, object>)value);
 
       }
@@ -50,6 +52,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for complexUnion
       if (data.TryGetValue("complexUnion", out value))
       {
+        
         complexUnion = new ComplexUnion((Dictionary<string, object>)value);
 
       }
@@ -77,7 +80,7 @@ namespace com.linkedin.restli.datagenerator.integration
       }
       else
       {
-        throw new System.ArgumentNullException("Required field with no default must be included in builder: primitiveUnion");
+        throw new ArgumentException("Required field with no default must be included in builder: primitiveUnion");
       }
       // Retrieve data for complexUnion
       if (builder.complexUnion != null)
@@ -87,7 +90,7 @@ namespace com.linkedin.restli.datagenerator.integration
       }
       else
       {
-        throw new System.ArgumentNullException("Required field with no default must be included in builder: complexUnion");
+        throw new ArgumentException("Required field with no default must be included in builder: complexUnion");
       }
     }
 
@@ -110,18 +113,20 @@ namespace com.linkedin.restli.datagenerator.integration
         {
           if (dataPair.Key.Equals("ComplexRequiredRecord"))
           {
-            asComplexRequiredRecord = (ComplexRequiredRecord)dataPair.Value;
+            
+            asComplexRequiredRecord = new ComplexRequiredRecord((Dictionary<string, object>)dataPair.Value);
             dataMode = Mode.ComplexRequiredRecord;
             return;
           }
           if (dataPair.Key.Equals("TestEnum"))
           {
-            asTestEnum = (TestEnum)dataPair.Value;
+            
+            asTestEnum = new TestEnum((string)dataPair.Value);
             dataMode = Mode.TestEnum;
             return;
           }
         }
-        throw new System.ArgumentNullException("Unable to find argument of valid type in union constructor: ComplexUnion");
+        throw new ArgumentException("Unable to find argument of valid type in union constructor: ComplexUnion");
       }
     
     
@@ -156,18 +161,20 @@ namespace com.linkedin.restli.datagenerator.integration
         {
           if (dataPair.Key.Equals("String"))
           {
+            
             asString = (string)dataPair.Value;
             dataMode = Mode.String;
             return;
           }
           if (dataPair.Key.Equals("Int"))
           {
+            
             asInt = (int)dataPair.Value;
             dataMode = Mode.Int;
             return;
           }
         }
-        throw new System.ArgumentNullException("Unable to find argument of valid type in union constructor: PrimitiveUnion");
+        throw new ArgumentException("Unable to find argument of valid type in union constructor: PrimitiveUnion");
       }
     
     

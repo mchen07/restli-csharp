@@ -50,7 +50,7 @@ public class @cSharpUnion.getName() : UnionTemplate
       }
 }
     }
-    throw new System.ArgumentNullException("Unable to find argument of valid type in union constructor: @(cSharpUnion.getName())");
+    throw new ArgumentException("Unable to find argument of valid type in union constructor: @(cSharpUnion.getName())");
 }
   }
 

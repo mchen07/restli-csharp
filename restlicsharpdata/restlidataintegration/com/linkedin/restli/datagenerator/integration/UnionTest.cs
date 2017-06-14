@@ -62,7 +62,7 @@ namespace com.linkedin.restli.datagenerator.integration
       }
       else
       {
-        throw new System.ArgumentNullException("Required field with no default must be included in builder: unionEmpty");
+        throw new ArgumentException("Required field with no default must be included in builder: unionEmpty");
       }
       // Retrieve data for unionWithoutNull
       if (builder.unionWithoutNull != null)
@@ -72,7 +72,7 @@ namespace com.linkedin.restli.datagenerator.integration
       }
       else
       {
-        throw new System.ArgumentNullException("Required field with no default must be included in builder: unionWithoutNull");
+        throw new ArgumentException("Required field with no default must be included in builder: unionWithoutNull");
       }
       // Retrieve data for unionWithInline
       if (builder.unionWithInline != null)
@@ -82,7 +82,7 @@ namespace com.linkedin.restli.datagenerator.integration
       }
       else
       {
-        throw new System.ArgumentNullException("Required field with no default must be included in builder: unionWithInline");
+        throw new ArgumentException("Required field with no default must be included in builder: unionWithInline");
       }
     }
 
@@ -220,7 +220,7 @@ namespace com.linkedin.restli.datagenerator.integration
             return;
           }
         }
-        throw new System.ArgumentNullException("Unable to find argument of valid type in union constructor: UnionWithInline");
+        throw new ArgumentException("Unable to find argument of valid type in union constructor: UnionWithInline");
       }
     
     
@@ -416,7 +416,7 @@ namespace com.linkedin.restli.datagenerator.integration
             return;
           }
         }
-        throw new System.ArgumentNullException("Unable to find argument of valid type in union constructor: UnionWithoutNull");
+        throw new ArgumentException("Unable to find argument of valid type in union constructor: UnionWithoutNull");
       }
     
     

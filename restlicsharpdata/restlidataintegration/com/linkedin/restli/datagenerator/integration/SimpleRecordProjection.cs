@@ -25,6 +25,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for stringField
       if (data.TryGetValue("stringField", out value))
       {
+        
         stringField = (string)value;
 
       }
@@ -32,6 +33,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for intValue
       if (data.TryGetValue("intValue", out value))
       {
+        
         intValue = (int)value;
         hasIntValue = true;
       }
@@ -52,7 +54,7 @@ namespace com.linkedin.restli.datagenerator.integration
       }
       else
       {
-        throw new System.ArgumentNullException("Required field with no default must be included in builder: stringField");
+        throw new ArgumentException("Required field with no default must be included in builder: stringField");
       }
       // Retrieve data for intValue
       if (builder.intValue != null)

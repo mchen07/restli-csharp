@@ -38,7 +38,7 @@ namespace com.linkedin.restli.datagenerator.integration
       }
       else
       {
-        throw new System.ArgumentNullException("Required field with no default must be included in builder: a");
+        throw new ArgumentException("Required field with no default must be included in builder: a");
       }
     }
 
