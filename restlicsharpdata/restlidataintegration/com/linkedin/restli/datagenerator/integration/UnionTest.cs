@@ -130,7 +130,7 @@ namespace com.linkedin.restli.datagenerator.integration
       {
         foreach (KeyValuePair<string, object> dataPair in dataMap)
         {
-          if (dataPair.Key.Equals("Array"))
+          if (dataPair.Key.Equals("array"))
           {
             List<string> data0 = (List<string>)dataPair.Value;
             List<string> result0 = new List<string>();
@@ -146,49 +146,49 @@ namespace com.linkedin.restli.datagenerator.integration
             dataMode = Mode.Array;
             return;
           }
-          if (dataPair.Key.Equals("Float"))
+          if (dataPair.Key.Equals("float"))
           {
             
             asFloat = (float)dataPair.Value;
             dataMode = Mode.Float;
             return;
           }
-          if (dataPair.Key.Equals("Bytes"))
+          if (dataPair.Key.Equals("bytes"))
           {
             
             asBytes = new Bytes(BytesUtil.StringToBytes((string)dataPair.Value));
             dataMode = Mode.Bytes;
             return;
           }
-          if (dataPair.Key.Equals("Long"))
+          if (dataPair.Key.Equals("long"))
           {
             
             asLong = (long)dataPair.Value;
             dataMode = Mode.Long;
             return;
           }
-          if (dataPair.Key.Equals("EnumInUnionTest"))
+          if (dataPair.Key.Equals("com.linkedin.restli.datagenerator.integration.EnumInUnionTest"))
           {
             
             asEnumInUnionTest = new EnumInUnionTest((string)dataPair.Value);
             dataMode = Mode.EnumInUnionTest;
             return;
           }
-          if (dataPair.Key.Equals("String"))
+          if (dataPair.Key.Equals("string"))
           {
             
             asString = (string)dataPair.Value;
             dataMode = Mode.String;
             return;
           }
-          if (dataPair.Key.Equals("Double"))
+          if (dataPair.Key.Equals("double"))
           {
             
             asDouble = (double)dataPair.Value;
             dataMode = Mode.Double;
             return;
           }
-          if (dataPair.Key.Equals("Map"))
+          if (dataPair.Key.Equals("map"))
           {
             Dictionary<string, long> data0 = (Dictionary<string, long>)dataPair.Value;
             Dictionary<string, long> result0 = new Dictionary<string, long>();
@@ -205,14 +205,14 @@ namespace com.linkedin.restli.datagenerator.integration
             dataMode = Mode.Map;
             return;
           }
-          if (dataPair.Key.Equals("Int"))
+          if (dataPair.Key.Equals("int"))
           {
             
             asInt = (int)dataPair.Value;
             dataMode = Mode.Int;
             return;
           }
-          if (dataPair.Key.Equals("RecordInUnionTest"))
+          if (dataPair.Key.Equals("com.linkedin.restli.datagenerator.integration.RecordInUnionTest"))
           {
             
             asRecordInUnionTest = new RecordInUnionTest((Dictionary<string, object>)dataPair.Value);
@@ -319,7 +319,7 @@ namespace com.linkedin.restli.datagenerator.integration
       {
         foreach (KeyValuePair<string, object> dataPair in dataMap)
         {
-          if (dataPair.Key.Equals("Array"))
+          if (dataPair.Key.Equals("array"))
           {
             List<string> data0 = (List<string>)dataPair.Value;
             List<string> result0 = new List<string>();
@@ -335,63 +335,63 @@ namespace com.linkedin.restli.datagenerator.integration
             dataMode = Mode.Array;
             return;
           }
-          if (dataPair.Key.Equals("Float"))
+          if (dataPair.Key.Equals("float"))
           {
             
             asFloat = (float)dataPair.Value;
             dataMode = Mode.Float;
             return;
           }
-          if (dataPair.Key.Equals("Bytes"))
+          if (dataPair.Key.Equals("bytes"))
           {
             
             asBytes = new Bytes(BytesUtil.StringToBytes((string)dataPair.Value));
             dataMode = Mode.Bytes;
             return;
           }
-          if (dataPair.Key.Equals("Long"))
+          if (dataPair.Key.Equals("long"))
           {
             
             asLong = (long)dataPair.Value;
             dataMode = Mode.Long;
             return;
           }
-          if (dataPair.Key.Equals("SimpleRecord"))
+          if (dataPair.Key.Equals("com.linkedin.restli.datagenerator.integration.SimpleRecord"))
           {
             
             asSimpleRecord = new SimpleRecord((Dictionary<string, object>)dataPair.Value);
             dataMode = Mode.SimpleRecord;
             return;
           }
-          if (dataPair.Key.Equals("TestEnum"))
+          if (dataPair.Key.Equals("com.linkedin.restli.datagenerator.integration.TestEnum"))
           {
             
             asTestEnum = new TestEnum((string)dataPair.Value);
             dataMode = Mode.TestEnum;
             return;
           }
-          if (dataPair.Key.Equals("String"))
+          if (dataPair.Key.Equals("string"))
           {
             
             asString = (string)dataPair.Value;
             dataMode = Mode.String;
             return;
           }
-          if (dataPair.Key.Equals("Boolean"))
+          if (dataPair.Key.Equals("boolean"))
           {
             
             asBoolean = (bool)dataPair.Value;
             dataMode = Mode.Boolean;
             return;
           }
-          if (dataPair.Key.Equals("Double"))
+          if (dataPair.Key.Equals("double"))
           {
             
             asDouble = (double)dataPair.Value;
             dataMode = Mode.Double;
             return;
           }
-          if (dataPair.Key.Equals("Map"))
+          if (dataPair.Key.Equals("map"))
           {
             Dictionary<string, long> data0 = (Dictionary<string, long>)dataPair.Value;
             Dictionary<string, long> result0 = new Dictionary<string, long>();
@@ -408,7 +408,7 @@ namespace com.linkedin.restli.datagenerator.integration
             dataMode = Mode.Map;
             return;
           }
-          if (dataPair.Key.Equals("Int"))
+          if (dataPair.Key.Equals("int"))
           {
             
             asInt = (int)dataPair.Value;

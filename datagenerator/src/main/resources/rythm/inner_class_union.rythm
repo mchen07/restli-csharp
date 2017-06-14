@@ -31,7 +31,7 @@ public class @cSharpUnion.getName() : UnionTemplate
     foreach (KeyValuePair<string, object> dataPair in dataMap)
     {
 @for (Map.Entry entry : memberEntrySet) {
-      if (dataPair.Key.Equals("@(entry.getKey().capFirst())"))
+      if (dataPair.Key.Equals("@(((Member) entry.getValue()).key)"))
       {
 @{
   String varName = "as" + CSharpUtil.toCapitalized(entry.getKey());

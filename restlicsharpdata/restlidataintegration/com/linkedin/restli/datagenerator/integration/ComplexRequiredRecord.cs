@@ -111,14 +111,14 @@ namespace com.linkedin.restli.datagenerator.integration
       {
         foreach (KeyValuePair<string, object> dataPair in dataMap)
         {
-          if (dataPair.Key.Equals("ComplexRequiredRecord"))
+          if (dataPair.Key.Equals("com.linkedin.restli.datagenerator.integration.ComplexRequiredRecord"))
           {
             
             asComplexRequiredRecord = new ComplexRequiredRecord((Dictionary<string, object>)dataPair.Value);
             dataMode = Mode.ComplexRequiredRecord;
             return;
           }
-          if (dataPair.Key.Equals("TestEnum"))
+          if (dataPair.Key.Equals("com.linkedin.restli.datagenerator.integration.TestEnum"))
           {
             
             asTestEnum = new TestEnum((string)dataPair.Value);
@@ -159,14 +159,14 @@ namespace com.linkedin.restli.datagenerator.integration
       {
         foreach (KeyValuePair<string, object> dataPair in dataMap)
         {
-          if (dataPair.Key.Equals("String"))
+          if (dataPair.Key.Equals("string"))
           {
             
             asString = (string)dataPair.Value;
             dataMode = Mode.String;
             return;
           }
-          if (dataPair.Key.Equals("Int"))
+          if (dataPair.Key.Equals("int"))
           {
             
             asInt = (int)dataPair.Value;
