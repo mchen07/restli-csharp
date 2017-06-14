@@ -70,7 +70,7 @@ namespace com.linkedin.restli.datagenerator.integration
       }
       else
       {
-        throw new System.ArgumentNullException("Required field with no default must be included in builder: stringField");
+        throw new ArgumentNullException("Required field with no default must be included in builder: stringField");
       }
       // Retrieve data for intValue
       if (builder.intValue != null)
