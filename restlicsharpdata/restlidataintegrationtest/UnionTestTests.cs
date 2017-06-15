@@ -36,10 +36,10 @@ namespace restlicsharpdata.restlidataintegration
             Assert.IsInstanceOfType(u.unionWithoutNull, typeof(UnionTest.UnionWithoutNull));
             Assert.IsInstanceOfType(u.unionWithInline, typeof(UnionTest.UnionWithInline));
 
-            Assert.AreEqual(UnionTest.UnionWithoutNull.Mode.Int, u.unionWithoutNull.dataMode);
+            Assert.AreEqual(UnionTest.UnionWithoutNull.Member.Int, u.unionWithoutNull.member);
             Assert.AreEqual(20, u.unionWithoutNull.asInt);
 
-            Assert.AreEqual(UnionTest.UnionWithInline.Mode.String, u.unionWithInline.dataMode);
+            Assert.AreEqual(UnionTest.UnionWithInline.Member.String, u.unionWithInline.member);
             Assert.AreEqual("hello, world!", u.unionWithInline.asString);
         }
 
@@ -75,10 +75,10 @@ namespace restlicsharpdata.restlidataintegration
             Assert.IsInstanceOfType(u.unionWithInline, typeof(UnionTest.UnionWithInline));
 
             byte[] expectedBytes = new byte[] { 0, 1, 2, 3 };
-            Assert.AreEqual(UnionTest.UnionWithoutNull.Mode.Bytes, u.unionWithoutNull.dataMode);
+            Assert.AreEqual(UnionTest.UnionWithoutNull.Member.Bytes, u.unionWithoutNull.member);
             CollectionAssert.AreEqual(expectedBytes, u.unionWithoutNull.asBytes.GetBytes());
 
-            Assert.AreEqual(UnionTest.UnionWithInline.Mode.Map, u.unionWithInline.dataMode);
+            Assert.AreEqual(UnionTest.UnionWithInline.Member.Map, u.unionWithInline.member);
             Assert.AreEqual(9999, u.unionWithInline.asMap["key"]);
         }
 
@@ -104,11 +104,11 @@ namespace restlicsharpdata.restlidataintegration
             Assert.IsInstanceOfType(u.unionWithoutNull, typeof(UnionTest.UnionWithoutNull));
             Assert.IsInstanceOfType(u.unionWithInline, typeof(UnionTest.UnionWithInline));
 
-            Assert.AreEqual(UnionTest.UnionWithoutNull.Mode.Float, u.unionWithoutNull.dataMode);
+            Assert.AreEqual(UnionTest.UnionWithoutNull.Member.Float, u.unionWithoutNull.member);
             Assert.AreEqual(1.23F, u.unionWithoutNull.asFloat);
 
-            Assert.AreEqual(UnionTest.UnionWithInline.Mode.EnumInUnionTest, u.unionWithInline.dataMode);
-            Assert.AreEqual(EnumInUnionTest.Value.B, u.unionWithInline.asEnumInUnionTest.value);
+            Assert.AreEqual(UnionTest.UnionWithInline.Member.EnumInUnionTest, u.unionWithInline.member);
+            Assert.AreEqual(EnumInUnionTest.Symbol.B, u.unionWithInline.asEnumInUnionTest.symbol);
         }
 
         [TestMethod]

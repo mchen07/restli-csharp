@@ -13,14 +13,15 @@ namespace restlicsharpdata.restlidataintegration
         {
             TestEnum e = new TestEnum("SYMBOL_1");
 
-            Assert.AreEqual(TestEnum.Value.SYMBOL_1, e.value);
+            Assert.AreEqual(TestEnum.Symbol.SYMBOL_1, e.symbol);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void TestEnum_Invalid()
         {
             TestEnum e = new TestEnum("foobar");
+
+            Assert.AreEqual(TestEnum.Symbol.UNKNOWN, e.symbol);
         }
     }
 }
