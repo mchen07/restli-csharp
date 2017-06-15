@@ -46,7 +46,7 @@ namespace @cSharpEnum.getNamespace()
 }@// This Rythm comment prevents the 'else' in line below from being interpreted
       else
       {
-        symbol = @@Unknown;
+        symbol = Symbol.@@Unknown;
       }
     }
   }

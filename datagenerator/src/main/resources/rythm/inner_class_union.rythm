@@ -51,7 +51,7 @@ public class @cSharpUnion.getName() : UnionTemplate
       }
 }
     }
-    member = @@Unknown;
+    member = Member.@@Unknown;
 }
   }
 

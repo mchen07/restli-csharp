@@ -47,7 +47,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for stringField
       if (builder.stringField != null)
       {
-        stringField = (string)builder.stringField;
+        stringField = builder.stringField;
 
       }
       else
@@ -57,7 +57,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for intValue
       if (builder.intValue != null)
       {
-        intValue = (int)builder.intValue;
+        intValue = builder.intValue;
         hasIntValue = true;
       }
       else

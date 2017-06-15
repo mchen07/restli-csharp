@@ -142,7 +142,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for collectionWithDefault
       if (builder.collectionWithDefault != null)
       {
-        collectionWithDefault = (IReadOnlyList<SimpleRecord>)builder.collectionWithDefault;
+        collectionWithDefault = builder.collectionWithDefault;
         hasCollectionWithDefault = true;
       }
       else
@@ -153,7 +153,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for nestedArray
       if (builder.nestedArray != null)
       {
-        nestedArray = (IReadOnlyList<IReadOnlyList<IReadOnlyList<SimpleRecord>>>)builder.nestedArray;
+        nestedArray = builder.nestedArray;
         hasNestedArray = true;
       }
       else
@@ -164,14 +164,14 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for nestedMap
       if (builder.nestedMap != null)
       {
-        nestedMap = (IReadOnlyDictionary<string, IReadOnlyDictionary<string, SimpleRecordProjection>>)builder.nestedMap;
+        nestedMap = builder.nestedMap;
 
       }
 
       // Retrieve data for mixed
       if (builder.mixed != null)
       {
-        mixed = (IReadOnlyList<IReadOnlyDictionary<string, IReadOnlyList<SimpleRecord>>>)builder.mixed;
+        mixed = builder.mixed;
 
       }
 

@@ -56,7 +56,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for unionEmpty
       if (builder.unionEmpty != null)
       {
-        unionEmpty = (UnionEmpty)builder.unionEmpty;
+        unionEmpty = builder.unionEmpty;
 
       }
       else
@@ -66,7 +66,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for unionWithoutNull
       if (builder.unionWithoutNull != null)
       {
-        unionWithoutNull = (UnionWithoutNull)builder.unionWithoutNull;
+        unionWithoutNull = builder.unionWithoutNull;
 
       }
       else
@@ -76,7 +76,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for unionWithInline
       if (builder.unionWithInline != null)
       {
-        unionWithInline = (UnionWithInline)builder.unionWithInline;
+        unionWithInline = builder.unionWithInline;
 
       }
       else
@@ -209,7 +209,7 @@ namespace com.linkedin.restli.datagenerator.integration
             return;
           }
         }
-        member = @Unknown;
+        member = Member.@Unknown;
       }
     
     
@@ -417,7 +417,7 @@ namespace com.linkedin.restli.datagenerator.integration
             return;
           }
         }
-        member = @Unknown;
+        member = Member.@Unknown;
       }
     
     

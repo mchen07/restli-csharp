@@ -32,7 +32,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for a
       if (builder.a != null)
       {
-        a = (int)builder.a;
+        a = builder.a;
 
       }
       else

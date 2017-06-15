@@ -61,7 +61,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for enumField
       if (builder.enumField != null)
       {
-        enumField = (TestEnum)builder.enumField;
+        enumField = builder.enumField;
         hasEnumField = true;
       }
       else
@@ -72,7 +72,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for primitiveUnion
       if (builder.primitiveUnion != null)
       {
-        primitiveUnion = (PrimitiveUnion)builder.primitiveUnion;
+        primitiveUnion = builder.primitiveUnion;
 
       }
       else
@@ -82,7 +82,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for complexUnion
       if (builder.complexUnion != null)
       {
-        complexUnion = (ComplexUnion)builder.complexUnion;
+        complexUnion = builder.complexUnion;
 
       }
       else
@@ -124,7 +124,7 @@ namespace com.linkedin.restli.datagenerator.integration
             return;
           }
         }
-        member = @Unknown;
+        member = Member.@Unknown;
       }
     
     
@@ -173,7 +173,7 @@ namespace com.linkedin.restli.datagenerator.integration
             return;
           }
         }
-        member = @Unknown;
+        member = Member.@Unknown;
       }
     
     
