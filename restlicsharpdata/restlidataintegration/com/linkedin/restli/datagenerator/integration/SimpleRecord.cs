@@ -11,15 +11,12 @@ namespace com.linkedin.restli.datagenerator.integration
   public class SimpleRecord : RecordTemplate
   {
 
-    // required
     public string stringField { get; }
 
 
-    // required, has default value
     public int intValue { get; }
     public bool hasIntValue { get; }
 
-    // required, has default value
     public int anotherIntValue { get; }
     public bool hasAnotherIntValue { get; }
 

@@ -14,15 +14,12 @@ namespace com.linkedin.restli.datagenerator.integration
   public class ComplexRequiredRecord : RecordTemplate
   {
 
-    // required, has default value
     public TestEnum enumField { get; }
     public bool hasEnumField { get; }
 
-    // required
     public PrimitiveUnion primitiveUnion { get; }
 
 
-    // required
     public ComplexUnion complexUnion { get; }
 
 
@@ -95,64 +92,17 @@ namespace com.linkedin.restli.datagenerator.integration
     }
 
     
-    public class ComplexUnion : UnionTemplate
-    {
-      public ComplexRequiredRecord asComplexRequiredRecord { get; }
-      public TestEnum asTestEnum { get; }
-      public Mode? dataMode { get; }
-    
-      public enum Mode
-      {
-        ComplexRequiredRecord,
-        TestEnum
-      }
-    
-      public ComplexUnion(Dictionary<string, object> dataMap)
-      {
-        foreach (KeyValuePair<string, object> dataPair in dataMap)
-        {
-          if (dataPair.Key.Equals("com.linkedin.restli.datagenerator.integration.ComplexRequiredRecord"))
-          {
-            
-            asComplexRequiredRecord = new ComplexRequiredRecord((Dictionary<string, object>)dataPair.Value);
-            dataMode = Mode.ComplexRequiredRecord;
-            return;
-          }
-          if (dataPair.Key.Equals("com.linkedin.restli.datagenerator.integration.TestEnum"))
-          {
-            
-            asTestEnum = new TestEnum((string)dataPair.Value);
-            dataMode = Mode.TestEnum;
-            return;
-          }
-        }
-        throw new ArgumentException("Unable to find argument of valid type in union constructor: ComplexUnion");
-      }
-    
-    
-      public ComplexUnion(ComplexRequiredRecord value)
-      {
-        asComplexRequiredRecord = value;
-        dataMode = Mode.ComplexRequiredRecord;
-      }
-    
-      public ComplexUnion(TestEnum value)
-      {
-        asTestEnum = value;
-        dataMode = Mode.TestEnum;
-      }
-    }
-    
     public class PrimitiveUnion : UnionTemplate
     {
       public string asString { get; }
       public int? asInt { get; }
-      public Mode? dataMode { get; }
+      public Member member { get; }
     
-      public enum Mode
+      public enum Member
       {
         String,
-        Int
+        Int,
+        @Unknown
       }
     
       public PrimitiveUnion(Dictionary<string, object> dataMap)
@@ -163,31 +113,80 @@ namespace com.linkedin.restli.datagenerator.integration
           {
             
             asString = (string)dataPair.Value;
-            dataMode = Mode.String;
+            member = Member.String;
             return;
           }
           if (dataPair.Key.Equals("int"))
           {
             
             asInt = (int)dataPair.Value;
-            dataMode = Mode.Int;
+            member = Member.Int;
             return;
           }
         }
-        throw new ArgumentException("Unable to find argument of valid type in union constructor: PrimitiveUnion");
+        member = @Unknown;
       }
     
     
       public PrimitiveUnion(string value)
       {
         asString = value;
-        dataMode = Mode.String;
+        member = Member.String;
       }
     
       public PrimitiveUnion(int value)
       {
         asInt = value;
-        dataMode = Mode.Int;
+        member = Member.Int;
+      }
+    }
+    
+    public class ComplexUnion : UnionTemplate
+    {
+      public ComplexRequiredRecord asComplexRequiredRecord { get; }
+      public TestEnum asTestEnum { get; }
+      public Member member { get; }
+    
+      public enum Member
+      {
+        ComplexRequiredRecord,
+        TestEnum,
+        @Unknown
+      }
+    
+      public ComplexUnion(Dictionary<string, object> dataMap)
+      {
+        foreach (KeyValuePair<string, object> dataPair in dataMap)
+        {
+          if (dataPair.Key.Equals("com.linkedin.restli.datagenerator.integration.ComplexRequiredRecord"))
+          {
+            
+            asComplexRequiredRecord = new ComplexRequiredRecord((Dictionary<string, object>)dataPair.Value);
+            member = Member.ComplexRequiredRecord;
+            return;
+          }
+          if (dataPair.Key.Equals("com.linkedin.restli.datagenerator.integration.TestEnum"))
+          {
+            
+            asTestEnum = new TestEnum((string)dataPair.Value);
+            member = Member.TestEnum;
+            return;
+          }
+        }
+        member = @Unknown;
+      }
+    
+    
+      public ComplexUnion(ComplexRequiredRecord value)
+      {
+        asComplexRequiredRecord = value;
+        member = Member.ComplexRequiredRecord;
+      }
+    
+      public ComplexUnion(TestEnum value)
+      {
+        asTestEnum = value;
+        member = Member.TestEnum;
       }
     }
   }

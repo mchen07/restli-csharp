@@ -9,10 +9,10 @@ using System;
 
 namespace @cSharpEnum.getNamespace()
 {
-  @cSharpEnum.getDoc().restli_comment()
+  @cSharpEnum.getDoc().restli_classComment().restli_addIndent(2)
   public class @cSharpEnum.getName() : EnumTemplate
   {
-    public enum Value
+    public enum Symbol
     {
 @for (String symbol : cSharpEnum.getSymbols()) {
 @if (cSharpEnum.getSymbolDoc(symbol)) {
@@ -22,10 +22,15 @@ namespace @cSharpEnum.getNamespace()
       @symbol,
 }
 
-      @@UNKNOWN
+      @@Unknown
     }
 
-    public Value? value { get; }
+    public Symbol symbol { get; }
+
+    public @(cSharpEnum.getName())(Symbol symbol)
+    {
+      this.symbol = symbol;
+    }
 
     public @(cSharpEnum.getName())(string data)
     {
@@ -36,12 +41,12 @@ namespace @cSharpEnum.getNamespace()
       else if (data.Equals("@symbol"))
 }
       {
-        value = Value.@symbol;
+        symbol = Symbol.@symbol;
       }
 }@// This Rythm comment prevents the 'else' in line below from being interpreted
       else
       {
-        throw new ArgumentException("Argument in enum constructor invalid for enum: @cSharpEnum.getName()");
+        symbol = @@Unknown;
       }
     }
   }

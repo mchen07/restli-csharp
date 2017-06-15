@@ -11,11 +11,9 @@ namespace com.linkedin.restli.datagenerator.integration
   public class SimpleRecordProjection : RecordTemplate
   {
 
-    // required
     public string stringField { get; }
 
 
-    // required, has default value
     public int intValue { get; }
     public bool hasIntValue { get; }
 

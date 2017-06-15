@@ -6,42 +6,49 @@ using System;
 
 namespace com.linkedin.restli.datagenerator.integration
 {
-  /// <summary>Doc for the enum</summary>
+  /// <summary>
+  /// Doc for the enum
+  /// </summary>
   public class TestEnum : EnumTemplate
   {
-    public enum Value
+    public enum Symbol
     {
 
-      /// <summary>Doc for 1</summary>
+      // Doc for 1
       SYMBOL_1,
 
       SYMBOL_2,
 
-      /// <summary>Doc for 3</summary>
+      // Doc for 3
       SYMBOL_3,
 
-      @UNKNOWN
+      @Unknown
     }
 
-    public Value? value { get; }
+    public Symbol symbol { get; }
+
+    public TestEnum(Symbol symbol)
+    {
+      this.symbol = symbol;
+    }
 
     public TestEnum(string data)
     {
       if (data.Equals("SYMBOL_1"))
       {
-        value = Value.SYMBOL_1;
+        symbol = Symbol.SYMBOL_1;
       }
       else if (data.Equals("SYMBOL_2"))
       {
-        value = Value.SYMBOL_2;
+        symbol = Symbol.SYMBOL_2;
       }
       else if (data.Equals("SYMBOL_3"))
       {
-        value = Value.SYMBOL_3;
+        symbol = Symbol.SYMBOL_3;
       }
       else
       {
-        throw new ArgumentException("Argument in enum constructor invalid for enum: TestEnum");
+        symbol = @Unknown;
       }
     }
   }

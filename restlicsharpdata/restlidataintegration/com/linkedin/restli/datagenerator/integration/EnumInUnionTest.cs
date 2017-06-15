@@ -9,7 +9,7 @@ namespace com.linkedin.restli.datagenerator.integration
   
   public class EnumInUnionTest : EnumTemplate
   {
-    public enum Value
+    public enum Symbol
     {
 
       A,
@@ -18,28 +18,33 @@ namespace com.linkedin.restli.datagenerator.integration
 
       C,
 
-      @UNKNOWN
+      @Unknown
     }
 
-    public Value? value { get; }
+    public Symbol symbol { get; }
+
+    public EnumInUnionTest(Symbol symbol)
+    {
+      this.symbol = symbol;
+    }
 
     public EnumInUnionTest(string data)
     {
       if (data.Equals("A"))
       {
-        value = Value.A;
+        symbol = Symbol.A;
       }
       else if (data.Equals("B"))
       {
-        value = Value.B;
+        symbol = Symbol.B;
       }
       else if (data.Equals("C"))
       {
-        value = Value.C;
+        symbol = Symbol.C;
       }
       else
       {
-        throw new ArgumentException("Argument in enum constructor invalid for enum: EnumInUnionTest");
+        symbol = @Unknown;
       }
     }
   }

@@ -15,14 +15,13 @@ using restlicsharpdata.restlidata;
 
 namespace @cSharpRecord.getNamespace()
 {
-  @cSharpRecord.getDoc().restli_comment().restli_addIndent(2)
+  @cSharpRecord.getDoc().restli_classComment().restli_addIndent(2)
   public class @cSharpRecord.getName() : RecordTemplate
   {
 @for (Field field : cSharpRecord.getFields()) {
 @if (field.getDoc()) {
     @field.getDoc().restli_comment()
 }
-    // @field.getOptionalityComment()
     public @(field.getTypeString()) @(field.getName()) { get; }
 @if (field.hasDefaultValue()) {
     public bool has@(field.getName().capFirst()) { get; }

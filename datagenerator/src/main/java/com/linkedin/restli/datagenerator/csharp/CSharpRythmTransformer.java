@@ -33,9 +33,17 @@ public class CSharpRythmTransformer {
     if (comment == null || comment.isEmpty()) {
       return "";
     } else if (comment.contains("\n")) {
-      return "/// <summary>\n/// " + comment.replaceAll("\n", "\n/// ") + "\n/// </summary>";
+      return "/*\n* " + comment.replaceAll("\n", "\n* ") + "\n*/";
     } else {
-      return "/// <summary>" + comment + "</summary>";
+      return "// " + comment;
+    }
+  }
+
+  public static String classComment(String comment) {
+    if (comment == null || comment.isEmpty()) {
+      return "";
+    } else {
+      return "/// <summary>\n/// " + comment.replaceAll("\n", "\n/// ") + "\n/// </summary>";
     }
   }
 

@@ -15,13 +15,14 @@ public class @cSharpUnion.getName() : UnionTemplate
   public @(((Member) entry.getValue()).type.getName(CSharpType.NameModifier.NULLABLE)) as@(entry.getKey().capFirst()) { get; }
 }
 @if (hasMembers) {
-  public Mode? dataMode { get; }
+  public Member member { get; }
 
-  public enum Mode
+  public enum Member
   {
 @for (Map.Entry entry : memberEntrySet) {
-    @(entry.getKey().capFirst())@if (!entry_isLast) {,}
+    @(entry.getKey().capFirst()),
 }
+    @@Unknown
   }
 }
 
@@ -45,12 +46,12 @@ public class @cSharpUnion.getName() : UnionTemplate
 } else {
         @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, type, "dataPair.Value", varName, 1).restli_addIndent(8)
 }
-        dataMode = Mode.@(entry.getKey().capFirst());
+        member = Member.@(entry.getKey().capFirst());
         return;
       }
 }
     }
-    throw new ArgumentException("Unable to find argument of valid type in union constructor: @(cSharpUnion.getName())");
+    member = @@Unknown;
 }
   }
 
@@ -59,7 +60,7 @@ public class @cSharpUnion.getName() : UnionTemplate
   public @(cSharpUnion.getName())(@(entry.restli_getMemberListEntryType()) value)
   {
     as@(entry.getKey().capFirst()) = value;
-    dataMode = Mode.@(entry.getKey().capFirst());
+    member = Member.@(entry.getKey().capFirst());
   }
 }
 }

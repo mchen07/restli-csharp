@@ -11,19 +11,15 @@ namespace com.linkedin.restli.datagenerator.integration
   public class NestedCollections : RecordTemplate
   {
 
-    // optional, has default value
     public IReadOnlyList<SimpleRecord> collectionWithDefault { get; }
     public bool hasCollectionWithDefault { get; }
 
-    // required, has default value
     public IReadOnlyList<IReadOnlyList<IReadOnlyList<SimpleRecord>>> nestedArray { get; }
     public bool hasNestedArray { get; }
 
-    // optional
     public IReadOnlyDictionary<string, IReadOnlyDictionary<string, SimpleRecordProjection>> nestedMap { get; }
 
 
-    // optional
     public IReadOnlyList<IReadOnlyDictionary<string, IReadOnlyList<SimpleRecord>>> mixed { get; }
 
 

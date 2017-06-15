@@ -11,7 +11,6 @@ namespace com.linkedin.restli.datagenerator.integration
   public class RecordInUnionTest : RecordTemplate
   {
 
-    // required
     public int a { get; }
 
 
