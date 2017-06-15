@@ -5,6 +5,7 @@
 @import com.linkedin.restli.datagenerator.csharp.CSharpRecord.Field;
 @import com.linkedin.restli.datagenerator.csharp.CSharpRythmGenerator;
 @import com.linkedin.restli.datagenerator.csharp.CSharpUtil;
+@import com.linkedin.restli.datagenerator.csharp.GeneratorConstants;
 @import org.rythmengine.RythmEngine
 @args CSharpRecord cSharpRecord, CSharpRythmGenerator generator, RythmEngine engine
 using System.Collections.Generic;
@@ -38,10 +39,10 @@ namespace @cSharpRecord.getNamespace()
 @if (field.getType() instanceof CSharpCollectionType) {
         @field.getType().getName(CSharpType.NameModifier.DATAMAP_PARSE) data0 = (@field.getType().getName(CSharpType.NameModifier.DATAMAP_PARSE))value;
         @field.getType().getName(CSharpType.NameModifier.MUTABLE) result0 = new @(field.getType().getName(CSharpType.NameModifier.MUTABLE))();
-        @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, field.getType(), "data", "result", 1).restli_addIndent(8)
+        @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, field.getType(), "data", "result", GeneratorConstants.FieldParseType.FROM_DATAMAP, 1).restli_addIndent(8)
         @field.getName() = result0;
 } else {
-        @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, field.getType(), "value", field.getName(), 1).restli_addIndent(8)
+        @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, field.getType(), "value", field.getName(), GeneratorConstants.FieldParseType.FROM_DATAMAP, 1).restli_addIndent(8)
 }
 @if (field.hasDefaultValue()) {
         has@field.getName().capFirst() = true;
@@ -63,7 +64,14 @@ namespace @cSharpRecord.getNamespace()
       // Retrieve data for @field.getName()
       if (builder.@(field.getName()) != null)
       {
-        @field.getName() = @if (field.getType().needsCastFromBuilder()){(@field.getTypeString())}builder.@(field.getName());
+@if (field.getType() instanceof CSharpCollectionType) {
+        @field.getType().getName(CSharpType.NameModifier.DEEP_MUTABLE) data0 = builder.@(field.getName());
+        @field.getType().getName(CSharpType.NameModifier.MUTABLE) result0 = new @(field.getType().getName(CSharpType.NameModifier.MUTABLE))();
+        @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, field.getType(), "data", "result", GeneratorConstants.FieldParseType.FROM_BUILDER, 1).restli_addIndent(8)
+        @field.getName() = result0;
+} else {
+        @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, field.getType(), "builder." + field.getName(), field.getName(), GeneratorConstants.FieldParseType.FROM_DATAMAP, 1).restli_addIndent(8)
+}
 @if (field.hasDefaultValue()) {
         has@field.getName().capFirst() = true;
 }

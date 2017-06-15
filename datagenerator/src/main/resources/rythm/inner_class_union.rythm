@@ -3,6 +3,7 @@
 @import com.linkedin.restli.datagenerator.csharp.CSharpCollectionType;
 @import com.linkedin.restli.datagenerator.csharp.CSharpUtil;
 @import com.linkedin.restli.datagenerator.csharp.CSharpUnion.Member;
+@import com.linkedin.restli.datagenerator.csharp.GeneratorConstants;
 @import org.rythmengine.RythmEngine;
 @args CSharpUnion cSharpUnion, RythmEngine engine
 @{
@@ -41,10 +42,10 @@ public class @cSharpUnion.getName() : UnionTemplate
 @if (type instanceof CSharpCollectionType) {
         @type.getName(CSharpType.NameModifier.DATAMAP_PARSE) data0 = (@type.getName(CSharpType.NameModifier.DATAMAP_PARSE))dataPair.Value;
         @type.getName(CSharpType.NameModifier.MUTABLE) result0 = new @(type.getName(CSharpType.NameModifier.MUTABLE))();
-        @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, type, "data", "result", 1).restli_addIndent(8)
+        @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, type, "data", "result", GeneratorConstants.FieldParseType.FROM_DATAMAP, 1).restli_addIndent(8)
         @varName = result0;
 } else {
-        @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, type, "dataPair.Value", varName, 1).restli_addIndent(8)
+        @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, type, "dataPair.Value", varName, GeneratorConstants.FieldParseType.FROM_DATAMAP, 1).restli_addIndent(8)
 }
         member = Member.@(entry.getKey().capFirst());
         return;

@@ -32,6 +32,7 @@ namespace com.linkedin.restli.datagenerator.integration
         List<Dictionary<string, object>> data0 = (List<Dictionary<string, object>>)value;
         List<SimpleRecord> result0 = new List<SimpleRecord>();
         
+        
         foreach (Dictionary<string, object> data1 in data0)
         {
           SimpleRecord result1;
@@ -53,13 +54,16 @@ namespace com.linkedin.restli.datagenerator.integration
         List<List<List<Dictionary<string, object>>>> data0 = (List<List<List<Dictionary<string, object>>>>)value;
         List<IReadOnlyList<IReadOnlyList<SimpleRecord>>> result0 = new List<IReadOnlyList<IReadOnlyList<SimpleRecord>>>();
         
+        
         foreach (List<List<Dictionary<string, object>>> data1 in data0)
         {
           List<IReadOnlyList<SimpleRecord>> result1 = new List<IReadOnlyList<SimpleRecord>>();
           
+          
           foreach (List<Dictionary<string, object>> data2 in data1)
           {
             List<SimpleRecord> result2 = new List<SimpleRecord>();
+            
             
             foreach (Dictionary<string, object> data3 in data2)
             {
@@ -86,10 +90,12 @@ namespace com.linkedin.restli.datagenerator.integration
         Dictionary<string, Dictionary<string, Dictionary<string, object>>> data0 = (Dictionary<string, Dictionary<string, Dictionary<string, object>>>)value;
         Dictionary<string, IReadOnlyDictionary<string, SimpleRecordProjection>> result0 = new Dictionary<string, IReadOnlyDictionary<string, SimpleRecordProjection>>();
         
+        
         foreach (KeyValuePair<string, Dictionary<string, Dictionary<string, object>>> data1pair in data0)
         {
           Dictionary<string, Dictionary<string, object>> data1 = data1pair.Value;
           Dictionary<string, SimpleRecordProjection> result1 = new Dictionary<string, SimpleRecordProjection>();
+          
           
           foreach (KeyValuePair<string, Dictionary<string, object>> data2pair in data1)
           {
@@ -111,14 +117,17 @@ namespace com.linkedin.restli.datagenerator.integration
         List<Dictionary<string, List<Dictionary<string, object>>>> data0 = (List<Dictionary<string, List<Dictionary<string, object>>>>)value;
         List<IReadOnlyDictionary<string, IReadOnlyList<SimpleRecord>>> result0 = new List<IReadOnlyDictionary<string, IReadOnlyList<SimpleRecord>>>();
         
+        
         foreach (Dictionary<string, List<Dictionary<string, object>>> data1 in data0)
         {
           Dictionary<string, IReadOnlyList<SimpleRecord>> result1 = new Dictionary<string, IReadOnlyList<SimpleRecord>>();
+          
           
           foreach (KeyValuePair<string, List<Dictionary<string, object>>> data2pair in data1)
           {
             List<Dictionary<string, object>> data2 = data2pair.Value;
             List<SimpleRecord> result2 = new List<SimpleRecord>();
+            
             
             foreach (Dictionary<string, object> data3 in data2)
             {
@@ -142,7 +151,18 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for collectionWithDefault
       if (builder.collectionWithDefault != null)
       {
-        collectionWithDefault = (IReadOnlyList<SimpleRecord>)builder.collectionWithDefault;
+        List<SimpleRecord> data0 = builder.collectionWithDefault;
+        List<SimpleRecord> result0 = new List<SimpleRecord>();
+        
+        
+        foreach (SimpleRecord data1 in data0)
+        {
+          SimpleRecord result1;
+          
+          result1 = data1;
+          result0.Add(result1);
+        }
+        collectionWithDefault = result0;
         hasCollectionWithDefault = true;
       }
       else
@@ -153,7 +173,32 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for nestedArray
       if (builder.nestedArray != null)
       {
-        nestedArray = (IReadOnlyList<IReadOnlyList<IReadOnlyList<SimpleRecord>>>)builder.nestedArray;
+        List<List<List<SimpleRecord>>> data0 = builder.nestedArray;
+        List<IReadOnlyList<IReadOnlyList<SimpleRecord>>> result0 = new List<IReadOnlyList<IReadOnlyList<SimpleRecord>>>();
+        
+        
+        foreach (List<List<SimpleRecord>> data1 in data0)
+        {
+          List<IReadOnlyList<SimpleRecord>> result1 = new List<IReadOnlyList<SimpleRecord>>();
+          
+          
+          foreach (List<SimpleRecord> data2 in data1)
+          {
+            List<SimpleRecord> result2 = new List<SimpleRecord>();
+            
+            
+            foreach (SimpleRecord data3 in data2)
+            {
+              SimpleRecord result3;
+              
+              result3 = data3;
+              result2.Add(result3);
+            }
+            result1.Add(result2);
+          }
+          result0.Add(result1);
+        }
+        nestedArray = result0;
         hasNestedArray = true;
       }
       else
@@ -164,14 +209,60 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for nestedMap
       if (builder.nestedMap != null)
       {
-        nestedMap = (IReadOnlyDictionary<string, IReadOnlyDictionary<string, SimpleRecordProjection>>)builder.nestedMap;
+        Dictionary<string, Dictionary<string, SimpleRecordProjection>> data0 = builder.nestedMap;
+        Dictionary<string, IReadOnlyDictionary<string, SimpleRecordProjection>> result0 = new Dictionary<string, IReadOnlyDictionary<string, SimpleRecordProjection>>();
+        
+        
+        foreach (KeyValuePair<string, Dictionary<string, SimpleRecordProjection>> data1pair in data0)
+        {
+          Dictionary<string, SimpleRecordProjection> data1 = data1pair.Value;
+          Dictionary<string, SimpleRecordProjection> result1 = new Dictionary<string, SimpleRecordProjection>();
+          
+          
+          foreach (KeyValuePair<string, SimpleRecordProjection> data2pair in data1)
+          {
+            SimpleRecordProjection data2 = data2pair.Value;
+            SimpleRecordProjection result2;
+            
+            result2 = data2;
+            result1.Add(data2pair.Key, result2);
+          }
+          result0.Add(data1pair.Key, result1);
+        }
+        nestedMap = result0;
 
       }
 
       // Retrieve data for mixed
       if (builder.mixed != null)
       {
-        mixed = (IReadOnlyList<IReadOnlyDictionary<string, IReadOnlyList<SimpleRecord>>>)builder.mixed;
+        List<Dictionary<string, List<SimpleRecord>>> data0 = builder.mixed;
+        List<IReadOnlyDictionary<string, IReadOnlyList<SimpleRecord>>> result0 = new List<IReadOnlyDictionary<string, IReadOnlyList<SimpleRecord>>>();
+        
+        
+        foreach (Dictionary<string, List<SimpleRecord>> data1 in data0)
+        {
+          Dictionary<string, IReadOnlyList<SimpleRecord>> result1 = new Dictionary<string, IReadOnlyList<SimpleRecord>>();
+          
+          
+          foreach (KeyValuePair<string, List<SimpleRecord>> data2pair in data1)
+          {
+            List<SimpleRecord> data2 = data2pair.Value;
+            List<SimpleRecord> result2 = new List<SimpleRecord>();
+            
+            
+            foreach (SimpleRecord data3 in data2)
+            {
+              SimpleRecord result3;
+              
+              result3 = data3;
+              result2.Add(result3);
+            }
+            result1.Add(data2pair.Key, result2);
+          }
+          result0.Add(result1);
+        }
+        mixed = result0;
 
       }
 

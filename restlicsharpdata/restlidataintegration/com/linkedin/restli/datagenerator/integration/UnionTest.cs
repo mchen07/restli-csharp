@@ -56,7 +56,8 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for unionEmpty
       if (builder.unionEmpty != null)
       {
-        unionEmpty = builder.unionEmpty;
+        
+        unionEmpty = new UnionEmpty((Dictionary<string, object>)builder.unionEmpty);
 
       }
       else
@@ -66,7 +67,8 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for unionWithoutNull
       if (builder.unionWithoutNull != null)
       {
-        unionWithoutNull = builder.unionWithoutNull;
+        
+        unionWithoutNull = new UnionWithoutNull((Dictionary<string, object>)builder.unionWithoutNull);
 
       }
       else
@@ -76,7 +78,8 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for unionWithInline
       if (builder.unionWithInline != null)
       {
-        unionWithInline = builder.unionWithInline;
+        
+        unionWithInline = new UnionWithInline((Dictionary<string, object>)builder.unionWithInline);
 
       }
       else
@@ -123,6 +126,7 @@ namespace com.linkedin.restli.datagenerator.integration
           {
             List<string> data0 = (List<string>)dataPair.Value;
             List<string> result0 = new List<string>();
+            
             
             foreach (string data1 in data0)
             {
@@ -181,6 +185,7 @@ namespace com.linkedin.restli.datagenerator.integration
           {
             Dictionary<string, long> data0 = (Dictionary<string, long>)dataPair.Value;
             Dictionary<string, long> result0 = new Dictionary<string, long>();
+            
             
             foreach (KeyValuePair<string, long> data1pair in data0)
             {
@@ -325,6 +330,7 @@ namespace com.linkedin.restli.datagenerator.integration
             List<string> data0 = (List<string>)dataPair.Value;
             List<string> result0 = new List<string>();
             
+            
             foreach (string data1 in data0)
             {
               string result1;
@@ -396,6 +402,7 @@ namespace com.linkedin.restli.datagenerator.integration
           {
             Dictionary<string, long> data0 = (Dictionary<string, long>)dataPair.Value;
             Dictionary<string, long> result0 = new Dictionary<string, long>();
+            
             
             foreach (KeyValuePair<string, long> data1pair in data0)
             {

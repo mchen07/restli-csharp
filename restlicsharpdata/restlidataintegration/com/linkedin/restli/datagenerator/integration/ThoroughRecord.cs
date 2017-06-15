@@ -109,7 +109,8 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for stringField
       if (builder.stringField != null)
       {
-        stringField = builder.stringField;
+        
+        stringField = (string)builder.stringField;
 
       }
       else
@@ -119,6 +120,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for intValue
       if (builder.intValue != null)
       {
+        
         intValue = (int)builder.intValue;
 
       }
@@ -129,6 +131,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for floatField
       if (builder.floatField != null)
       {
+        
         floatField = (float)builder.floatField;
 
       }
@@ -139,6 +142,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for doubleField
       if (builder.doubleField != null)
       {
+        
         doubleField = (double)builder.doubleField;
 
       }
@@ -149,6 +153,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for longField
       if (builder.longField != null)
       {
+        
         longField = (long)builder.longField;
 
       }
@@ -159,6 +164,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for booleanField
       if (builder.booleanField != null)
       {
+        
         booleanField = (bool)builder.booleanField;
 
       }
@@ -169,7 +175,8 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for bytesField
       if (builder.bytesField != null)
       {
-        bytesField = builder.bytesField;
+        
+        bytesField = new Bytes(BytesUtil.StringToBytes((string)builder.bytesField));
 
       }
       else
@@ -179,7 +186,8 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for enumField
       if (builder.enumField != null)
       {
-        enumField = builder.enumField;
+        
+        enumField = new TestEnum((string)builder.enumField);
 
       }
       else

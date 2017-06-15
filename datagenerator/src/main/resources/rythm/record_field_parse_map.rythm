@@ -2,12 +2,18 @@
 @import com.linkedin.restli.datagenerator.csharp.CSharpType;
 @import com.linkedin.restli.datagenerator.csharp.CSharpCollectionType;
 @import com.linkedin.restli.datagenerator.csharp.CSharpUtil;
+@import com.linkedin.restli.datagenerator.csharp.GeneratorConstants;
 @import org.rythmengine.RythmEngine;
-@args CSharpMap cSharpMap, String sourceName, String targetName, int level, RythmEngine engine
-foreach (KeyValuePair<string, @cSharpMap.getElementType().getName(CSharpType.NameModifier.DATAMAP_PARSE)> @(sourceName + level)pair in @(sourceName + (level-1)))
+@args CSharpMap cSharpMap, String sourceName, String targetName, GeneratorConstants.FieldParseType fieldParseType, int level, RythmEngine engine
+@{
+  CSharpType.NameModifier sourceTypeNameModifier =
+    fieldParseType == GeneratorConstants.FieldParseType.FROM_DATAMAP ?
+    CSharpType.NameModifier.DATAMAP_PARSE : CSharpType.NameModifier.DEEP_MUTABLE;
+}
+foreach (KeyValuePair<string, @cSharpMap.getElementType().getName(sourceTypeNameModifier)> @(sourceName + level)pair in @(sourceName + (level-1)))
 {
-  @cSharpMap.getElementType().getName(CSharpType.NameModifier.DATAMAP_PARSE) @(sourceName + level) = @(sourceName + level)pair.Value;
+  @cSharpMap.getElementType().getName(sourceTypeNameModifier) @(sourceName + level) = @(sourceName + level)pair.Value;
   @cSharpMap.getElementType().getName(CSharpType.NameModifier.MUTABLE) result@(level)@if (cSharpMap.getElementType() instanceof CSharpCollectionType){ = new @(cSharpMap.getElementType().getName(CSharpType.NameModifier.MUTABLE))()};
-  @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, cSharpMap.getElementType(), sourceName, targetName, level+1).restli_addIndent(2)
+  @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, cSharpMap.getElementType(), sourceName, targetName, fieldParseType, level+1).restli_addIndent(2)
   result@(level - 1).Add(@(sourceName + level)pair.Key, result@(level));
 }
