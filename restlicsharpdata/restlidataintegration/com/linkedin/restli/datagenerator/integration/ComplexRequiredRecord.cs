@@ -62,7 +62,7 @@ namespace com.linkedin.restli.datagenerator.integration
       if (builder.enumField != null)
       {
         
-        enumField = new TestEnum((string)builder.enumField);
+        enumField = builder.enumField;
         hasEnumField = true;
       }
       else
@@ -74,7 +74,7 @@ namespace com.linkedin.restli.datagenerator.integration
       if (builder.primitiveUnion != null)
       {
         
-        primitiveUnion = new PrimitiveUnion((Dictionary<string, object>)builder.primitiveUnion);
+        primitiveUnion = builder.primitiveUnion;
 
       }
       else
@@ -85,7 +85,7 @@ namespace com.linkedin.restli.datagenerator.integration
       if (builder.complexUnion != null)
       {
         
-        complexUnion = new ComplexUnion((Dictionary<string, object>)builder.complexUnion);
+        complexUnion = builder.complexUnion;
 
       }
       else

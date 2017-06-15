@@ -70,7 +70,7 @@ namespace @cSharpRecord.getNamespace()
         @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, field.getType(), "data", "result", GeneratorConstants.FieldParseType.FROM_BUILDER, 1).restli_addIndent(8)
         @field.getName() = result0;
 } else {
-        @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, field.getType(), "builder." + field.getName(), field.getName(), GeneratorConstants.FieldParseType.FROM_DATAMAP, 1).restli_addIndent(8)
+        @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, field.getType(), "builder." + field.getName(), field.getName(), GeneratorConstants.FieldParseType.FROM_BUILDER, 1).restli_addIndent(8)
 }
 @if (field.hasDefaultValue()) {
         has@field.getName().capFirst() = true;

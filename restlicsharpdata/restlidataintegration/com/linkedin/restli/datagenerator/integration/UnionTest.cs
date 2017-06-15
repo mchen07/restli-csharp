@@ -57,7 +57,7 @@ namespace com.linkedin.restli.datagenerator.integration
       if (builder.unionEmpty != null)
       {
         
-        unionEmpty = new UnionEmpty((Dictionary<string, object>)builder.unionEmpty);
+        unionEmpty = builder.unionEmpty;
 
       }
       else
@@ -68,7 +68,7 @@ namespace com.linkedin.restli.datagenerator.integration
       if (builder.unionWithoutNull != null)
       {
         
-        unionWithoutNull = new UnionWithoutNull((Dictionary<string, object>)builder.unionWithoutNull);
+        unionWithoutNull = builder.unionWithoutNull;
 
       }
       else
@@ -79,7 +79,7 @@ namespace com.linkedin.restli.datagenerator.integration
       if (builder.unionWithInline != null)
       {
         
-        unionWithInline = new UnionWithInline((Dictionary<string, object>)builder.unionWithInline);
+        unionWithInline = builder.unionWithInline;
 
       }
       else

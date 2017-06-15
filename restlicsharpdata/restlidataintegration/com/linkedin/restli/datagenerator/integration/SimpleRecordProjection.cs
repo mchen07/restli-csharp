@@ -48,7 +48,7 @@ namespace com.linkedin.restli.datagenerator.integration
       if (builder.stringField != null)
       {
         
-        stringField = (string)builder.stringField;
+        stringField = builder.stringField;
 
       }
       else

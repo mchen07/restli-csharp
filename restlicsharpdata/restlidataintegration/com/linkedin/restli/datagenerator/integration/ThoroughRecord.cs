@@ -110,7 +110,7 @@ namespace com.linkedin.restli.datagenerator.integration
       if (builder.stringField != null)
       {
         
-        stringField = (string)builder.stringField;
+        stringField = builder.stringField;
 
       }
       else
@@ -176,7 +176,7 @@ namespace com.linkedin.restli.datagenerator.integration
       if (builder.bytesField != null)
       {
         
-        bytesField = new Bytes(BytesUtil.StringToBytes((string)builder.bytesField));
+        bytesField = builder.bytesField;
 
       }
       else
@@ -187,7 +187,7 @@ namespace com.linkedin.restli.datagenerator.integration
       if (builder.enumField != null)
       {
         
-        enumField = new TestEnum((string)builder.enumField);
+        enumField = builder.enumField;
 
       }
       else
