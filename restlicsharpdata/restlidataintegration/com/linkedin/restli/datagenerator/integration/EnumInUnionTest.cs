@@ -18,7 +18,7 @@ namespace com.linkedin.restli.datagenerator.integration
 
       C,
 
-      @Unknown
+      UNKNOWN
     }
 
     public Symbol symbol { get; }
@@ -44,7 +44,7 @@ namespace com.linkedin.restli.datagenerator.integration
       }
       else
       {
-        symbol = Symbol.@Unknown;
+        symbol = Symbol.UNKNOWN;
       }
     }
   }

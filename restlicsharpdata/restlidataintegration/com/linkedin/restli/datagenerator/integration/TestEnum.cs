@@ -22,7 +22,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Doc for 3
       SYMBOL_3,
 
-      @Unknown
+      UNKNOWN
     }
 
     public Symbol symbol { get; }
@@ -48,7 +48,7 @@ namespace com.linkedin.restli.datagenerator.integration
       }
       else
       {
-        symbol = Symbol.@Unknown;
+        symbol = Symbol.UNKNOWN;
       }
     }
   }

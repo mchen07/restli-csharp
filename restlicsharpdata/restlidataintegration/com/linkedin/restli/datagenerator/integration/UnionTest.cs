@@ -112,7 +112,7 @@ namespace com.linkedin.restli.datagenerator.integration
         Map,
         Int,
         RecordInUnionTest,
-        @Unknown
+        UNKNOWN
       }
     
       public UnionWithInline(Dictionary<string, object> dataMap)
@@ -209,7 +209,7 @@ namespace com.linkedin.restli.datagenerator.integration
             return;
           }
         }
-        member = Member.@Unknown;
+        member = Member.UNKNOWN;
       }
     
     
@@ -313,7 +313,7 @@ namespace com.linkedin.restli.datagenerator.integration
         Double,
         Map,
         Int,
-        @Unknown
+        UNKNOWN
       }
     
       public UnionWithoutNull(Dictionary<string, object> dataMap)
@@ -417,7 +417,7 @@ namespace com.linkedin.restli.datagenerator.integration
             return;
           }
         }
-        member = Member.@Unknown;
+        member = Member.UNKNOWN;
       }
     
     

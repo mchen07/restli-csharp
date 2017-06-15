@@ -22,7 +22,7 @@ public class @cSharpUnion.getName() : UnionTemplate
 @for (Map.Entry entry : memberEntrySet) {
     @(entry.getKey().capFirst()),
 }
-    @@Unknown
+    UNKNOWN
   }
 }
 
@@ -51,7 +51,7 @@ public class @cSharpUnion.getName() : UnionTemplate
       }
 }
     }
-    member = Member.@@Unknown;
+    member = Member.UNKNOWN;
 }
   }
 

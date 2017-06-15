@@ -102,7 +102,7 @@ namespace com.linkedin.restli.datagenerator.integration
       {
         String,
         Int,
-        @Unknown
+        UNKNOWN
       }
     
       public PrimitiveUnion(Dictionary<string, object> dataMap)
@@ -124,7 +124,7 @@ namespace com.linkedin.restli.datagenerator.integration
             return;
           }
         }
-        member = Member.@Unknown;
+        member = Member.UNKNOWN;
       }
     
     
@@ -151,7 +151,7 @@ namespace com.linkedin.restli.datagenerator.integration
       {
         ComplexRequiredRecord,
         TestEnum,
-        @Unknown
+        UNKNOWN
       }
     
       public ComplexUnion(Dictionary<string, object> dataMap)
@@ -173,7 +173,7 @@ namespace com.linkedin.restli.datagenerator.integration
             return;
           }
         }
-        member = Member.@Unknown;
+        member = Member.UNKNOWN;
       }
     
     

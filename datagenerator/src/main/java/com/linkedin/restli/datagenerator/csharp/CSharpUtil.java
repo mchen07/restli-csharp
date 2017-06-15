@@ -25,7 +25,7 @@ public class CSharpUtil {
           "override", "params", "private", "protected", "public", "readonly", "return", "sbyte", "sealed", "uint",
           "short", "sizeof", "stackalloc", "static", "string", "struct", "switch", "this", "throw", "true", "try",
           "typeof", "ref", "ulong", "unchecked", "unsafe", "ushort", "using", "virtual", "volatile", "void", "while",
-          "List", "IReadOnlyList", "Dictionary", "IReadOnlyDictionary", "Map", "map", "Array", "array",
+          "List", "IReadOnlyList", "Dictionary", "IReadOnlyDictionary", "Map", "map", "Array", "array", "UNKNOWN",
           "Symbol", "symbol", "Member", "member")));
 
   public static boolean isReserved(String name) {
