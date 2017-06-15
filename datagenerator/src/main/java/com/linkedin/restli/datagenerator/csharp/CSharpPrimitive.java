@@ -62,13 +62,13 @@ public CSharpPrimitive(ClassTemplateSpec spec) {
   }
 
   @Override
-  public boolean isCSharpReferenceType() {
+  public boolean needsCastFromBuilder() {
     switch (getSpec().getSchema().getType()) {
       case STRING:
       case BYTES:
-        return true;
-      default:
         return false;
+      default:
+        return true;
     }
   }
 }

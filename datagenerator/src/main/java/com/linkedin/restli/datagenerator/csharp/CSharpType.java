@@ -44,5 +44,5 @@ public abstract class CSharpType {
 
   public abstract String getInitializationExpression(String identifier);
 
-  public boolean isCSharpReferenceType() { return true; }
+  public boolean needsCastFromBuilder() { return false; }
 }

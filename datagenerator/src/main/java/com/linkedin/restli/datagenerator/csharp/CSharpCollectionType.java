@@ -44,4 +44,9 @@ public abstract class CSharpCollectionType extends CSharpType {
   public String getInitializationExpression(String identifier) {
     return null;
   }
+
+  @Override
+  public boolean needsCastFromBuilder() {
+    return true;
+  }
 }

@@ -63,7 +63,7 @@ namespace @cSharpRecord.getNamespace()
       // Retrieve data for @field.getName()
       if (builder.@(field.getName()) != null)
       {
-        @field.getName() = @if (!field.getType().isCSharpReferenceType()){(@field.getTypeString())}builder.@(field.getName());
+        @field.getName() = @if (field.getType().needsCastFromBuilder()){(@field.getTypeString())}builder.@(field.getName());
 @if (field.hasDefaultValue()) {
         has@field.getName().capFirst() = true;
 }
