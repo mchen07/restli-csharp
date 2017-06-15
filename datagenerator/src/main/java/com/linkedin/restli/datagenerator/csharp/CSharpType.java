@@ -43,4 +43,6 @@ public abstract class CSharpType {
   }
 
   public abstract String getInitializationExpression(String identifier);
+
+  public boolean isCSharpReferenceType() { return true; }
 }

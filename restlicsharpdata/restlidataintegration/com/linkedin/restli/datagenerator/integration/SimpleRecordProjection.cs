@@ -57,7 +57,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for intValue
       if (builder.intValue != null)
       {
-        intValue = builder.intValue;
+        intValue = (int)builder.intValue;
         hasIntValue = true;
       }
       else

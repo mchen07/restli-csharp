@@ -60,4 +60,15 @@ public CSharpPrimitive(ClassTemplateSpec spec) {
         return "(" + getName(NameModifier.NONE) + ")" + identifier;
     }
   }
+
+  @Override
+  public boolean isCSharpReferenceType() {
+    switch (getSpec().getSchema().getType()) {
+      case STRING:
+      case BYTES:
+        return true;
+      default:
+        return false;
+    }
+  }
 }

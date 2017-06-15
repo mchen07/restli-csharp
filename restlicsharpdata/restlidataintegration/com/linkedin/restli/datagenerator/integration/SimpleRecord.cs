@@ -72,7 +72,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for intValue
       if (builder.intValue != null)
       {
-        intValue = builder.intValue;
+        intValue = (int)builder.intValue;
         hasIntValue = true;
       }
       else
@@ -83,7 +83,7 @@ namespace com.linkedin.restli.datagenerator.integration
       // Retrieve data for anotherIntValue
       if (builder.anotherIntValue != null)
       {
-        anotherIntValue = builder.anotherIntValue;
+        anotherIntValue = (int)builder.anotherIntValue;
         hasAnotherIntValue = true;
       }
       else
