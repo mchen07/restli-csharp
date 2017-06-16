@@ -1,0 +1,21 @@
+{
+  "type": "record",
+  "name": "SimpleRecord",
+  "namespace": "com.linkedin.restli.datagenerator.integration",
+  "fields": [
+    {
+      "name": "stringField",
+      "type": "string"
+    },
+    {
+      "name": "intValue",
+      "type": "int",
+      "default": 1
+    },
+    {
+      "name": "anotherIntValue",
+      "type": "int",
+      "default": 2
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+@import com.linkedin.restli.datagenerator.csharp.CSharpArray;
+@import com.linkedin.restli.datagenerator.csharp.CSharpType;
+@import com.linkedin.restli.datagenerator.csharp.CSharpMap;
+@import com.linkedin.restli.datagenerator.csharp.CSharpComplexType;
+@import com.linkedin.restli.datagenerator.csharp.CSharpPrimitive;
+@import com.linkedin.restli.datagenerator.csharp.CSharpCollectionType;
+@import com.linkedin.restli.datagenerator.csharp.CSharpUtil;
+@import com.linkedin.restli.datagenerator.csharp.GeneratorConstants;
+@import org.rythmengine.RythmEngine;
+@args CSharpType cSharpType, String sourceName, String targetName, GeneratorConstants.FieldParseType fieldParseType, int level, RythmEngine engine
+@{
+  String levelSuffix = (level > 1 ? (level - 1) + "" : "");
+}
+@if (cSharpType instanceof CSharpArray) {
+@CSharpUtil.invokeRythmTemplate("record_field_parse_array", engine, cSharpType, sourceName, targetName, fieldParseType, level)
+} else if (cSharpType instanceof CSharpMap) {
+@CSharpUtil.invokeRythmTemplate("record_field_parse_map", engine, cSharpType, sourceName, targetName, fieldParseType, level)
+} else if (fieldParseType == GeneratorConstants.FieldParseType.FROM_DATAMAP) {
+@(targetName + levelSuffix) = @cSharpType.getInitializationExpression(sourceName + levelSuffix);
+} else if (fieldParseType == GeneratorConstants.FieldParseType.FROM_BUILDER) {
+@(targetName + levelSuffix) = @if (cSharpType.needsCastFromBuilder()){(@cSharpType.getName())}@(sourceName + levelSuffix);
+} else {
+// CODEGEN ERROR
+}

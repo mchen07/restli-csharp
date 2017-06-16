@@ -16,22 +16,14 @@ limitations under the License.
 
 package com.linkedin.restli.datagenerator.csharp;
 
-
-import org.rythmengine.resource.ITemplateResource;
-import org.rythmengine.resource.ResourceLoaderBase;
-
-
 /**
- * @author Keren Jin
+ * @author Evan Williams
  */
-public class ResourceStreamResourceLoader extends ResourceLoaderBase {
-  @Override
-  public String getResourceLoaderRoot() {
-    return "rythm";
-  }
+public class GeneratorConstants {
+  public static final String NEWLINE = System.getProperty("line.separator");
 
-  @Override
-  public ITemplateResource load(String path) {
-    return new ResourceStreamTemplateResource(path, this);
-  }
+  public enum FieldParseType {
+    FROM_DATAMAP,
+    FROM_BUILDER
+  };
 }

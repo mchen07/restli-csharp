@@ -1,0 +1,21 @@
+{
+  "type": "record",
+  "name": "ComplexRequiredRecord",
+  "namespace": "com.linkedin.restli.datagenerator.integration",
+  "doc": "Contains fields of all supported complex schema types\nEvery field is required",
+  "fields": [
+    {
+      "name": "enumField",
+      "type": "TestEnum",
+      "default": "SYMBOL_2"
+    },
+    {
+      "name": "primitiveUnion",
+      "type": ["int", "string"]
+    },
+    {
+      "name": "complexUnion",
+      "type": ["TestEnum", "ComplexRequiredRecord"]
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2017 LinkedIn Corp.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,24 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package com.linkedin.restli.datagenerator.csharp;
-
-
-import org.rythmengine.resource.ITemplateResource;
-import org.rythmengine.resource.ResourceLoaderBase;
-
-
-/**
- * @author Keren Jin
- */
-public class ResourceStreamResourceLoader extends ResourceLoaderBase {
-  @Override
-  public String getResourceLoaderRoot() {
-    return "rythm";
-  }
-
-  @Override
-  public ITemplateResource load(String path) {
-    return new ResourceStreamTemplateResource(path, this);
-  }
+namespace restlicsharpdata.restlidata
+{
+    interface DataTemplate
+    {
+    }
 }

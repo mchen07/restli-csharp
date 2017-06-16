@@ -1,0 +1,22 @@
+{
+  "doc"  : "Testing inline records for C#",
+  "type" : "record",
+  "name" : "InlineRecord",
+  "namespace" : "com.linkedin.restli.datagenerator.integration",
+  "fields" : [
+    {
+      "name" : "recordInlineField",
+      "type" :
+      {
+        "type" : "record",
+        "name" : "RecordInRecord",
+        "fields" : [
+          {
+            "name" : "a",
+            "type" : "int"
+          }
+        ]
+      }
+    }
+  ]
+}

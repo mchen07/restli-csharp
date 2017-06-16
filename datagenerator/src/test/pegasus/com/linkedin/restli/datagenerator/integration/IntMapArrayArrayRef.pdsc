@@ -1,0 +1,9 @@
+{
+  "type": "typeref",
+  "name": "IntMapArrayArrayRef",
+  "namespace": "com.linkedin.restli.datagenerator.integration",
+  "ref": {
+    "type": "map",
+    "values": "IntArrayArrayRef"
+  }
+}

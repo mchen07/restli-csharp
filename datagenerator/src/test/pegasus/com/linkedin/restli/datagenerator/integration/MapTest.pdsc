@@ -1,0 +1,62 @@
+{
+  "doc"  : "Test generation of C# bindings for maps",
+  "type" : "record",
+  "name" : "MapTest",
+  "namespace" : "com.linkedin.restli.datagenerator.integration",
+  "fields" : [
+
+    { "name" : "intMap", "type" : { "type" : "map", "values" : "int" } },
+    { "name" : "longMap", "type" : { "type" : "map", "values" : "long" } },
+    { "name" : "floatMap", "type" : { "type" : "map", "values" : "float" } },
+    { "name" : "doubleMap", "type" : { "type" : "map", "values" : "double" } },
+    { "name" : "booleanMap", "type" : { "type" : "map", "values" : "boolean" } },
+    { "name" : "stringMap", "type" : { "type" : "map", "values" : "string" } },
+    { "name" : "bytesMap", "type" : { "type" : "map", "values" : "bytes" } },
+
+    { "name" : "intArrayMap", "type" : { "type" : "map", "values" : { "type" : "array", "items" : "int" } } },
+    { "name" : "longArrayMap", "type" : { "type" : "map", "values" : { "type" : "array", "items" : "long" } } },
+    { "name" : "floatArrayMap", "type" : { "type" : "map", "values" : { "type" : "array", "items" : "float" } } },
+    { "name" : "doubleArrayMap", "type" : { "type" : "map", "values" : { "type" : "array", "items" : "double" } } },
+    { "name" : "booleanArrayMap", "type" : { "type" : "map", "values" : { "type" : "array", "items" : "boolean" } } },
+    { "name" : "stringArrayMap", "type" : { "type" : "map", "values" : { "type" : "array", "items" : "string" } } },
+    { "name" : "bytesArrayMap", "type" : { "type" : "map", "values" : { "type" : "array", "items" : "bytes" } } },
+
+    { "name" : "stringMapMap", "type" : { "type" : "map", "values" : { "type" : "map", "values" : "string" } } },
+
+    { "name" : "testEnumMap", "type" : { "type" : "map", "values" : "TestEnum" } },
+
+    { "name" : "enumInlineMap", "type" :
+      { "type" : "map",
+        "values" : {
+          "type" : "enum", "name" : "EnumInMapTest", "symbols" : [ "A", "B" ]
+        }
+      }
+    },
+
+    { "name" : "recordMap", "type" : { "type" : "map", "values" : "SimpleRecord" } },
+
+    { "name" : "recordInlineMap", "type" :
+      { "type" : "map",
+        "values" : {
+          "type" : "record", "name" : "RecordInMapTest", "fields" : [
+            { "name" : "f", "type" : "int" }
+          ]
+        }
+      }
+    },
+
+    { "name" : "unionMap", "type" :
+      { "type" : "map",
+        "values" :
+        [
+          "int",
+          "string",
+          { "type" : "array", "items" : "int" },
+          { "type" : "map", "values" : "string" },
+          "TestEnum",
+          "SimpleRecord"
+        ]
+      }
+    }
+  ]
+}

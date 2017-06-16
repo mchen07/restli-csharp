@@ -1,0 +1,42 @@
+{
+  "type": "record",
+  "name": "ThoroughRecord",
+  "namespace": "com.linkedin.restli.datagenerator.integration",
+  "fields": [
+    {
+      "name": "stringField",
+      "type": "string"
+    },
+    {
+      "name": "intValue",
+      "type": "int"
+    },
+    {
+      "name": "floatField",
+      "type": "float",
+      "optional": true
+    },
+    {
+      "name": "doubleField",
+      "type": "double"
+    },
+    {
+      "name": "longField",
+      "type": "long",
+      "default": 9999
+    },
+    {
+      "name": "booleanField",
+      "type": "boolean",
+      "optional": true
+    },
+    {
+      "name": "bytesField",
+      "type": "bytes"
+    },
+    {
+      "name": "enumField",
+      "type": "TestEnum"
+    }
+  ]
+}

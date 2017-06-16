@@ -1,0 +1,23 @@
+{
+  "type": "record",
+  "name": "NestedRecord",
+  "namespace": "com.linkedin.restli.datagenerator.integration",
+  "doc": "A record which contains an object of its own type, to allow recursive tests on updates",
+  "fields": [
+    {
+      "name": "intField",
+      "type": "int",
+      "default": 123
+    },
+    {
+      "name": "stringField",
+      "type": "string",
+      "default": "hi"
+    },
+    {
+      "name": "nestedRecord",
+      "type": "NestedRecord",
+      "optional": true
+    }
+  ]
+}

@@ -1,9 +1,0 @@
-{
-  "type": "typeref",
-  "name": "IntArrayArrayArrayRef",
-  "namespace": "com.linkedin.restli.objc.integration",
-  "ref": {
-    "type": "array",
-    "items": "IntArrayArrayRef"
-  }
-}

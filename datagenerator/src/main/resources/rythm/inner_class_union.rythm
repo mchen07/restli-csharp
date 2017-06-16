@@ -1,0 +1,67 @@
+@import com.linkedin.restli.datagenerator.csharp.CSharpUnion;
+@import com.linkedin.restli.datagenerator.csharp.CSharpType;
+@import com.linkedin.restli.datagenerator.csharp.CSharpCollectionType;
+@import com.linkedin.restli.datagenerator.csharp.CSharpUtil;
+@import com.linkedin.restli.datagenerator.csharp.CSharpUnion.Member;
+@import com.linkedin.restli.datagenerator.csharp.GeneratorConstants;
+@import org.rythmengine.RythmEngine;
+@args CSharpUnion cSharpUnion, RythmEngine engine
+@{
+  boolean hasMembers = !cSharpUnion.getMembers().entrySet().isEmpty();
+  Set<Map.Entry<String, CSharpUnion.Member>> memberEntrySet = cSharpUnion.getMembers().entrySet();
+}
+public class @cSharpUnion.getName() : UnionTemplate
+{
+@for (Map.Entry entry : memberEntrySet) {
+  public @(((Member) entry.getValue()).type.getName(CSharpType.NameModifier.NULLABLE)) as@(entry.getKey().capFirst()) { get; }
+}
+@if (hasMembers) {
+  public Member member { get; }
+
+  public enum Member
+  {
+@for (Map.Entry entry : memberEntrySet) {
+    @(entry.getKey().capFirst()),
+}
+    UNKNOWN
+  }
+}
+
+  public @(cSharpUnion.getName())(Dictionary<string, object> dataMap)
+  {
+@if (hasMembers) {
+    foreach (KeyValuePair<string, object> dataPair in dataMap)
+    {
+@for (Map.Entry entry : memberEntrySet) {
+      if (dataPair.Key.Equals("@(((Member) entry.getValue()).key)"))
+      {
+@{
+  String varName = "as" + CSharpUtil.toCapitalized(entry.getKey());
+  CSharpType type = ((Member) entry.getValue()).type;
+}
+@if (type instanceof CSharpCollectionType) {
+        @type.getName(CSharpType.NameModifier.DATAMAP_PARSE) data0 = (@type.getName(CSharpType.NameModifier.DATAMAP_PARSE))dataPair.Value;
+        @type.getName(CSharpType.NameModifier.MUTABLE) result0 = new @(type.getName(CSharpType.NameModifier.MUTABLE))();
+        @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, type, "data", "result", GeneratorConstants.FieldParseType.FROM_DATAMAP, 1).restli_addIndent(8)
+        @varName = result0;
+} else {
+        @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, type, "dataPair.Value", varName, GeneratorConstants.FieldParseType.FROM_DATAMAP, 1).restli_addIndent(8)
+}
+        member = Member.@(entry.getKey().capFirst());
+        return;
+      }
+}
+    }
+    member = Member.UNKNOWN;
+}
+  }
+
+@for (Map.Entry entry : memberEntrySet) {
+
+  public @(cSharpUnion.getName())(@(entry.restli_getMemberListEntryType()) value)
+  {
+    as@(entry.getKey().capFirst()) = value;
+    member = Member.@(entry.getKey().capFirst());
+  }
+}
+}
