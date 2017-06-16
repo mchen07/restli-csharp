@@ -18,10 +18,10 @@ namespace com.linkedin.restli.datagenerator.integration
     public bool hasEnumField { get; }
 
     public PrimitiveUnion primitiveUnion { get; }
-
+    public bool hasPrimitiveUnion { get; }
 
     public ComplexUnion complexUnion { get; }
-
+    public bool hasComplexUnion { get; }
 
     public ComplexRequiredRecord(Dictionary<string, object> data)
     {
@@ -43,17 +43,25 @@ namespace com.linkedin.restli.datagenerator.integration
       {
         
         primitiveUnion = new PrimitiveUnion((Dictionary<string, object>)value);
-
+        hasPrimitiveUnion = true;
       }
+      else
+      {
 
+        hasPrimitiveUnion = false;
+      }
       // Retrieve data for complexUnion
       if (data.TryGetValue("complexUnion", out value))
       {
         
         complexUnion = new ComplexUnion((Dictionary<string, object>)value);
-
+        hasComplexUnion = true;
       }
+      else
+      {
 
+        hasComplexUnion = false;
+      }
     }
 
     public ComplexRequiredRecord(ComplexRequiredRecordBuilder builder)
@@ -75,22 +83,24 @@ namespace com.linkedin.restli.datagenerator.integration
       {
         
         primitiveUnion = builder.primitiveUnion;
-
+        hasPrimitiveUnion = true;
       }
       else
       {
         throw new ArgumentException("Required field with no default must be included in builder: primitiveUnion");
+
       }
       // Retrieve data for complexUnion
       if (builder.complexUnion != null)
       {
         
         complexUnion = builder.complexUnion;
-
+        hasComplexUnion = true;
       }
       else
       {
         throw new ArgumentException("Required field with no default must be included in builder: complexUnion");
+
       }
     }
 

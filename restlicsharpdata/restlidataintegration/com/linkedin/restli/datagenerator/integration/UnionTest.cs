@@ -14,13 +14,13 @@ namespace com.linkedin.restli.datagenerator.integration
   {
 
     public UnionEmpty unionEmpty { get; }
-
+    public bool hasUnionEmpty { get; }
 
     public UnionWithoutNull unionWithoutNull { get; }
-
+    public bool hasUnionWithoutNull { get; }
 
     public UnionWithInline unionWithInline { get; }
-
+    public bool hasUnionWithInline { get; }
 
     public UnionTest(Dictionary<string, object> data)
     {
@@ -30,25 +30,37 @@ namespace com.linkedin.restli.datagenerator.integration
       {
         
         unionEmpty = new UnionEmpty((Dictionary<string, object>)value);
-
+        hasUnionEmpty = true;
       }
+      else
+      {
 
+        hasUnionEmpty = false;
+      }
       // Retrieve data for unionWithoutNull
       if (data.TryGetValue("unionWithoutNull", out value))
       {
         
         unionWithoutNull = new UnionWithoutNull((Dictionary<string, object>)value);
-
+        hasUnionWithoutNull = true;
       }
+      else
+      {
 
+        hasUnionWithoutNull = false;
+      }
       // Retrieve data for unionWithInline
       if (data.TryGetValue("unionWithInline", out value))
       {
         
         unionWithInline = new UnionWithInline((Dictionary<string, object>)value);
-
+        hasUnionWithInline = true;
       }
+      else
+      {
 
+        hasUnionWithInline = false;
+      }
     }
 
     public UnionTest(UnionTestBuilder builder)
@@ -58,33 +70,36 @@ namespace com.linkedin.restli.datagenerator.integration
       {
         
         unionEmpty = builder.unionEmpty;
-
+        hasUnionEmpty = true;
       }
       else
       {
         throw new ArgumentException("Required field with no default must be included in builder: unionEmpty");
+
       }
       // Retrieve data for unionWithoutNull
       if (builder.unionWithoutNull != null)
       {
         
         unionWithoutNull = builder.unionWithoutNull;
-
+        hasUnionWithoutNull = true;
       }
       else
       {
         throw new ArgumentException("Required field with no default must be included in builder: unionWithoutNull");
+
       }
       // Retrieve data for unionWithInline
       if (builder.unionWithInline != null)
       {
         
         unionWithInline = builder.unionWithInline;
-
+        hasUnionWithInline = true;
       }
       else
       {
         throw new ArgumentException("Required field with no default must be included in builder: unionWithInline");
+
       }
     }
 

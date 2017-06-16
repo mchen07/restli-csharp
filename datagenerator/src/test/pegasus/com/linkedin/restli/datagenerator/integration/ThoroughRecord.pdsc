@@ -13,7 +13,8 @@
     },
     {
       "name": "floatField",
-      "type": "float"
+      "type": "float",
+      "optional": true
     },
     {
       "name": "doubleField",
@@ -21,11 +22,13 @@
     },
     {
       "name": "longField",
-      "type": "long"
+      "type": "long",
+      "default": 9999
     },
     {
       "name": "booleanField",
-      "type": "boolean"
+      "type": "boolean",
+      "optional": true
     },
     {
       "name": "bytesField",

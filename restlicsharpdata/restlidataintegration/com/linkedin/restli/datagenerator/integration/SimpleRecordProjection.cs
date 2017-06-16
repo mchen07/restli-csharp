@@ -12,7 +12,7 @@ namespace com.linkedin.restli.datagenerator.integration
   {
 
     public string stringField { get; }
-
+    public bool hasStringField { get; }
 
     public int intValue { get; }
     public bool hasIntValue { get; }
@@ -25,9 +25,13 @@ namespace com.linkedin.restli.datagenerator.integration
       {
         
         stringField = (string)value;
-
+        hasStringField = true;
       }
+      else
+      {
 
+        hasStringField = false;
+      }
       // Retrieve data for intValue
       if (data.TryGetValue("intValue", out value))
       {
@@ -49,11 +53,12 @@ namespace com.linkedin.restli.datagenerator.integration
       {
         
         stringField = builder.stringField;
-
+        hasStringField = true;
       }
       else
       {
         throw new ArgumentException("Required field with no default must be included in builder: stringField");
+
       }
       // Retrieve data for intValue
       if (builder.intValue != null)

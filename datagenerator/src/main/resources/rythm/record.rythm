@@ -24,9 +24,7 @@ namespace @cSharpRecord.getNamespace()
     @field.getDoc().restli_comment()
 }
     public @(field.getTypeString()) @(field.getName()) { get; }
-@if (field.hasDefaultValue()) {
     public bool has@(field.getName().capFirst()) { get; }
-}
 }
 
     public @(cSharpRecord.getName())(Dictionary<string, object> data)
@@ -44,17 +42,15 @@ namespace @cSharpRecord.getNamespace()
 } else {
         @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, field.getType(), "value", field.getName(), GeneratorConstants.FieldParseType.FROM_DATAMAP, 1).restli_addIndent(8)
 }
-@if (field.hasDefaultValue()) {
         has@field.getName().capFirst() = true;
-}
       }
-@if (field.hasDefaultValue()) {
       else
       {
+@if (field.hasDefaultValue()) {
         @field.getName() = @field.getDefaultValueLiteral();
+}
         has@field.getName().capFirst() = false;
       }
-}
 }
     }
 
@@ -72,22 +68,19 @@ namespace @cSharpRecord.getNamespace()
 } else {
         @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, field.getType(), "builder." + field.getName(), field.getName(), GeneratorConstants.FieldParseType.FROM_BUILDER, 1).restli_addIndent(8)
 }
-@if (field.hasDefaultValue()) {
         has@field.getName().capFirst() = true;
-}
       }
+      else
+      {
 @if (field.hasDefaultValue()) {
-      else
-      {
         @field.getName() = @field.getDefaultValueLiteral();
-        has@field.getName().capFirst() = false;
-      }
 } else if(!field.isOptional()) {
-      else
-      {
         throw new ArgumentException("Required field with no default must be included in builder: @field.getName()");
-      }
 }
+@if (field.isOptional() || field.hasDefaultValue()) {
+        has@field.getName().capFirst() = false;
+}
+      }
 }
     }
 

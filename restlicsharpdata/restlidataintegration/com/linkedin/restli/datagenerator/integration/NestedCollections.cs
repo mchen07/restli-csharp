@@ -18,10 +18,10 @@ namespace com.linkedin.restli.datagenerator.integration
     public bool hasNestedArray { get; }
 
     public IReadOnlyDictionary<string, IReadOnlyDictionary<string, SimpleRecordProjection>> nestedMap { get; }
-
+    public bool hasNestedMap { get; }
 
     public IReadOnlyList<IReadOnlyDictionary<string, IReadOnlyList<SimpleRecord>>> mixed { get; }
-
+    public bool hasMixed { get; }
 
     public NestedCollections(Dictionary<string, object> data)
     {
@@ -108,9 +108,13 @@ namespace com.linkedin.restli.datagenerator.integration
           result0.Add(data1pair.Key, result1);
         }
         nestedMap = result0;
-
+        hasNestedMap = true;
       }
+      else
+      {
 
+        hasNestedMap = false;
+      }
       // Retrieve data for mixed
       if (data.TryGetValue("mixed", out value))
       {
@@ -141,9 +145,13 @@ namespace com.linkedin.restli.datagenerator.integration
           result0.Add(result1);
         }
         mixed = result0;
-
+        hasMixed = true;
       }
+      else
+      {
 
+        hasMixed = false;
+      }
     }
 
     public NestedCollections(NestedCollectionsBuilder builder)
@@ -230,9 +238,13 @@ namespace com.linkedin.restli.datagenerator.integration
           result0.Add(data1pair.Key, result1);
         }
         nestedMap = result0;
-
+        hasNestedMap = true;
       }
+      else
+      {
 
+        hasNestedMap = false;
+      }
       // Retrieve data for mixed
       if (builder.mixed != null)
       {
@@ -263,9 +275,13 @@ namespace com.linkedin.restli.datagenerator.integration
           result0.Add(result1);
         }
         mixed = result0;
-
+        hasMixed = true;
       }
+      else
+      {
 
+        hasMixed = false;
+      }
     }
 
   }

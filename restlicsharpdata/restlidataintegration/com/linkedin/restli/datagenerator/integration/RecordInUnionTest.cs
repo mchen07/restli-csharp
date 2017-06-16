@@ -12,7 +12,7 @@ namespace com.linkedin.restli.datagenerator.integration
   {
 
     public int a { get; }
-
+    public bool hasA { get; }
 
     public RecordInUnionTest(Dictionary<string, object> data)
     {
@@ -22,9 +22,13 @@ namespace com.linkedin.restli.datagenerator.integration
       {
         
         a = (int)value;
-
+        hasA = true;
       }
+      else
+      {
 
+        hasA = false;
+      }
     }
 
     public RecordInUnionTest(RecordInUnionTestBuilder builder)
@@ -34,11 +38,12 @@ namespace com.linkedin.restli.datagenerator.integration
       {
         
         a = (int)builder.a;
-
+        hasA = true;
       }
       else
       {
         throw new ArgumentException("Required field with no default must be included in builder: a");
+
       }
     }
 

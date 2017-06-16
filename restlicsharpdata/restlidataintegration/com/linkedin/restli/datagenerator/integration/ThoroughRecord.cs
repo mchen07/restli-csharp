@@ -12,28 +12,28 @@ namespace com.linkedin.restli.datagenerator.integration
   {
 
     public string stringField { get; }
-
+    public bool hasStringField { get; }
 
     public int intValue { get; }
-
+    public bool hasIntValue { get; }
 
     public float floatField { get; }
-
+    public bool hasFloatField { get; }
 
     public double doubleField { get; }
-
+    public bool hasDoubleField { get; }
 
     public long longField { get; }
-
+    public bool hasLongField { get; }
 
     public bool booleanField { get; }
-
+    public bool hasBooleanField { get; }
 
     public Bytes bytesField { get; }
-
+    public bool hasBytesField { get; }
 
     public TestEnum enumField { get; }
-
+    public bool hasEnumField { get; }
 
     public ThoroughRecord(Dictionary<string, object> data)
     {
@@ -43,65 +43,97 @@ namespace com.linkedin.restli.datagenerator.integration
       {
         
         stringField = (string)value;
-
+        hasStringField = true;
       }
+      else
+      {
 
+        hasStringField = false;
+      }
       // Retrieve data for intValue
       if (data.TryGetValue("intValue", out value))
       {
         
         intValue = (int)value;
-
+        hasIntValue = true;
       }
+      else
+      {
 
+        hasIntValue = false;
+      }
       // Retrieve data for floatField
       if (data.TryGetValue("floatField", out value))
       {
         
         floatField = (float)value;
-
+        hasFloatField = true;
       }
+      else
+      {
 
+        hasFloatField = false;
+      }
       // Retrieve data for doubleField
       if (data.TryGetValue("doubleField", out value))
       {
         
         doubleField = (double)value;
-
+        hasDoubleField = true;
       }
+      else
+      {
 
+        hasDoubleField = false;
+      }
       // Retrieve data for longField
       if (data.TryGetValue("longField", out value))
       {
         
         longField = (long)value;
-
+        hasLongField = true;
       }
-
+      else
+      {
+        longField = 9999;
+        hasLongField = false;
+      }
       // Retrieve data for booleanField
       if (data.TryGetValue("booleanField", out value))
       {
         
         booleanField = (bool)value;
-
+        hasBooleanField = true;
       }
+      else
+      {
 
+        hasBooleanField = false;
+      }
       // Retrieve data for bytesField
       if (data.TryGetValue("bytesField", out value))
       {
         
         bytesField = new Bytes(BytesUtil.StringToBytes((string)value));
-
+        hasBytesField = true;
       }
+      else
+      {
 
+        hasBytesField = false;
+      }
       // Retrieve data for enumField
       if (data.TryGetValue("enumField", out value))
       {
         
         enumField = new TestEnum((string)value);
-
+        hasEnumField = true;
       }
+      else
+      {
 
+        hasEnumField = false;
+      }
     }
 
     public ThoroughRecord(ThoroughRecordBuilder builder)
@@ -111,88 +143,96 @@ namespace com.linkedin.restli.datagenerator.integration
       {
         
         stringField = builder.stringField;
-
+        hasStringField = true;
       }
       else
       {
         throw new ArgumentException("Required field with no default must be included in builder: stringField");
+
       }
       // Retrieve data for intValue
       if (builder.intValue != null)
       {
         
         intValue = (int)builder.intValue;
-
+        hasIntValue = true;
       }
       else
       {
         throw new ArgumentException("Required field with no default must be included in builder: intValue");
+
       }
       // Retrieve data for floatField
       if (builder.floatField != null)
       {
         
         floatField = (float)builder.floatField;
-
+        hasFloatField = true;
       }
       else
       {
-        throw new ArgumentException("Required field with no default must be included in builder: floatField");
+
+        hasFloatField = false;
       }
       // Retrieve data for doubleField
       if (builder.doubleField != null)
       {
         
         doubleField = (double)builder.doubleField;
-
+        hasDoubleField = true;
       }
       else
       {
         throw new ArgumentException("Required field with no default must be included in builder: doubleField");
+
       }
       // Retrieve data for longField
       if (builder.longField != null)
       {
         
         longField = (long)builder.longField;
-
+        hasLongField = true;
       }
       else
       {
-        throw new ArgumentException("Required field with no default must be included in builder: longField");
+        longField = 9999;
+        hasLongField = false;
       }
       // Retrieve data for booleanField
       if (builder.booleanField != null)
       {
         
         booleanField = (bool)builder.booleanField;
-
+        hasBooleanField = true;
       }
       else
       {
-        throw new ArgumentException("Required field with no default must be included in builder: booleanField");
+
+        hasBooleanField = false;
       }
       // Retrieve data for bytesField
       if (builder.bytesField != null)
       {
         
         bytesField = builder.bytesField;
-
+        hasBytesField = true;
       }
       else
       {
         throw new ArgumentException("Required field with no default must be included in builder: bytesField");
+
       }
       // Retrieve data for enumField
       if (builder.enumField != null)
       {
         
         enumField = builder.enumField;
-
+        hasEnumField = true;
       }
       else
       {
         throw new ArgumentException("Required field with no default must be included in builder: enumField");
+
       }
     }
 
