@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>305e2db6-65f8-4be3-abf1-eb53b6f9be99</ProjectGuid>
+    <ProjectGuid>{305E2DB6-65F8-4BE3-ABF1-EB53B6F9BE99}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>restlicsharpdata</RootNamespace>
@@ -30,25 +30,47 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System"/>
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="Microsoft.CSharp"/>
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Net.Http"/>
-    
-    <Reference Include="System.Xml"/>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="restlidataintegrationtest\NestedCollectionsTests.cs" />
+    <Compile Include="restlidataintegrationtest\UnionTestTests.cs" />
+    <Compile Include="restlidataintegrationtest\TestEnumTests.cs" />
+    <Compile Include="restlidataintegrationtest\SimpleRecordTests.cs" />
+    <Compile Include="restlidataintegration\com\linkedin\restli\datagenerator\integration\ComplexRequiredRecord.cs" />
+    <Compile Include="restlidataintegration\com\linkedin\restli\datagenerator\integration\EnumInUnionTest.cs" />
+    <Compile Include="restlidataintegration\com\linkedin\restli\datagenerator\integration\NestedCollections.cs" />
+    <Compile Include="restlidataintegration\com\linkedin\restli\datagenerator\integration\RecordInUnionTest.cs" />
+    <Compile Include="restlidataintegration\com\linkedin\restli\datagenerator\integration\SimpleRecord.cs" />
+    <Compile Include="restlidataintegration\com\linkedin\restli\datagenerator\integration\SimpleRecordProjection.cs" />
+    <Compile Include="restlidataintegration\com\linkedin\restli\datagenerator\integration\TestEnum.cs" />
+    <Compile Include="restlidataintegration\com\linkedin\restli\datagenerator\integration\ThoroughRecord.cs" />
+    <Compile Include="restlidataintegration\com\linkedin\restli\datagenerator\integration\UnionTest.cs" />
+    <Compile Include="restlidatatest\BytesTests.cs" />
+    <Compile Include="restlidatatest\BytesUtilTests.cs" />
+    <Compile Include="restlidata\Bytes.cs" />
+    <Compile Include="restlidata\BytesUtil.cs" />
+    <Compile Include="restlidata\DataModelTemplate.cs" />
+    <Compile Include="restlidata\EnumTemplate.cs" />
+    <Compile Include="restlidata\RecordTemplate.cs" />
+    <Compile Include="restlidata\UnionTemplate.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -57,5 +79,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-
- </Project>
+</Project>
