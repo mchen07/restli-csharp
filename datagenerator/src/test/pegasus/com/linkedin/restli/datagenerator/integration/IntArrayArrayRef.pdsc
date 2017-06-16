@@ -1,9 +1,0 @@
-{
-  "type": "typeref",
-  "name": "IntArrayArrayRef",
-  "namespace": "com.linkedin.restli.datagenerator.integration",
-  "ref": {
-    "type": "array",
-    "items": "IntArrayRef"
-  }
-}
