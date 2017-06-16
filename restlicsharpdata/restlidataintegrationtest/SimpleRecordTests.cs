@@ -26,6 +26,7 @@ namespace restlicsharpdata.restlidataintegration
             Assert.AreEqual("hello", s.stringField);
             Assert.AreEqual(5, s.intValue);
             Assert.AreEqual(6, s.anotherIntValue);
+            Assert.IsTrue(s.hasStringField);
             Assert.IsTrue(s.hasIntValue);
             Assert.IsTrue(s.hasAnotherIntValue);
         }
@@ -45,6 +46,7 @@ namespace restlicsharpdata.restlidataintegration
             Assert.AreEqual("foobar", s.stringField);
             Assert.AreEqual(1, s.intValue);
             Assert.AreEqual(2, s.anotherIntValue);
+            Assert.IsTrue(s.hasStringField);
             Assert.IsFalse(s.hasIntValue);
             Assert.IsFalse(s.hasAnotherIntValue);
         }
@@ -64,6 +66,7 @@ namespace restlicsharpdata.restlidataintegration
             Assert.AreEqual("hello", s.stringField);
             Assert.AreEqual(5, s.intValue);
             Assert.AreEqual(6, s.anotherIntValue);
+            Assert.IsTrue(s.hasStringField);
             Assert.IsTrue(s.hasIntValue);
             Assert.IsTrue(s.hasAnotherIntValue);
         }
@@ -81,6 +84,7 @@ namespace restlicsharpdata.restlidataintegration
             Assert.AreEqual("hello", s.stringField);
             Assert.AreEqual(1, s.intValue);
             Assert.AreEqual(2, s.anotherIntValue);
+            Assert.IsTrue(s.hasStringField);
             Assert.IsFalse(s.hasIntValue);
             Assert.IsFalse(s.hasAnotherIntValue);
         }

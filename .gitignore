@@ -35,6 +35,7 @@ out/
 restlicsharpdata/Debug
 restlicsharpdata/obj
 restlicsharpdata/bin
+restlicsharpdata/restlicsharpdata.csproj
 *.exe
 *.csproj
 *.csproj.user

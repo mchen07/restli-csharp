@@ -15,6 +15,8 @@ namespace restlicsharpdata.restlidataintegration
 
             Assert.IsFalse(n.hasCollectionWithDefault);
             Assert.IsFalse(n.hasNestedArray);
+            Assert.IsFalse(n.hasNestedMap);
+            Assert.IsFalse(n.hasMixed);
         }
 
         [TestMethod]
@@ -48,6 +50,8 @@ namespace restlicsharpdata.restlidataintegration
 
             Assert.IsFalse(n.hasCollectionWithDefault);
             Assert.IsTrue(n.hasNestedArray);
+            Assert.IsFalse(n.hasNestedMap);
+            Assert.IsFalse(n.hasMixed);
             Assert.AreEqual("hello, nested!", n.nestedArray[0][0][0].stringField);
             Assert.AreEqual("another", n.nestedArray[0][1][0].stringField);
         }
@@ -83,6 +87,8 @@ namespace restlicsharpdata.restlidataintegration
 
             Assert.IsFalse(n.hasCollectionWithDefault);
             Assert.IsFalse(n.hasNestedArray);
+            Assert.IsTrue(n.hasNestedMap);
+            Assert.IsFalse(n.hasMixed);
             Assert.AreEqual("one, two", n.nestedMap["one"]["two"].stringField);
             Assert.AreEqual("one, extra", n.nestedMap["one"]["extra"].stringField);
         }
@@ -126,6 +132,54 @@ namespace restlicsharpdata.restlidataintegration
 
             Assert.IsFalse(n.hasCollectionWithDefault);
             Assert.IsFalse(n.hasNestedArray);
+            Assert.IsFalse(n.hasNestedMap);
+            Assert.IsTrue(n.hasMixed);
+            Assert.AreEqual("0, one, 0", n.mixed[0]["one"][0].stringField);
+            Assert.AreEqual("0, one, 1", n.mixed[0]["one"][1].stringField);
+            Assert.AreEqual("0, extra, 0", n.mixed[0]["extra"][0].stringField);
+        }
+
+        [TestMethod]
+        public void NestedCollection_Builder()
+        {
+            NestedCollections n;
+
+            NestedCollectionsBuilder b = new NestedCollectionsBuilder();
+            b.mixed = new List<Dictionary<string, List<SimpleRecord>>>()
+                {
+                    new Dictionary<string, List<SimpleRecord>>()
+                    {
+                        { "one",
+                            new List<SimpleRecord>()
+                            {
+                                new SimpleRecord(new Dictionary<string, object>()
+                                {
+                                    { "stringField", "0, one, 0" }
+                                }),
+                                new SimpleRecord(new Dictionary<string, object>()
+                                {
+                                    { "stringField", "0, one, 1" }
+                                })
+                            }
+                        },
+                        { "extra",
+                            new List<SimpleRecord>()
+                            {
+                                new SimpleRecord(new Dictionary<string, object>()
+                                {
+                                    { "stringField", "0, extra, 0" }
+                                })
+                            }
+                        }
+                    }
+                };
+
+            n = b.Build();
+
+            Assert.IsFalse(n.hasCollectionWithDefault);
+            Assert.IsFalse(n.hasNestedArray);
+            Assert.IsFalse(n.hasNestedMap);
+            Assert.IsTrue(n.hasMixed);
             Assert.AreEqual("0, one, 0", n.mixed[0]["one"][0].stringField);
             Assert.AreEqual("0, one, 1", n.mixed[0]["one"][1].stringField);
             Assert.AreEqual("0, extra, 0", n.mixed[0]["extra"][0].stringField);
