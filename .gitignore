@@ -23,19 +23,21 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-# Unncessary project/build files
-out/
-.gradle/
-*.ipr
-*.iml
-*.iws
-
 # Visual Studio files
 .vs
 restlicsharpdata/Debug
 restlicsharpdata/obj
 restlicsharpdata/bin
-restlicsharpdata/restlicsharpdata.csproj
 *.exe
-*.csproj
 *.csproj.user
+
+### Gradle ###
+.gradle
+**/build/
+
+### IntelliJ ###
+*.iml
+*.ipr
+*.iws
+/out/
+.idea/

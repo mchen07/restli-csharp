@@ -1,3 +1,19 @@
+/*
+Copyright (c) 2017 LinkedIn Corp.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package com.linkedin.restli.datagenerator.csharp;
 
 
@@ -61,17 +77,12 @@ public class CSharpDataTemplateGenerator {
             result = new CSharpArray(spec, this);
           } else if (spec instanceof EnumTemplateSpec) {
             result = new CSharpEnum(spec, enclosingType);
-//            } else if (spec instanceof FixedTemplateSpec) {
-//              result = new CSharpType(spec); //ObjCFixed(spec);
           } else if (spec instanceof MapTemplateSpec) {
             result = new CSharpMap(spec, this);
           } else if (spec instanceof PrimitiveTemplateSpec) {
             result = new CSharpPrimitive(spec); //ObjCPrimitive(spec);
           } else if (spec instanceof RecordTemplateSpec) {
             result = new CSharpRecord(spec, enclosingType, this);
-//            } else if (spec instanceof TyperefTemplateSpec && dataClass == null) {
-//              // use dataClass for custom typeref if there is
-//              result = new CSharpType(spec); //ObjCTyperef(spec);
           } else if (spec instanceof UnionTemplateSpec) {
             result = new CSharpUnion(spec, enclosingType, this);
           } else if (dataClass != null) {
@@ -79,7 +90,7 @@ public class CSharpDataTemplateGenerator {
           } else if (enclosingType != null) {
             result = new CSharpComplexType(spec, enclosingType);
           } else {
-            throw new IllegalArgumentException("Unrecognized class: " + spec.getFullName());
+            throw new IllegalArgumentException("Unrecognized or unsupported class: " + spec.getFullName());
           }
 
           if (result instanceof CSharpComplexType && !(result instanceof CSharpUnion)) {
