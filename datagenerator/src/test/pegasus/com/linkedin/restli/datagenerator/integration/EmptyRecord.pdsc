@@ -1,7 +1,0 @@
-{
-  "type": "record",
-  "name": "EmptyRecord",
-  "namespace": "com.linkedin.restli.datagenerator.integration",
-  "doc": "Contains no fields, its initialization data will be lost if it is generated with RecordTemplate as parent class",
-  "fields": []
-}
