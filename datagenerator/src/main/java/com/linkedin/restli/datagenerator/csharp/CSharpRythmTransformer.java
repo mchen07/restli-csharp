@@ -23,8 +23,10 @@ import com.linkedin.data.schema.RecordDataSchema;
 import com.linkedin.pegasus.generator.spec.ClassTemplateSpec;
 import com.sun.prism.impl.Disposer;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import javafx.util.Pair;
 import org.rythmengine.extension.Transformer;
 
@@ -43,6 +45,14 @@ public class CSharpRythmTransformer {
     typeNameMap.put(DataSchema.Type.STRING, "string");
     typeNameMap.put(DataSchema.Type.FLOAT, "float");
     typeNameMap.put(DataSchema.Type.LONG, "long");
+  }
+
+  private static final String PATH_ROOT_DIRECTORY = "com";
+  private static final Set<String> pathRootSet = new HashSet<>();
+  static
+  {
+    pathRootSet.add("/" + PATH_ROOT_DIRECTORY + "/"); // Unix delimiters
+    pathRootSet.add("\\" + PATH_ROOT_DIRECTORY + "\\"); // Windows delimiters
   }
 
   public static String comment(String comment) {
@@ -104,8 +114,14 @@ public class CSharpRythmTransformer {
 
   public static String generatedFrom(CSharpType type) {
     final String location = type.getSpec().getLocation();
+    int pathRootIndex = -1;
+    for (String pathRoot : pathRootSet) {
+      pathRootIndex = location.lastIndexOf(pathRoot);
+      if (pathRootIndex != -1)
+        break;
+    }
     if (location != null) {
-      return "\n// Generated from " + location.substring(location.lastIndexOf("/com/") + 1);
+      return "\n// Generated from " + location.substring(pathRootIndex + 1);
     } else {
       return "";
     }
