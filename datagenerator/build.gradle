@@ -7,11 +7,12 @@ dependencies {
 
 task generateTestDataTemplate(type: JavaExec) {
   ext.sourceDir = project.file('../restlicsharpdata/restlidataintegration/pegasus')
+  ext.outputDir = project.file('../restlicsharpdata/restlidataintegration/generatedDataTemplate')
 
   main = 'com.linkedin.restli.datagenerator.csharp.CSharpRythmGenerator'
   classpath = project.sourceSets.main.output + project.configurations.runtime
   args '--resolverPath', files(sourceDir).asPath,
-       '--output', project.file('../restlicsharpdata/restlidataintegration'),
+       '--output', outputDir,
        '--source', sourceDir
 }
 
