@@ -105,55 +105,6 @@ namespace com.linkedin.restli.datagenerator.integration
     }
 
     
-    public class PrimitiveUnion : UnionTemplate
-    {
-      public string asString { get; }
-      public int? asInt { get; }
-      public Member member { get; }
-    
-      public enum Member
-      {
-        String,
-        Int,
-        UNKNOWN
-      }
-    
-      public PrimitiveUnion(Dictionary<string, object> dataMap)
-      {
-        foreach (KeyValuePair<string, object> dataPair in dataMap)
-        {
-          if (dataPair.Key.Equals("string"))
-          {
-            
-            asString = (string)dataPair.Value;
-            member = Member.String;
-            return;
-          }
-          if (dataPair.Key.Equals("int"))
-          {
-            
-            asInt = (int)dataPair.Value;
-            member = Member.Int;
-            return;
-          }
-        }
-        member = Member.UNKNOWN;
-      }
-    
-    
-      public PrimitiveUnion(string value)
-      {
-        asString = value;
-        member = Member.String;
-      }
-    
-      public PrimitiveUnion(int value)
-      {
-        asInt = value;
-        member = Member.Int;
-      }
-    }
-    
     public class ComplexUnion : UnionTemplate
     {
       public ComplexRequiredRecord asComplexRequiredRecord { get; }
@@ -200,6 +151,55 @@ namespace com.linkedin.restli.datagenerator.integration
       {
         asTestEnum = value;
         member = Member.TestEnum;
+      }
+    }
+    
+    public class PrimitiveUnion : UnionTemplate
+    {
+      public string asString { get; }
+      public int? asInt { get; }
+      public Member member { get; }
+    
+      public enum Member
+      {
+        String,
+        Int,
+        UNKNOWN
+      }
+    
+      public PrimitiveUnion(Dictionary<string, object> dataMap)
+      {
+        foreach (KeyValuePair<string, object> dataPair in dataMap)
+        {
+          if (dataPair.Key.Equals("string"))
+          {
+            
+            asString = (string)dataPair.Value;
+            member = Member.String;
+            return;
+          }
+          if (dataPair.Key.Equals("int"))
+          {
+            
+            asInt = (int)dataPair.Value;
+            member = Member.Int;
+            return;
+          }
+        }
+        member = Member.UNKNOWN;
+      }
+    
+    
+      public PrimitiveUnion(string value)
+      {
+        asString = value;
+        member = Member.String;
+      }
+    
+      public PrimitiveUnion(int value)
+      {
+        asInt = value;
+        member = Member.Int;
       }
     }
   }
