@@ -1,0 +1,21 @@
+{
+  "type" : "record",
+  "name" : "Greeting",
+  "namespace" : "com.linkedin.restli.test.api",
+  "doc" : "A greeting",
+  "fields" : [
+    {
+      "name" : "id",
+      "type" : "long"
+    },
+    {
+      "name" : "message",
+      "type" : "string"
+    },
+    {
+      "name" : "tone",
+      "doc" : "tone",
+      "type" : "Tone"
+    }
+  ]
+}

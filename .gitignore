@@ -25,10 +25,10 @@ hs_err_pid*
 
 ### Visual Studio ###
 .vs
-restlicsharpdata/Debug
-restlicsharpdata/obj
-restlicsharpdata/bin
-restlicsharpdata/restlidataintegration/generatedDataTemplate
+**/Debug
+**/obj
+**/bin
+**/generatedDataTemplate
 *.exe
 *.csproj.user
 
