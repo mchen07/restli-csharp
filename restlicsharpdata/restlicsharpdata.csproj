@@ -46,15 +46,15 @@
     <Compile Include="restlidataintegrationtest\UnionTestTests.cs" />
     <Compile Include="restlidataintegrationtest\TestEnumTests.cs" />
     <Compile Include="restlidataintegrationtest\SimpleRecordTests.cs" />
-    <Compile Include="restlidataintegration\com\linkedin\restli\datagenerator\integration\ComplexRequiredRecord.cs" />
-    <Compile Include="restlidataintegration\com\linkedin\restli\datagenerator\integration\EnumInUnionTest.cs" />
-    <Compile Include="restlidataintegration\com\linkedin\restli\datagenerator\integration\NestedCollections.cs" />
-    <Compile Include="restlidataintegration\com\linkedin\restli\datagenerator\integration\RecordInUnionTest.cs" />
-    <Compile Include="restlidataintegration\com\linkedin\restli\datagenerator\integration\SimpleRecord.cs" />
-    <Compile Include="restlidataintegration\com\linkedin\restli\datagenerator\integration\SimpleRecordProjection.cs" />
-    <Compile Include="restlidataintegration\com\linkedin\restli\datagenerator\integration\TestEnum.cs" />
-    <Compile Include="restlidataintegration\com\linkedin\restli\datagenerator\integration\ThoroughRecord.cs" />
-    <Compile Include="restlidataintegration\com\linkedin\restli\datagenerator\integration\UnionTest.cs" />
+    <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\ComplexRequiredRecord.cs" />
+    <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\EnumInUnionTest.cs" />
+    <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\NestedCollections.cs" />
+    <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\RecordInUnionTest.cs" />
+    <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\SimpleRecord.cs" />
+    <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\SimpleRecordProjection.cs" />
+    <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\TestEnum.cs" />
+    <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\ThoroughRecord.cs" />
+    <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\UnionTest.cs" />
     <Compile Include="restlidatatest\BytesTests.cs" />
     <Compile Include="restlidatatest\BytesUtilTests.cs" />
     <Compile Include="restlidata\Bytes.cs" />
@@ -70,7 +70,15 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="restlidataintegration\pegasus\com\linkedin\restli\datagenerator\integration\ComplexRequiredRecord.pdsc" />
+    <None Include="restlidataintegration\pegasus\com\linkedin\restli\datagenerator\integration\NestedCollections.pdsc" />
+    <None Include="restlidataintegration\pegasus\com\linkedin\restli\datagenerator\integration\SimpleRecord.pdsc" />
+    <None Include="restlidataintegration\pegasus\com\linkedin\restli\datagenerator\integration\SimpleRecordProjection.pdsc" />
+    <None Include="restlidataintegration\pegasus\com\linkedin\restli\datagenerator\integration\TestEnum.pdsc" />
+    <None Include="restlidataintegration\pegasus\com\linkedin\restli\datagenerator\integration\ThoroughRecord.pdsc" />
+    <None Include="restlidataintegration\pegasus\com\linkedin\restli\datagenerator\integration\UnionTest.pdsc" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

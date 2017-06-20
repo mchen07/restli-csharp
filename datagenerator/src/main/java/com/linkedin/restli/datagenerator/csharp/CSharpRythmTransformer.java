@@ -1,31 +1,26 @@
 /*
-Copyright (c) 2017 LinkedIn Corp.
+   Copyright (c) 2017 LinkedIn Corp.
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
 
-   http://www.apache.org/licenses/LICENSE-2.0
+       http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
 */
 
 package com.linkedin.restli.datagenerator.csharp;
 
-
-import com.alibaba.fastjson.JSON;
 import com.linkedin.data.schema.DataSchema;
 import com.linkedin.data.schema.RecordDataSchema;
-import com.linkedin.pegasus.generator.spec.ClassTemplateSpec;
-import com.sun.prism.impl.Disposer;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-import javafx.util.Pair;
 import org.rythmengine.extension.Transformer;
 
 
@@ -44,6 +39,8 @@ public class CSharpRythmTransformer {
     typeNameMap.put(DataSchema.Type.FLOAT, "float");
     typeNameMap.put(DataSchema.Type.LONG, "long");
   }
+
+  public static final String PATH_ROOT = File.separator + "com" + File.separator;
 
   public static String comment(String comment) {
     if (comment == null || comment.isEmpty()) {
@@ -105,7 +102,7 @@ public class CSharpRythmTransformer {
   public static String generatedFrom(CSharpType type) {
     final String location = type.getSpec().getLocation();
     if (location != null) {
-      return "\n// Generated from " + location.substring(location.lastIndexOf("/com/") + 1);
+      return "\n// Generated from " + location.substring(location.lastIndexOf(PATH_ROOT)+ 1);
     } else {
       return "";
     }
