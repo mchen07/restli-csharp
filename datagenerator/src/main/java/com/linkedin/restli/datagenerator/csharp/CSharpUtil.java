@@ -17,7 +17,6 @@
 package com.linkedin.restli.datagenerator.csharp;
 
 import com.linkedin.data.DataList;
-import com.linkedin.data.DataMap;
 import com.linkedin.data.schema.NamedDataSchema;
 import com.linkedin.pegasus.generator.spec.ClassTemplateSpec;
 import com.linkedin.pegasus.generator.spec.CustomInfoSpec;

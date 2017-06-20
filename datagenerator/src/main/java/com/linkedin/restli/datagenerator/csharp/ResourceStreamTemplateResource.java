@@ -16,17 +16,15 @@
 
 package com.linkedin.restli.datagenerator.csharp;
 
-
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
-
 import org.apache.commons.io.IOUtils;
 import org.rythmengine.resource.TemplateResourceBase;
 
 
 /**
- * @author Keren Jin
+ * @author Evan Williams
  */
 public class ResourceStreamTemplateResource extends TemplateResourceBase {
   private final String _path;

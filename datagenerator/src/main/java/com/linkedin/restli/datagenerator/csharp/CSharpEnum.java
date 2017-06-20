@@ -16,10 +16,8 @@
 
 package com.linkedin.restli.datagenerator.csharp;
 
-
 import com.linkedin.pegasus.generator.spec.ClassTemplateSpec;
 import com.linkedin.pegasus.generator.spec.EnumTemplateSpec;
-
 import java.util.List;
 
 

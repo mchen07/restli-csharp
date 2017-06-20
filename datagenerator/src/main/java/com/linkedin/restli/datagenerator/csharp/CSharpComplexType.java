@@ -16,10 +16,8 @@
 
 package com.linkedin.restli.datagenerator.csharp;
 
-
 import com.linkedin.data.schema.NamedDataSchema;
 import com.linkedin.pegasus.generator.spec.ClassTemplateSpec;
-
 import java.io.File;
 import java.util.Comparator;
 

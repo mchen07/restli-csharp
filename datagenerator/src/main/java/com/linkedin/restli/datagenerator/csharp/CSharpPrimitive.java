@@ -16,7 +16,6 @@
 
 package com.linkedin.restli.datagenerator.csharp;
 
-
 import com.linkedin.pegasus.generator.spec.ClassTemplateSpec;
 
 
