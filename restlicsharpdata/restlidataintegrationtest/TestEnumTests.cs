@@ -19,7 +19,7 @@ using System;
 
 using com.linkedin.restli.datagenerator.integration;
 
-namespace restlicsharpdata.restlidataintegration
+namespace restlicsharpdata.restlidataintegrationtest
 {
     [TestClass]
     public class TestEnumTests
