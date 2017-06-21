@@ -69,6 +69,14 @@ public CSharpPrimitive(ClassTemplateSpec spec) {
   @Override
   public String getInitializationExpression(String identifier) {
     switch (getSpec().getSchema().getType()) {
+      case LONG:
+        return "Convert.ToInt64(" + identifier + ")";
+      case INT:
+        return "Convert.ToInt32(" + identifier + ")";
+      case FLOAT:
+        return "Convert.ToSingle(" + identifier + ")";
+      case DOUBLE:
+        return "Convert.ToDouble(" + identifier + ")";
       case BYTES:
         return "new Bytes(BytesUtil.StringToBytes((string)" + identifier + "))";
       default:
