@@ -16,15 +16,28 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using com.linkedin.restli.test.api;
+
 namespace restlicsharpclient.restliclientintegrationtest
 {
     [TestClass]
-    public class DummyClientIntegrationTests
+    public class DataTemplateTests
     {
         [TestMethod]
-        public void DummyClientIntegration_Pass()
+        public void DataTemplate_BuildGreeting()
         {
-            // PASS
+            GreetingBuilder b = new GreetingBuilder();
+            b.id = 456;
+            b.message = "This is the Greeting Builder test!";
+            b.tone = new Tone(Tone.Symbol.FRIENDLY);
+            Greeting g = b.Build();
+
+            Assert.IsTrue(g.hasId);
+            Assert.IsTrue(g.hasMessage);
+            Assert.IsTrue(g.hasTone);
+            Assert.AreEqual(456, g.id);
+            Assert.AreEqual("This is the Greeting Builder test!", g.message);
+            Assert.AreEqual(Tone.Symbol.FRIENDLY, g.tone.symbol);
         }
     }
 }

@@ -59,7 +59,7 @@
     <Compile Include="restlidatatest\BytesUtilTests.cs" />
     <Compile Include="restlidata\Bytes.cs" />
     <Compile Include="restlidata\BytesUtil.cs" />
-    <Compile Include="restlidata\DataModelTemplate.cs" />
+    <Compile Include="restlidata\DataTemplate.cs" />
     <Compile Include="restlidata\EnumTemplate.cs" />
     <Compile Include="restlidata\RecordTemplate.cs" />
     <Compile Include="restlidata\UnionTemplate.cs" />

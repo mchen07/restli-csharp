@@ -14,10 +14,25 @@
    limitations under the License.
 */
 
-namespace restlicsharpclient.restliclient
+using System.Collections.Generic;
+
+using restlicsharpdata.restlidata;
+
+namespace restlicsharpclient.restliclient.request
 {
-    class DummyClient
+    public class GetRequest<TKey, TEntity> : Request where TEntity : RecordTemplate
     {
-        //DUMMY
+        private TKey id;
+
+        public GetRequest(Dictionary<string, List<string>> headers, TKey id, Dictionary<string, object> queryParams, string baseUrlTemplate)
+            : base(ResourceMethod.GET, null, headers, queryParams, baseUrlTemplate)
+        {
+            this.id = id;
+        }
+
+        public override dynamic GetRequestKey()
+        {
+            return id;
+        }
     }
 }
