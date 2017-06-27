@@ -15,19 +15,25 @@
 */
 
 using System.Collections.Generic;
+using restlicsharpclient.restliclient.response;
 
 namespace restlicsharpclient.restliclient.request.builder
 {
-    public abstract class RequestBuilderBase<TRequest> where TRequest : Request
+    /// <summary>
+    /// Interface for request builder classes that are used to construct rest requests.
+    /// </summary>
+    /// <typeparam name="TRequest">The type of Request being constructed</typeparam>
+    /// <typeparam name="TResponse">The type of Response expected</typeparam>
+    public abstract class RequestBuilderBase<TRequest, TResponse> where TRequest : Request<TResponse> where TResponse : Response
     {
         public Dictionary<string, List<string>> headers;
         public Dictionary<string, object> queryParams;
-        public string baseUrlTemplate;
+        public string baseUrlTemplate { get; }
 
         public RequestBuilderBase(string baseUrlTemplate)
         {
-            this.headers = new Dictionary<string, List<string>>();
-            this.queryParams = new Dictionary<string, object>();
+            headers = new Dictionary<string, List<string>>();
+            queryParams = new Dictionary<string, object>();
             this.baseUrlTemplate = baseUrlTemplate;
         }
 

@@ -16,28 +16,34 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using System;
+
 using com.linkedin.restli.test.api;
 using restlicsharpclient.restliclient;
 using restlicsharpclient.restliclient.request;
 using restlicsharpclient.restliclient.request.builder;
 using restlicsharpclient.restliclient.response;
-using restlicsharpclient.restliclient.response.decoder;
 
 namespace restlicsharpclient.restliclientintegrationtest
 {
     [TestClass]
-    public class RestClientTests
+    public class RestClientIntegrationTests
     {
         [TestMethod]
-        public void RestClient_GetGreeting()
+        public void RestClientIntegration_GetGreeting()
         {
-            RestClient client = new RestClient("http://evwillia-ld1:1338");
+            /*
+             * This test makes the assumption that an instance of `restli-integration-test-server`
+             * is running at the urlPrefix (hostname and port) specified below.
+             */
+            string urlPrefix = "http://evwillia-ld1:1338";
+            RestClient client = new RestClient(urlPrefix);
 
             GetRequestBuilder<int, Greeting> requestBuilder = new GetRequestBuilder<int, Greeting>("/basicCollection");
-            requestBuilder.id = 123;
+            requestBuilder.SetID(123);
             GetRequest<int, Greeting> request = requestBuilder.Build();
 
-            EntityResponse<Greeting> response = client.RestRequestSync<EntityResponse<Greeting>>(request, new EntityResponseDecoder<Greeting>());
+            EntityResponse<Greeting> response = client.RestRequestSync<EntityResponse<Greeting>>(request);
 
             Greeting greeting = response.element;
 

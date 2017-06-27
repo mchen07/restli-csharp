@@ -14,16 +14,13 @@
    limitations under the License.
 */
 
-using restlicsharpclient.restliclient.transport;
-
-namespace restlicsharpclient.restliclient.response.decoder
+namespace restlicsharpclient.restliclient.util
 {
     /// <summary>
-    /// Interface for decoding a TransportResponse into a Response.
+    /// Enum representing the HTTP method used by an HttpRequest.
     /// </summary>
-    /// <typeparam name="TResponse">The type of Response to be retrieved</typeparam>
-    public interface RestResponseDecoder<TResponse> where TResponse : Response
+    public enum HttpMethod
     {
-        TResponse DecodeResponse(TransportResponse transportResponse);
+        GET
     }
 }

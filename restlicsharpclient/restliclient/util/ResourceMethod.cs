@@ -14,17 +14,13 @@
    limitations under the License.
 */
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace restlicsharpclient.restliclienttest
+namespace restlicsharpclient.restliclient.util
 {
-    [TestClass]
-    public class DummyClientTests
+    /// <summary>
+    /// Enum representing the resource method used by a Rest.li Request.
+    /// </summary>
+    public enum ResourceMethod
     {
-        [TestMethod]
-        public void DummyClient_Pass()
-        {
-            // PASS
-        }
+        GET
     }
 }

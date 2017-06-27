@@ -18,22 +18,26 @@ using System.Collections.Generic;
 
 using restlicsharpdata.restlidata;
 using restlicsharpclient.restliclient.util;
+using restlicsharpclient.restliclient.response;
+using restlicsharpclient.restliclient.response.decoder;
 
 namespace restlicsharpclient.restliclient.request
 {
-    public enum ResourceMethod
-    {
-        GET
-    }
-
-    public abstract class Request
+    /// <summary>
+    /// Highest abstracted representation of a rest request.
+    /// <para>To be constructed using an instance of the RequestBuilderBase interface.</para>
+    /// </summary>
+    /// <typeparam name="TResponse">The expected Response type</typeparam>
+    public abstract class Request<TResponse> where TResponse : Response
     {
         public ResourceMethod method;
         public RecordTemplate input;
         public Dictionary<string, List<string>> headers;
         public Dictionary<string, object> queryParams;
         public string baseUrlTemplate;
-        
+        public RestResponseDecoder<TResponse> responseDecoder;
+
+
         public Request(ResourceMethod method, RecordTemplate input, Dictionary<string, List<string>> headers, Dictionary<string, object> queryParams, string baseUrlTemplate)
         {
             this.method = method;
@@ -50,7 +54,7 @@ namespace restlicsharpclient.restliclient.request
 
         public string GetUrl(string urlPrefix)
         {
-            RequestUrlBuilder requestUrlBuilder = new RequestUrlBuilder(this, urlPrefix);
+            RequestUrlBuilder<TResponse> requestUrlBuilder = new RequestUrlBuilder<TResponse>(this, urlPrefix);
             return requestUrlBuilder.Build();
         }
     }
