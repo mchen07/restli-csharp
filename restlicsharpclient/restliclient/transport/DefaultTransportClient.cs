@@ -33,7 +33,7 @@ namespace restlicsharpclient.restliclient.transport
         public HttpResponse RestRequestSync(HttpRequest httpRequest)
         {
             WebRequest webRequest = WebRequest.Create(httpRequest.url);
-            webRequest.Method = httpRequest.httpMethod.ToString(); ;
+            webRequest.Method = httpRequest.httpMethod.ToString();
             if (httpRequest.entityBody != null)
             {
                 // TODO: Support for retrieving entitiy body

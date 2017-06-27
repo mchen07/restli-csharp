@@ -19,7 +19,7 @@ using System.Collections.Generic;
 namespace restlicsharpclient.restliclient.transport
 {
     /// <summary>
-    /// Low-level abstraction of an HTTP response that is constructed by the TransportClient
+    /// Low-level representation of an HTTP response that is constructed by the TransportClient
     /// after receiving a server response.
     /// <para>Stores entity data in the form of a byte array.</para>
     /// </summary>

@@ -21,7 +21,7 @@ using restlicsharpclient.restliclient.util;
 namespace restlicsharpclient.restliclient.transport
 {
     /// <summary>
-    /// Low-level abstraction of an HTTP request to be used by the TransportClient when making the request.
+    /// Low-level representation of an HTTP request to be used by the TransportClient when making the request.
     /// </summary>
     public class HttpRequest
     {

@@ -62,7 +62,7 @@
     <Compile Include="restliclient\response\EntityResponse.cs" />
     <Compile Include="restliclient\response\Response.cs" />
     <Compile Include="restliclient\RestClient.cs" />
-    <Compile Include="restliclient\RestConstants.cs" />
+    <Compile Include="restliclient\util\RestConstants.cs" />
     <Compile Include="restliclient\transport\DefaultTransportClient.cs" />
     <Compile Include="restliclient\transport\HttpResponse.cs" />
     <Compile Include="restliclient\transport\HttpRequest.cs" />

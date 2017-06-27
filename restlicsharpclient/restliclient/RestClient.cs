@@ -22,7 +22,7 @@ using restlicsharpclient.restliclient.util;
 namespace restlicsharpclient.restliclient
 {
     /// <summary>
-    /// Highest abstracted class to be used for making synchronous and asynchronous rest calls.
+    /// Client class to be used for making synchronous and asynchronous rest calls.
     /// <para>Takes a URL prefix (hostname + port) and Transport Client as parameters, with the
     /// provided DefaultTransportClient as the default if none specified.</para>
     /// </summary>

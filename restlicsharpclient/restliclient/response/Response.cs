@@ -19,7 +19,7 @@ using System.Collections.Generic;
 namespace restlicsharpclient.restliclient.response
 {
     /// <summary>
-    /// Highest abstracted representation of a rest response.
+    /// Representation of a rest response.
     /// <para>Returned by an instance of the RestResponseDecoder interface.</para>
     /// </summary>
     public abstract class Response

@@ -30,7 +30,7 @@ namespace restlicsharpclient.restliclientintegrationtest
     public class RestClientIntegrationTests
     {
         [TestMethod]
-        public void RestClientIntegration_GetGreeting()
+        public void GetGreeting()
         {
             /*
              * This test makes the assumption that an instance of `restli-integration-test-server`

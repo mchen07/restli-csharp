@@ -22,8 +22,8 @@ using restlicsharpclient.restliclient.response;
 namespace restlicsharpclient.restliclient.request.builder
 {
     /// <summary>
-    /// Asbtract class for constructing Rest.li Requests that entail transaction
-    /// of a single entity.
+    /// Asbtract builder class for constructing Rest.li Requests 
+    /// that entail transaction of a single entity.
     /// </summary>
     /// <typeparam name="TRequest">The type of Request being constructed</typeparam>
     /// <typeparam name="TResponse">The type of Response expected</typeparam>

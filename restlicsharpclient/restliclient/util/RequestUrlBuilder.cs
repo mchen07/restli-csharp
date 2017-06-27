@@ -23,7 +23,7 @@ using restlicsharpclient.restliclient.response;
 namespace restlicsharpclient.restliclient.util
 {
     /// <summary>
-    /// Used for constructing Rest.li request URLs.
+    /// Builder class used for constructing Rest.li request URLs.
     /// </summary>
     /// <typeparam name="TResponse">The type of Response to be retrieved</typeparam>
     class RequestUrlBuilder<TResponse> where TResponse : Response

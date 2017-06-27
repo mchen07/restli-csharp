@@ -24,7 +24,7 @@ namespace restlicsharpclient.restliclientintegrationtest
     public class DataTemplateTests
     {
         [TestMethod]
-        public void DataTemplate_BuildGreeting()
+        public void BuildGreeting()
         {
             GreetingBuilder b = new GreetingBuilder();
             b.id = 456;

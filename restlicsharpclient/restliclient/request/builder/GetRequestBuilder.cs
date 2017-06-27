@@ -22,7 +22,7 @@ using restlicsharpclient.restliclient.response;
 namespace restlicsharpclient.restliclient.request.builder
 {
     /// <summary>
-    /// Class for constructing Rest.li GET Requests.
+    /// Builder for constructing Rest.li GET Requests.
     /// </summary>
     /// <typeparam name="TKey">The key (id) type of the entity being retrieved</typeparam>
     /// <typeparam name="TEntity">The type of entity being retrieved</typeparam>

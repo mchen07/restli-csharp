@@ -21,7 +21,7 @@ using restlicsharpdata.restlidata;
 namespace restlicsharpclient.restliclient.response
 {
     /// <summary>
-    /// Highest abstracted representation of a Rest.li entity response.
+    /// Representation of a Rest.li entity response.
     /// <para>Returned by an instance of the EntityResponseDecoder interface.</para>
     /// </summary>
     /// <typeparam name="TEntity">The type of Entity represented by this Response</typeparam>

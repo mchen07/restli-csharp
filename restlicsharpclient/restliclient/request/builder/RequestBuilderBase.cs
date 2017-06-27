@@ -20,7 +20,7 @@ using restlicsharpclient.restliclient.response;
 namespace restlicsharpclient.restliclient.request.builder
 {
     /// <summary>
-    /// Interface for request builder classes that are used to construct rest requests.
+    /// Base class for request builder classes that are used to construct rest requests.
     /// </summary>
     /// <typeparam name="TRequest">The type of Request being constructed</typeparam>
     /// <typeparam name="TResponse">The type of Response expected</typeparam>

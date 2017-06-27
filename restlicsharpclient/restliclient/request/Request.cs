@@ -24,7 +24,7 @@ using restlicsharpclient.restliclient.response.decoder;
 namespace restlicsharpclient.restliclient.request
 {
     /// <summary>
-    /// Highest abstracted representation of a rest request.
+    /// Representation of a Rest.li request.
     /// <para>To be constructed using an instance of the RequestBuilderBase interface.</para>
     /// </summary>
     /// <typeparam name="TResponse">The expected Response type</typeparam>

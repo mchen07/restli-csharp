@@ -14,7 +14,7 @@
    limitations under the License.
 */
 
-namespace restlicsharpclient.restliclient
+namespace restlicsharpclient.restliclient.util
 {
     /// <summary>
     /// Contains constants for use by the Rest Client.

@@ -25,7 +25,7 @@ using restlicsharpclient.restliclient.util;
 namespace restlicsharpclient.restliclient.request
 {
     /// <summary>
-    /// Highest abstracted representation of a rest.li GET request.
+    /// Representation of a rest.li GET request.
     /// <para>To be constructed using an instance of GetRequestBuilder.</para>
     /// </summary>
     /// <typeparam name="TKey">The key (id) type of the entity being retrieved</typeparam>
@@ -48,7 +48,7 @@ namespace restlicsharpclient.restliclient.request
 
         public override dynamic GetRequestKey()
         {
-            return (TKey)id;
+            return id;
         }
     }
 }

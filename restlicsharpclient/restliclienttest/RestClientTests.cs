@@ -28,7 +28,7 @@ namespace restlicsharpclient.restliclienttest
     public class RestClientTests
     {
         [TestMethod]
-        public void RestClient_DeserializeDataMap()
+        public void DeserializeDataMap()
         {
             string dataMapString = @"
                 {
@@ -73,7 +73,7 @@ namespace restlicsharpclient.restliclienttest
         }
 
         [TestMethod]
-        public void RestClient_StreamReadAllBytes()
+        public void StreamReadAllBytes()
         {
             byte[] original = { 48, 49, 50, 51, 0, 1, 2, 3, 4};
             Stream stream = new MemoryStream(original);

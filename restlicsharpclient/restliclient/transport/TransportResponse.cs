@@ -24,7 +24,7 @@ using restlicsharpclient.restliclient.util;
 namespace restlicsharpclient.restliclient.transport
 {
     /// <summary>
-    /// Mid-level abstraction of a Rest.li server response, between Response and HttpResponse.
+    /// Mid-level representation of a Rest.li server response, between Response and HttpResponse.
     /// <para>Stores entity data in the form of a nested C# in-memory data map.</para>
     /// </summary>
     public class TransportResponse
