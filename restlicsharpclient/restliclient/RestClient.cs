@@ -14,6 +14,8 @@
    limitations under the License.
 */
 
+using System;
+
 using restlicsharpclient.restliclient.transport;
 using restlicsharpclient.restliclient.request;
 using restlicsharpclient.restliclient.response;
@@ -42,6 +44,13 @@ namespace restlicsharpclient.restliclient
         {
             transportClient = new DefaultTransportClient();
             this.urlPrefix = urlPrefix;
+        }
+
+        public void RestRequestAsync<TResponse>(Request<TResponse> request, RestliCallback<TResponse> restliCallback) where TResponse : Response
+        {
+            HttpRequest httpRequest = ClientUtil.BuildHttpRequest(request, urlPrefix);
+            TransportCallback transportCallback = new RestliCallbackAdapter<TResponse>(request.responseDecoder, restliCallback);
+            transportClient.RestRequestAsync(httpRequest, transportCallback);
         }
 
         public TResponse RestRequestSync<TResponse>(Request<TResponse> request) where TResponse : Response

@@ -14,18 +14,16 @@
    limitations under the License.
 */
 
-using System;
-
 namespace restlicsharpclient.restliclient.transport
 {
     /// <summary>
-    /// Interface to define how the Rest Client synchronously and asynchronously makes
-    /// HTTP requests and returns HTTP responses.
+    /// Interface defining the callback used by the TransportClient
+    /// after making an asynchronous request.
     /// </summary>
-    public interface TransportClient
+    public interface TransportCallback
     {
-        void RestRequestAsync(HttpRequest httpRequest, TransportCallback transportCallback);
+        void OnSuccess(HttpResponse httpResponse);
 
-        HttpResponse RestRequestSync(HttpRequest httpRequest); 
+        // TODO: Support OnError(HttpRepsonse or ErrorResponse)
     }
 }

@@ -28,22 +28,82 @@ namespace restlicsharpclient.restliclient.transport
     /// </summary>
     public class DefaultTransportClient : TransportClient
     {
-        //TODO: Implement asynchronous request method
+        private class RequestState
+        {
+            public HttpWebRequest httpWebRequest;
+            public HttpRequest httpRequest;
+            public TransportCallback transportCallback;
+        }
+
+        public static void GetRequestStreamCallback(IAsyncResult asyncResult)
+        {
+            RequestState requestState = (RequestState)asyncResult.AsyncState;
+            HttpWebRequest httpWebRequest = requestState.httpWebRequest;
+            HttpRequest httpRequest = requestState.httpRequest;
+
+            Stream writeStream = httpWebRequest.EndGetRequestStream(asyncResult);
+            if (httpRequest.entityBody != null)
+            {
+                // TODO: Support retrieving entity body
+                // writeStream.Write(...);
+            }
+            writeStream.Close();
+
+            httpWebRequest.BeginGetResponse(new AsyncCallback(GetResponseCallback), requestState);
+        }
+
+        public static void GetResponseCallback(IAsyncResult asyncResult)
+        {
+            RequestState requestState = (RequestState)asyncResult.AsyncState;
+            HttpWebRequest httpWebRequest = requestState.httpWebRequest;
+            TransportCallback transportCallback = requestState.transportCallback;
+
+            HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.EndGetResponse(asyncResult);
+
+            HttpResponse httpResponse = new HttpResponse(httpWebResponse);
+
+            httpWebResponse.Close();
+
+            transportCallback.OnSuccess(httpResponse);
+        }
+
+        public void RestRequestAsync(HttpRequest httpRequest, TransportCallback transportCallback)
+        {
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(httpRequest.url);
+            // TODO: Support httpWebRequest.ContentType = httpRequest.contentType;
+            httpWebRequest.Method = httpRequest.httpMethod.ToString();
+
+            RequestState requestState = new RequestState()
+            {
+                httpWebRequest = httpWebRequest,
+                httpRequest = httpRequest,
+                transportCallback = transportCallback
+            };
+
+            if (httpRequest.entityBody == null)
+            {
+                httpWebRequest.BeginGetResponse(new AsyncCallback(GetResponseCallback), requestState);
+            }
+            else
+            {
+                httpWebRequest.BeginGetRequestStream(new AsyncCallback(GetRequestStreamCallback), requestState);
+            }
+        }
 
         public HttpResponse RestRequestSync(HttpRequest httpRequest)
         {
-            WebRequest webRequest = WebRequest.Create(httpRequest.url);
-            webRequest.Method = httpRequest.httpMethod.ToString();
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(httpRequest.url);
+            httpWebRequest.Method = httpRequest.httpMethod.ToString();
             if (httpRequest.entityBody != null)
             {
-                // TODO: Support for retrieving entitiy body
+                // TODO: Support for retrieving entity body
             }
 
             WebResponse webResponse;
             HttpWebResponse httpWebResponse;
             try
             {
-                webResponse = webRequest.GetResponse();
+                webResponse = httpWebRequest.GetResponse();
                 httpWebResponse = (HttpWebResponse)webResponse;
             }
             catch
@@ -51,17 +111,7 @@ namespace restlicsharpclient.restliclient.transport
                 throw new WebException(String.Format("Attempted request: {0} {1}", httpRequest.httpMethod, httpRequest.url));
             }
 
-            byte[] dataBytes = httpWebResponse.GetResponseStream().ReadAllBytes();
-
-            Dictionary<string, string> tempHeaders = new Dictionary<string, string>();
-            WebHeaderCollection responseHeaders = httpWebResponse.Headers;
-            string[] responseHeaderKeys = responseHeaders.AllKeys;
-            foreach (string key in responseHeaderKeys)
-            {
-                tempHeaders.Add(key, responseHeaders.Get(key));
-            }
-
-            HttpResponse httpResponse = new HttpResponse((int)httpWebResponse.StatusCode, tempHeaders, dataBytes);
+            HttpResponse httpResponse = new HttpResponse(httpWebResponse);
 
             return httpResponse;
         }

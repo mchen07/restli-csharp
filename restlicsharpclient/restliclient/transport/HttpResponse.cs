@@ -14,7 +14,10 @@
    limitations under the License.
 */
 
+using System.Net;
 using System.Collections.Generic;
+
+using restlicsharpclient.restliclient.util;
 
 namespace restlicsharpclient.restliclient.transport
 {
@@ -35,6 +38,24 @@ namespace restlicsharpclient.restliclient.transport
             this.status = status;
             this.headers = headers;
             this.data = data;
+        }
+
+        public HttpResponse(HttpWebResponse httpWebResponse)
+        {
+            byte[] dataBytes = httpWebResponse.GetResponseStream().ReadAllBytes();
+
+            Dictionary<string, string> tempHeaders = new Dictionary<string, string>();
+            WebHeaderCollection responseHeaders = httpWebResponse.Headers;
+            string[] responseHeaderKeys = responseHeaders.AllKeys;
+            foreach (string key in responseHeaderKeys)
+            {
+                tempHeaders.Add(key, responseHeaders.Get(key));
+            }
+
+            // Set all class fields
+            status = (int)httpWebResponse.StatusCode;
+            headers = tempHeaders;
+            data = dataBytes;
         }
     }
 }
