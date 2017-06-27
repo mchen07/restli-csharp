@@ -32,8 +32,8 @@ namespace restlicsharpclient.restliclient.transport
         public Dictionary<string, object> data;
         public Dictionary<string, string> headers;
         public int? status;
-        // public Error error;
-        // public errorDecoder = new ErrorResponseDecoder();
+        // TODO: Support for Error object
+        // TODO: Support for ErrorResponseDecoder object
 
         // Convert comma-separated wire header to app-expected header
         public Dictionary<string, List<string>> responseHeaders
