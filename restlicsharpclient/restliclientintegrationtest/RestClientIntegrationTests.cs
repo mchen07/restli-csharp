@@ -17,6 +17,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
+using System.Threading;
 
 using com.linkedin.restli.test.api;
 using restlicsharpclient.restliclient;
@@ -30,7 +31,7 @@ namespace restlicsharpclient.restliclientintegrationtest
     public class RestClientIntegrationTests
     {
         [TestMethod]
-        public void GetGreeting()
+        public void GetGreeting_Sync()
         {
             /*
              * This test makes the assumption that an instance of `restli-integration-test-server`
@@ -46,6 +47,42 @@ namespace restlicsharpclient.restliclientintegrationtest
             EntityResponse<Greeting> response = client.RestRequestSync<EntityResponse<Greeting>>(request);
 
             Greeting greeting = response.element;
+
+            Assert.IsNotNull(greeting);
+
+            Assert.AreEqual(123, greeting.id);
+            Assert.AreEqual(Tone.Symbol.SINCERE, greeting.tone.symbol);
+            Assert.AreEqual("Hello World!", greeting.message);
+        }
+        
+        [TestMethod]
+        public void GetGreeting_Async()
+        {
+            /*
+             * This test makes the assumption that an instance of `restli-integration-test-server`
+             * is running at the urlPrefix (hostname and port) specified below.
+             */
+            string urlPrefix = "http://evwillia-ld1:1338";
+            RestClient client = new RestClient(urlPrefix);
+
+            GetRequestBuilder<int, Greeting> requestBuilder = new GetRequestBuilder<int, Greeting>("/basicCollection");
+            requestBuilder.SetID(123);
+            GetRequest<int, Greeting> request = requestBuilder.Build();
+
+            AutoResetEvent blocker = new AutoResetEvent(false);
+
+            Greeting greeting = null;
+
+            RestliCallback<EntityResponse<Greeting>>.SuccessHandler successHandler = delegate (EntityResponse<Greeting> response)
+            {
+                greeting = response.element;
+                blocker.Set();
+            };
+            RestliCallback<EntityResponse<Greeting>> callback = new RestliCallback<EntityResponse<Greeting>>(successHandler);
+
+            client.RestRequestAsync<EntityResponse<Greeting>>(request, callback);
+
+            blocker.WaitOne();
 
             Assert.IsNotNull(greeting);
 

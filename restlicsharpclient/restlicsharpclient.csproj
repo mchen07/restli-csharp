@@ -62,6 +62,9 @@
     <Compile Include="restliclient\response\EntityResponse.cs" />
     <Compile Include="restliclient\response\Response.cs" />
     <Compile Include="restliclient\RestClient.cs" />
+    <Compile Include="restliclient\RestliCallback.cs" />
+    <Compile Include="restliclient\transport\RestliCallbackAdapter.cs" />
+    <Compile Include="restliclient\transport\TransportCallback.cs" />
     <Compile Include="restliclient\util\RestConstants.cs" />
     <Compile Include="restliclient\transport\DefaultTransportClient.cs" />
     <Compile Include="restliclient\transport\HttpResponse.cs" />
