@@ -14,17 +14,16 @@
    limitations under the License.
 */
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using restlicsharpclient.restliclient.transport;
 
-namespace restlicsharpclient.restliclientintegrationtest
+namespace restlicsharpclient.restliclient.response.decoder
 {
-    [TestClass]
-    public class DummyClientIntegrationTests
+    /// <summary>
+    /// Interface for decoding a TransportResponse into a Response.
+    /// </summary>
+    /// <typeparam name="TResponse">The type of Response to be retrieved</typeparam>
+    public interface RestResponseDecoder<TResponse> where TResponse : Response
     {
-        [TestMethod]
-        public void DummyClientIntegration_Pass()
-        {
-            // PASS
-        }
+        TResponse DecodeResponse(TransportResponse transportResponse);
     }
 }

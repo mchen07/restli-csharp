@@ -16,7 +16,7 @@ limitations under the License.
 
 namespace restlicsharpdata.restlidata
 {
-    interface UnionTemplate : DataTemplate
+    public interface UnionTemplate : DataTemplate
     {
     }
 }

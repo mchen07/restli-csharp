@@ -14,10 +14,13 @@
    limitations under the License.
 */
 
-namespace restlicsharpclient.restliclient
+namespace restlicsharpclient.restliclient.util
 {
-    class DummyClient
+    /// <summary>
+    /// Enum representing the resource method used by a Rest.li Request.
+    /// </summary>
+    public enum ResourceMethod
     {
-        //DUMMY
+        GET
     }
 }
