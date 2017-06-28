@@ -22,6 +22,8 @@ using Newtonsoft.Json;
 using restlicsharpclient.restliclient.util;
 using System.IO;
 
+using com.linkedin.restli.test.api;
+
 namespace restlicsharpclient.restliclienttest
 {
     [TestClass]
@@ -80,6 +82,25 @@ namespace restlicsharpclient.restliclienttest
             byte[] reclaimed = stream.ReadAllBytes();
 
             CollectionAssert.AreEqual(original, reclaimed);            
+        }
+
+        [TestMethod]
+        public void SerializeAndDeserializeRecordWithEnum()
+        {
+            GreetingBuilder greetingBuilder = new GreetingBuilder();
+            greetingBuilder.id = 123;
+            greetingBuilder.tone = new Tone(Tone.Symbol.SINCERE);
+            greetingBuilder.message = "Hello, Serialize test!";
+            Greeting g = greetingBuilder.Build();
+
+            string serialized = JsonConvert.SerializeObject(g);
+
+            Dictionary<string, object> dataMap = JsonConvert.DeserializeObject<Dictionary<string, object>>(serialized, new JsonConverter[] { new DataMapDeserializationConverter() });
+            Greeting reclaimed = new Greeting(dataMap);
+
+            Assert.AreEqual(g.id, reclaimed.id);
+            Assert.AreEqual(g.message, reclaimed.message);
+            Assert.AreEqual(g.tone.symbol, reclaimed.tone.symbol);
         }
     }
 }

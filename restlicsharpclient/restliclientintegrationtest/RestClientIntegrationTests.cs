@@ -16,7 +16,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using System;
+using System.Collections;
 using System.Threading;
 
 using com.linkedin.restli.test.api;
@@ -24,6 +24,8 @@ using restlicsharpclient.restliclient;
 using restlicsharpclient.restliclient.request;
 using restlicsharpclient.restliclient.request.builder;
 using restlicsharpclient.restliclient.response;
+using restlicsharpclient.restliclient.util;
+using System.Collections.Generic;
 
 namespace restlicsharpclient.restliclientintegrationtest
 {
@@ -54,7 +56,7 @@ namespace restlicsharpclient.restliclientintegrationtest
             Assert.AreEqual(Tone.Symbol.SINCERE, greeting.tone.symbol);
             Assert.AreEqual("Hello World!", greeting.message);
         }
-        
+
         [TestMethod]
         public void GetGreeting_Async()
         {
@@ -89,6 +91,71 @@ namespace restlicsharpclient.restliclientintegrationtest
             Assert.AreEqual(123, greeting.id);
             Assert.AreEqual(Tone.Symbol.SINCERE, greeting.tone.symbol);
             Assert.AreEqual("Hello World!", greeting.message);
+        }
+
+        [TestMethod]
+        public void CreateGreeting_Sync()
+        {
+            /*
+             * This test makes the assumption that an instance of `restli-integration-test-server`
+             * is running at the urlPrefix (hostname and port) specified below.
+             */
+            string urlPrefix = "http://evwillia-ld1:1338";
+            RestClient client = new RestClient(urlPrefix);
+            GreetingBuilder greetingBuilder = new GreetingBuilder();
+            greetingBuilder.id = 0; // Dummy value
+            greetingBuilder.message = "Create me!";
+            greetingBuilder.tone = new Tone(Tone.Symbol.FRIENDLY);
+            Greeting input = greetingBuilder.Build();
+
+            CreateRequestBuilder<int, Greeting> requestBuilder = new CreateRequestBuilder<int, Greeting>("/basicCollection");
+            requestBuilder.input = input;
+            CreateRequest<int, Greeting> request = requestBuilder.Build();
+
+            EntityResponse<Greeting> response = client.RestRequestSync<EntityResponse<Greeting>>(request);
+
+            Assert.AreEqual(RestConstants.httpStatusCreated, response.status);
+            CollectionAssert.AreEqual(new List<string>() { "123" }, response.headers[RestConstants.kHeaderRestliId]);
+            CollectionAssert.AreEqual(new List<string>() { "/basicCollection/123" }, response.headers[RestConstants.kHeaderLocation]);
+        }
+
+        [TestMethod]
+        public void CreateGreeting_Async()
+        {
+            /*
+             * This test makes the assumption that an instance of `restli-integration-test-server`
+             * is running at the urlPrefix (hostname and port) specified below.
+             */
+            string urlPrefix = "http://evwillia-ld1:1338";
+            RestClient client = new RestClient(urlPrefix);
+            GreetingBuilder greetingBuilder = new GreetingBuilder();
+            greetingBuilder.id = 0; // Dummy value
+            greetingBuilder.message = "Create me!";
+            greetingBuilder.tone = new Tone(Tone.Symbol.FRIENDLY);
+            Greeting input = greetingBuilder.Build();
+
+            CreateRequestBuilder<int, Greeting> requestBuilder = new CreateRequestBuilder<int, Greeting>("/basicCollection");
+            requestBuilder.input = input;
+            CreateRequest<int, Greeting> request = requestBuilder.Build();
+
+            AutoResetEvent blocker = new AutoResetEvent(false);
+
+            EntityResponse<Greeting> entityResponse = null;
+
+            RestliCallback<EntityResponse<Greeting>>.SuccessHandler successHandler = delegate (EntityResponse<Greeting> response)
+            {
+                entityResponse = response;
+                blocker.Set();
+            };
+            RestliCallback<EntityResponse<Greeting>> callback = new RestliCallback<EntityResponse<Greeting>>(successHandler);
+            
+            client.RestRequestAsync<EntityResponse<Greeting>>(request, callback);
+
+            blocker.WaitOne();
+
+            Assert.AreEqual(RestConstants.httpStatusCreated, entityResponse.status);
+            CollectionAssert.AreEqual(new List<string>() { "123" }, entityResponse.headers[RestConstants.kHeaderRestliId]);
+            CollectionAssert.AreEqual(new List<string>() { "/basicCollection/123" }, entityResponse.headers[RestConstants.kHeaderLocation]);
         }
     }
 }

@@ -90,32 +90,5 @@ namespace restlicsharpclient.restliclient.transport
 
             status = httpStatus;
         }
-
-        public TransportResponse(Dictionary<string, object> data, HttpWebResponse response)
-        {
-            this.data = data;
-
-            int? httpStatus = null;
-
-            // if response non-null, extract headers and status code
-            if (response != null)
-            {
-                Dictionary<string, string> tempHeaders = new Dictionary<string, string>();
-                WebHeaderCollection responseHeaders = response.Headers;
-                string[] responseHeaderKeys = responseHeaders.AllKeys;
-                foreach (string key in responseHeaderKeys)
-                {
-                    tempHeaders.Add(key, responseHeaders.Get(key));
-                }
-                headers = tempHeaders;
-                httpStatus = (int)response.StatusCode;
-            }
-            else
-            {
-                headers = new Dictionary<string, string>();
-            }
-
-            status = httpStatus;
-        }
     }
 }

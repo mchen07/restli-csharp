@@ -21,6 +21,7 @@ namespace restlicsharpclient.restliclient.util
     /// </summary>
     public enum HttpMethod
     {
-        GET
+        GET,
+        POST
     }
 }

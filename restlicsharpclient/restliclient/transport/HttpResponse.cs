@@ -16,8 +16,11 @@
 
 using System.Net;
 using System.Collections.Generic;
+using System.Net.Http;
 
 using restlicsharpclient.restliclient.util;
+using System.Net.Http.Headers;
+using System;
 
 namespace restlicsharpclient.restliclient.transport
 {
@@ -56,6 +59,21 @@ namespace restlicsharpclient.restliclient.transport
             status = (int)httpWebResponse.StatusCode;
             headers = tempHeaders;
             data = dataBytes;
+        }
+
+        public HttpResponse(HttpResponseMessage httpResponseMessage)
+        {
+            Dictionary<string, string> tempHeaders = new Dictionary<string, string>();
+            HttpResponseHeaders responseHeaders = httpResponseMessage.Headers;
+            foreach (KeyValuePair<string, IEnumerable<string>> header in responseHeaders)
+            {
+                tempHeaders.Add(header.Key, String.Join(RestConstants.kHeaderDelimiter, header.Value));
+            }
+
+            // Set all class fields
+            status = (int)httpResponseMessage.StatusCode;
+            headers = tempHeaders;
+            data = httpResponseMessage.Content.ReadAsByteArrayAsync().Result;
         }
     }
 }

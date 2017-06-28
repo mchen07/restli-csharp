@@ -17,7 +17,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Net;
+using Newtonsoft.Json;
 
 using restlicsharpclient.restliclient.request;
 using restlicsharpclient.restliclient.transport;
@@ -49,10 +49,22 @@ namespace restlicsharpclient.restliclient.util
             Dictionary<string, string> headers = new Dictionary<string, string>();
             foreach (KeyValuePair<string, List<string>> pair in request.headers)
             {
-                headers.Add(pair.Key, String.Join(",", pair.Value));
+                headers.Add(pair.Key, String.Join(RestConstants.kHeaderDelimiter, pair.Value));
             }
 
-            byte[] requestBody = null; // To be implemented
+            byte[] requestBody = null;
+            if (request.input != null)
+            {
+                using (Stream bodyStream = new MemoryStream())
+                using (StreamWriter streamWriter = new StreamWriter(bodyStream))
+                using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter))
+                {
+                    JsonSerializer.Create().Serialize(jsonTextWriter, request.input);
+                    jsonTextWriter.Flush();
+                    bodyStream.Position = 0;
+                    requestBody = bodyStream.ReadAllBytes();
+                }
+            }
 
             HttpRequest httpRequest = new HttpRequest(GetHttpMethod(request.method), url, headers, requestBody);
 
@@ -68,10 +80,25 @@ namespace restlicsharpclient.restliclient.util
         {
             switch (resourceMethod)
             {
+                case ResourceMethod.CREATE:
+                    return HttpMethod.POST;
                 case ResourceMethod.GET:
                     return HttpMethod.GET;
                 default:
                     throw new ArgumentException(String.Format("Unrecognized resource method: {0}", resourceMethod.ToString()));
+            }
+        }
+
+        public static System.Net.Http.HttpMethod GetHttpMethod(HttpMethod httpMethod)
+        {
+            switch (httpMethod)
+            {
+                case HttpMethod.GET:
+                    return System.Net.Http.HttpMethod.Get;
+                case HttpMethod.POST:
+                    return System.Net.Http.HttpMethod.Post;
+                default:
+                    throw new ArgumentException(String.Format("Unrecognized HTTP method: {0}", httpMethod.ToString()));
             }
         }
 

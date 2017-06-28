@@ -15,9 +15,9 @@
 */
 
 using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
 
 using restlicsharpclient.restliclient.util;
 
@@ -28,92 +28,51 @@ namespace restlicsharpclient.restliclient.transport
     /// </summary>
     public class DefaultTransportClient : TransportClient
     {
-        private class RequestState
+        private readonly HttpClient httpClient;
+
+        public DefaultTransportClient()
         {
-            public HttpWebRequest httpWebRequest;
-            public HttpRequest httpRequest;
-            public TransportCallback transportCallback;
-        }
-
-        public static void GetRequestStreamCallback(IAsyncResult asyncResult)
-        {
-            RequestState requestState = (RequestState)asyncResult.AsyncState;
-            HttpWebRequest httpWebRequest = requestState.httpWebRequest;
-            HttpRequest httpRequest = requestState.httpRequest;
-
-            Stream writeStream = httpWebRequest.EndGetRequestStream(asyncResult);
-            if (httpRequest.entityBody != null)
-            {
-                // TODO: Support retrieving entity body
-                // writeStream.Write(...);
-            }
-            writeStream.Close();
-
-            httpWebRequest.BeginGetResponse(new AsyncCallback(GetResponseCallback), requestState);
-        }
-
-        public static void GetResponseCallback(IAsyncResult asyncResult)
-        {
-            RequestState requestState = (RequestState)asyncResult.AsyncState;
-            HttpWebRequest httpWebRequest = requestState.httpWebRequest;
-            TransportCallback transportCallback = requestState.transportCallback;
-
-            HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.EndGetResponse(asyncResult);
-
-            HttpResponse httpResponse = new HttpResponse(httpWebResponse);
-
-            httpWebResponse.Close();
-
-            transportCallback.OnSuccess(httpResponse);
+            httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(RestConstants.kHeaderValueApplicationJson));
+            httpClient.DefaultRequestHeaders.ExpectContinue = false;
         }
 
         public void RestRequestAsync(HttpRequest httpRequest, TransportCallback transportCallback)
         {
-            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(httpRequest.url);
-            // TODO: Support httpWebRequest.ContentType = httpRequest.contentType;
-            httpWebRequest.Method = httpRequest.httpMethod.ToString();
+            HttpRequestMessage httpRequestMessage = ConstructHttpRequestMessage(httpRequest);
 
-            RequestState requestState = new RequestState()
-            {
-                httpWebRequest = httpWebRequest,
-                httpRequest = httpRequest,
-                transportCallback = transportCallback
-            };
-
-            if (httpRequest.entityBody == null)
-            {
-                httpWebRequest.BeginGetResponse(new AsyncCallback(GetResponseCallback), requestState);
-            }
-            else
-            {
-                httpWebRequest.BeginGetRequestStream(new AsyncCallback(GetRequestStreamCallback), requestState);
-            }
+            httpClient.SendAsync(httpRequestMessage)
+                .ContinueWith(task => transportCallback.OnSuccess(new HttpResponse(task.Result)));
         }
 
         public HttpResponse RestRequestSync(HttpRequest httpRequest)
         {
-            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(httpRequest.url);
-            httpWebRequest.Method = httpRequest.httpMethod.ToString();
-            if (httpRequest.entityBody != null)
-            {
-                // TODO: Support for retrieving entity body
-            }
+            HttpRequestMessage httpRequestMessage = ConstructHttpRequestMessage(httpRequest);
 
-            WebResponse webResponse;
-            HttpWebResponse httpWebResponse;
-            try
-            {
-                webResponse = httpWebRequest.GetResponse();
-                httpWebResponse = (HttpWebResponse)webResponse;
-            }
-            catch
-            {
-                throw new WebException(String.Format("Attempted request: {0} {1}", httpRequest.httpMethod, httpRequest.url));
-            }
-
-            HttpResponse httpResponse = new HttpResponse(httpWebResponse);
+            HttpResponseMessage httpResponseMessage = httpClient.SendAsync(httpRequestMessage).Result;
+            HttpResponse httpResponse = new HttpResponse(httpResponseMessage);
 
             return httpResponse;
+        }
+
+        private HttpRequestMessage ConstructHttpRequestMessage(HttpRequest httpRequest)
+        {
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage()
+            {
+                RequestUri = new Uri(httpRequest.url),
+                Method = ClientUtil.GetHttpMethod(httpRequest.httpMethod)
+            };
+            if (httpRequest.entityBody != null)
+            {
+                httpRequestMessage.Content = new ByteArrayContent(httpRequest.entityBody);
+            }
+            httpRequestMessage.Headers.Clear();
+            foreach (KeyValuePair<string, string> header in httpRequest.headers)
+            {
+                httpRequestMessage.Headers.Add(header.Key, header.Value);
+            }
+
+            return httpRequestMessage;
         }
     }
 }

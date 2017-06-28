@@ -45,6 +45,9 @@ namespace restlicsharpclient.restliclient.request
             this.headers = headers;
             this.queryParams = queryParams;
             this.baseUrlTemplate = baseUrlTemplate;
+
+            AddHeader(RestConstants.kHeaderRestliProtocolVersion, RestConstants.kRestLiVersion20);
+            AddHeader(RestConstants.kHeaderRestliRequestMethod, method.ToString());
         }
 
         public virtual dynamic GetRequestKey()
@@ -56,6 +59,22 @@ namespace restlicsharpclient.restliclient.request
         {
             RequestUrlBuilder<TResponse> requestUrlBuilder = new RequestUrlBuilder<TResponse>(this, urlPrefix);
             return requestUrlBuilder.Build();
+        }
+
+        public void AddHeader(string key, string value)
+        {
+            if (headers.ContainsKey(key))
+            {
+                if (headers[key] == null)
+                {
+                    headers[key] = new List<string>();
+                }
+            }
+            else
+            {
+                headers.Add(key, new List<string>());
+            }
+            headers[key].Add(value);
         }
     }
 }

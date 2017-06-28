@@ -22,5 +22,15 @@ namespace restlicsharpclient.restliclient.util
     class RestConstants
     {
         public static readonly char[] kHeaderDelimiters = { ',' };
+        public const string kHeaderDelimiter = ",";
+        public const string kHeaderContentType = "Content-Type";
+        public const string kHeaderValueApplicationJson = "application/json";
+        public const string kHeaderRestliRequestMethod = "X-RestLi-Method";
+        public const string kHeaderRestliProtocolVersion = "X-RestLi-Protocol-Version";
+        public const string kHeaderRestliId = "X-RestLi-Id";
+        public const string kRestLiVersion20 = "2.0.0";
+        public const string kHeaderLocation = "Location";
+
+        public const int httpStatusCreated = 201;
     }
 }
