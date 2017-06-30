@@ -94,4 +94,14 @@ public CSharpPrimitive(ClassTemplateSpec spec) {
         return true;
     }
   }
+
+  @Override
+  public String getDataMapExpression(SequentialIdentifierGenerator generator) {
+    switch (getSpec().getSchema().getType()) {
+      case BYTES:
+        return ".Data()";
+      default:
+        return "";
+    }
+  }
 }

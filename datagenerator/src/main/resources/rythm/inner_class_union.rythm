@@ -64,4 +64,21 @@ public class @cSharpUnion.getName() : UnionTemplate
     member = Member.@(entry.getKey().capFirst());
   }
 }
+
+  public Dictionary<string, object> Data()
+  {
+@if (hasMembers) {
+    switch (member)
+    {
+@for (Map.Entry entry : memberEntrySet) {
+      case Member.@(entry.getKey().capFirst()):
+        return new Dictionary<string, object>() { { "@(((Member) entry.getValue()).key)", as@(CSharpUtil.toCapitalized(entry.getKey()))@(((Member) entry.getValue()).type.getDataMapExpression()) } };
+}
+      default:
+        return new Dictionary<string, object>();
+    }
+} else {
+    return new Dictionary<string, object>();
+}
+  }
 }

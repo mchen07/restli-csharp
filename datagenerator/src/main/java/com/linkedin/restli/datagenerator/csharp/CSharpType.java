@@ -56,5 +56,24 @@ public abstract class CSharpType {
 
   public abstract String getInitializationExpression(String identifier);
 
+  public abstract String getDataMapExpression(SequentialIdentifierGenerator generator);
+
+  /**
+   * Creates an inline C# expression that - when placed after the identifier -
+   * will create a nested expression converting that Rest.li object to a data map.
+   * @param baseName base value of the identifier string (e.g. x -> x0, x1, x2, ...)
+   * @return expression in C# to convert to data map
+   */
+  public final String getDataMapExpression(String baseName) {
+    SequentialIdentifierGenerator generator = new SequentialIdentifierGenerator(baseName);
+    return getDataMapExpression(generator);
+  }
+
+  public final String getDataMapExpression() {
+    return getDataMapExpression("_");
+  }
+
   public boolean needsCastFromBuilder() { return false; }
+
+
 }

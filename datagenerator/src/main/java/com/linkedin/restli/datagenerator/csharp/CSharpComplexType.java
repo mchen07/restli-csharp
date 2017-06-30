@@ -64,4 +64,9 @@ public class CSharpComplexType extends CSharpType {
   public String getInitializationExpression(String identifier) {
     return "new " + getName(NameModifier.NONE) + "((" + getName(NameModifier.DATAMAP_PARSE) + ")" + identifier + ")";
   }
+
+  @Override
+  public String getDataMapExpression(SequentialIdentifierGenerator generator) {
+    return ".Data()";
+  }
 }

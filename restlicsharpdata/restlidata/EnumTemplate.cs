@@ -19,7 +19,7 @@ using Newtonsoft.Json;
 namespace restlicsharpdata.restlidata
 {
     [JsonConverter(typeof(EnumSerializationConverter))]
-    public interface EnumTemplate : DataTemplate
+    public interface EnumTemplate : DataTemplate<string>
     {
     }
 }

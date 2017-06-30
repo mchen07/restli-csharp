@@ -25,7 +25,7 @@ namespace restlicsharpdata.restlidatatest
     public class BytesUtilTests
     {
         [TestMethod]
-        public void BytesUtil_StringToBytes()
+        public void StringToBytes()
         {
             byte[] expected = new byte[] {
                 0, 1, 2, 3,
@@ -41,11 +41,44 @@ namespace restlicsharpdata.restlidatatest
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void BytesUtil_InvalidString()
+        public void InvalidString()
         {
             string input = "\u0000\u0001\u00ffINVALID\u0100\u1000";
 
             byte[] output = BytesUtil.StringToBytes(input);
+        }
+
+        [TestMethod]
+        public void BytesToString()
+        {
+            byte[] input = new byte[] {
+                0, 1, 2, 3,
+                48, 49, 50, 51,
+                65, 66, 67, 68,
+                161, 162, 163, 164};
+            string expected = "\u0000\u0001\u0002\u00030123ABCD\u00a1\u00a2\u00a3\u00a4";
+
+            string actual = BytesUtil.BytesToString(input);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void FullCycle()
+        {
+            string expectedString = "\u0000\u0001\u0002\u00030123ABCD\u00a1\u00a2\u00a3\u00a4";
+            string reclaimedString = BytesUtil.BytesToString(BytesUtil.StringToBytes(expectedString));
+
+            Assert.AreEqual(expectedString, reclaimedString);
+
+            byte[] expectedBytes = new byte[] {
+                0, 1, 2, 3,
+                48, 49, 50, 51,
+                65, 66, 67, 68,
+                161, 162, 163, 164};
+            byte[] reclaimedBytes = BytesUtil.StringToBytes(BytesUtil.BytesToString(expectedBytes));
+
+            CollectionAssert.AreEqual(expectedBytes, reclaimedBytes);
         }
     }
 }

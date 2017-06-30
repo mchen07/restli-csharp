@@ -15,7 +15,6 @@
 */
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 using com.linkedin.restli.datagenerator.integration;
 
@@ -25,7 +24,7 @@ namespace restlicsharpdata.restlidataintegrationtest
     public class TestEnumTests
     {
         [TestMethod]
-        public void TestEnum_InitWithString()
+        public void InitWithString()
         {
             TestEnum e = new TestEnum("SYMBOL_1");
 
@@ -33,7 +32,7 @@ namespace restlicsharpdata.restlidataintegrationtest
         }
 
         [TestMethod]
-        public void TestEnum_InitWithSymbol()
+        public void InitWithSymbol()
         {
             TestEnum e = new TestEnum(TestEnum.Symbol.SYMBOL_2);
 
@@ -41,11 +40,22 @@ namespace restlicsharpdata.restlidataintegrationtest
         }
 
         [TestMethod]
-        public void TestEnum_Invalid()
+        public void Invalid()
         {
             TestEnum e = new TestEnum("foobar");
 
             Assert.AreEqual(TestEnum.Symbol.UNKNOWN, e.symbol);
+        }
+
+        [TestMethod]
+        public void FullCycle()
+        {
+            TestEnum e = new TestEnum("foobar");
+
+            TestEnum reclaimed = new TestEnum(e.Data());
+
+            Assert.AreNotSame(e, reclaimed);
+            Assert.AreEqual(e.symbol, reclaimed.symbol);
         }
     }
 }

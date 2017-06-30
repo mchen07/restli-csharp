@@ -24,7 +24,7 @@ namespace restlicsharpdata.restlidata
 {
     public class Bytes
     {
-        private byte[] _bytes;
+        private readonly byte[] _bytes;
 
         public Bytes(byte[] bytes)
         {
@@ -37,6 +37,11 @@ namespace restlicsharpdata.restlidata
             byte[] bytesCopy = new byte[_bytes.Length];
             Array.Copy(_bytes, bytesCopy, _bytes.Length);
             return bytesCopy;
+        }
+
+        public string Data()
+        {
+            return BytesUtil.BytesToString(_bytes);
         }
     }
 }

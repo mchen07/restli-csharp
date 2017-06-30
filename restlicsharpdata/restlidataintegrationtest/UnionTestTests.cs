@@ -26,24 +26,23 @@ namespace restlicsharpdata.restlidataintegrationtest
     public class UnionTestTests
     {
         [TestMethod]
-        public void UnionTest_DataMap_IntAndString()
+        public void DataMap_IntAndString()
         {
             UnionTest u;
 
-            Dictionary<string, object> dataUnionEmpty = new Dictionary<string, object>();
-            Dictionary<string, object> dataUnionWithoutNull = new Dictionary<string, object>()
-            {
-                { "int", 20 }
-            };
-            Dictionary<string, object> dataUnionWithInline = new Dictionary<string, object>()
-            {
-                { "string", "hello, world!" }
-            };
             Dictionary<string, object> data = new Dictionary<string, object>()
             {
-                { "unionEmpty", dataUnionEmpty },
-                { "unionWithoutNull", dataUnionWithoutNull },
-                { "unionWithInline", dataUnionWithInline }
+                { "unionEmpty", new Dictionary<string, object>() },
+                { "unionWithoutNull", new Dictionary<string, object>()
+                    {
+                        { "int", 20 }
+                    }
+                },
+                { "unionWithInline", new Dictionary<string, object>()
+                    {
+                        { "string", "hello, world!" }
+                    }
+                }
             };
 
             u = new UnionTest(data);
@@ -60,28 +59,27 @@ namespace restlicsharpdata.restlidataintegrationtest
         }
 
         [TestMethod]
-        public void UnionTest_DataMap_BytesAndMap()
+        public void DataMap_BytesAndMap()
         {
             UnionTest u;
-
-            Dictionary<string, object> dataUnionEmpty = new Dictionary<string, object>();
-            Dictionary<string, object> dataUnionWithoutNull = new Dictionary<string, object>()
-            {
-                { "bytes", "\u0000\u0001\u0002\u0003" }
-            };
-            Dictionary<string, object> dataUnionWithInline = new Dictionary<string, object>()
-            {
-                { "map", new Dictionary<string, long>()
-                    {
-                    { "key", 9999 }
-                    }
-                }
-            };
+            
             Dictionary<string, object> data = new Dictionary<string, object>()
             {
-                { "unionEmpty", dataUnionEmpty },
-                { "unionWithoutNull", dataUnionWithoutNull },
-                { "unionWithInline", dataUnionWithInline }
+                { "unionEmpty", new Dictionary<string, object>() },
+                { "unionWithoutNull", new Dictionary<string, object>()
+                    {
+                        { "bytes", "\u0000\u0001\u0002\u0003" }
+                    }
+                },
+                { "unionWithInline", new Dictionary<string, object>()
+                    {
+                        { "map", new Dictionary<string, long>()
+                            {
+                                { "key", 9999 }
+                            }
+                        }
+                    }
+                }
             };
 
             u = new UnionTest(data);
@@ -99,7 +97,7 @@ namespace restlicsharpdata.restlidataintegrationtest
         }
 
         [TestMethod]
-        public void UnionTest_Builder()
+        public void Builder()
         {
             UnionTest u;
 
@@ -129,7 +127,7 @@ namespace restlicsharpdata.restlidataintegrationtest
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void UnionTest_Builder_OmitRequired()
+        public void Builder_OmitRequired()
         {
             UnionTest u;
 
@@ -137,6 +135,39 @@ namespace restlicsharpdata.restlidataintegrationtest
             b.unionEmpty = new UnionTest.UnionEmpty(new Dictionary<string, object>());
 
             u = b.Build();
+        }
+
+        [TestMethod]
+        public void FullCycle()
+        {
+            UnionTest u;
+
+            Dictionary<string, object> data = new Dictionary<string, object>()
+            {
+                { "unionEmpty", new Dictionary<string, object>() },
+                { "unionWithoutNull", new Dictionary<string, object>()
+                    {
+                        { "bytes", "\u0000\u0001\u0002\u0003" }
+                    }
+                },
+                { "unionWithInline", new Dictionary<string, object>()
+                    {
+                        { "map", new Dictionary<string, long>()
+                            {
+                                { "key", 9999 }
+                            }
+                        }
+                    }
+                }
+            };
+
+            u = new UnionTest(data);
+
+            UnionTest reclaimed = new UnionTest(u.Data());
+
+            Assert.AreNotSame(u, reclaimed);
+            Assert.AreEqual(u.hasUnionWithInline, reclaimed.hasUnionWithInline);
+            Assert.AreEqual(u.unionWithInline.asMap["key"], reclaimed.unionWithInline.asMap["key"]);
         }
     }
 }

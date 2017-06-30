@@ -60,4 +60,10 @@ public class CSharpMap extends CSharpCollectionType {
         return "IReadOnlyDictionary<string, " + getElementType().getName(NameModifier.NONE) + ">";
     }
   }
+
+  @Override
+  public String getDataMapExpression(SequentialIdentifierGenerator generator) {
+    String identifier = generator.generateIdentifier();
+    return String.format(".ToDictionary(%1$s => %1$s.Key, %1$s => %1$s.Value%2$s)", identifier, getElementType().getDataMapExpression(generator));
+  }
 }

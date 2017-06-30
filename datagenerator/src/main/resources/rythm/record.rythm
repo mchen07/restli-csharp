@@ -1,6 +1,7 @@
 @import com.linkedin.restli.datagenerator.csharp.CSharpRecord;
 @import com.linkedin.restli.datagenerator.csharp.CSharpUnion;
 @import com.linkedin.restli.datagenerator.csharp.CSharpType;
+@import com.linkedin.restli.datagenerator.csharp.CSharpComplexType;
 @import com.linkedin.restli.datagenerator.csharp.CSharpCollectionType;
 @import com.linkedin.restli.datagenerator.csharp.CSharpRecord.Field;
 @import com.linkedin.restli.datagenerator.csharp.CSharpRythmGenerator;
@@ -10,6 +11,7 @@
 @args CSharpRecord cSharpRecord, CSharpRythmGenerator generator, RythmEngine engine
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 using restlicsharpdata.restlidata;
@@ -85,6 +87,16 @@ namespace @cSharpRecord.getNamespace()
 }
       }
 }
+    }
+
+    public Dictionary<string, object> Data()
+    {
+      Dictionary<string, object> dataMap = new Dictionary<string, object>();
+@for (Field field : cSharpRecord.getFields()) {
+      if (has@field.getName().capFirst())
+        dataMap.Add("@(field.getName())", @(field.getName())@(field.getType().getDataMapExpression()));
+}
+      return dataMap;
     }
 
 @for (CSharpUnion cSharpUnion : cSharpRecord.getUnnamedUnions()) {

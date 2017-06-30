@@ -24,7 +24,7 @@ namespace restlicsharpdata.restlidatatest
     public class BytesTests
     {
         [TestMethod]
-        public void Bytes_Init()
+        public void Init()
         {
             byte[] expected = new byte[] { 0, 1, 2, 3 };
             string input = "\u0000\u0001\u0002\u0003";
@@ -40,7 +40,7 @@ namespace restlicsharpdata.restlidatatest
         }
 
         [TestMethod]
-        public void Bytes_Immutable()
+        public void Immutable()
         {
             string input = "\u0000\u0001\u0002\u0003";
 
@@ -62,7 +62,7 @@ namespace restlicsharpdata.restlidatatest
         }
 
         [TestMethod]
-        public void Bytes_CopyInitArg()
+        public void CopyInitArg()
         {
             string input = "\u0000\u0001\u0002\u0003";
             byte[] inputBytes = BytesUtil.StringToBytes(input);

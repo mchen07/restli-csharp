@@ -14,9 +14,11 @@
    limitations under the License.
 */
 
+using System.Collections.Generic;
+
 namespace restlicsharpdata.restlidata
 {
-    public interface UnionTemplate : DataTemplate
+    public interface UnionTemplate : DataTemplate<Dictionary<string, object>>
     {
     }
 }
