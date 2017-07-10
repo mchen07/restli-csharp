@@ -59,7 +59,7 @@ namespace restlicsharpclient.restliclient.util
             byte[] requestBody = null;
             if (request.input != null)
             {
-                requestBody = DataUtil.SerializeObject(request.input);
+                requestBody = DataUtil.SerializeObjectToBytes(request.input);
             }
 
             HttpRequest httpRequest = new HttpRequest(GetHttpMethod(request.method), url, headers, requestBody);

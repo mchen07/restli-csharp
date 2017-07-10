@@ -93,7 +93,7 @@ namespace restlicsharpclient.restliclienttest
             greetingBuilder.message = "Hello, Serialize test!";
             Greeting g = greetingBuilder.Build();
 
-            string serialized = System.Text.Encoding.UTF8.GetString(DataUtil.SerializeObject(g));
+            string serialized = DataUtil.SerializeObject(g);
 
             Dictionary<string, object> dataMap = DataUtil.DeserializeObject<Dictionary<string, object>>(serialized);
             Greeting reclaimed = new Greeting(dataMap);

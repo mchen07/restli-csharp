@@ -15,11 +15,13 @@
 */
 
 using Newtonsoft.Json;
-using restlicsharpdata.restlidata;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+
+using restlicsharpdata.restlidata;
 
 namespace restlicsharpclient.restliclient.util
 {
@@ -35,10 +37,14 @@ namespace restlicsharpclient.restliclient.util
         /// <returns>The converted value</returns>
         public static T CoerceString<T>(string value)
         {
-            if (typeof(T).IsAssignableFrom(typeof(RecordTemplate)))
+            if (typeof(RecordTemplate).IsAssignableFrom(typeof(T)))
             {
-                Dictionary<string, object> dataMap = DeserializeObject<Dictionary<string, object>>(value);
-                return (T)BuildRecord<RecordTemplate>(dataMap);
+                // TODO: Support complex key types
+                throw new NotImplementedException("Coercing complex keys from string not yet supported.");
+            }
+            else if (typeof(EnumTemplate).IsAssignableFrom(typeof(T)))
+            {
+                return BuildEnum<T>(value);
             }
             else
             {
@@ -49,21 +55,51 @@ namespace restlicsharpclient.restliclient.util
         /// <summary>
         /// Builds a RecordTemplate of specified Record type from data map.
         /// </summary>
-        /// <typeparam name="TRecord">The type of Record to build.</typeparam>
+        /// <typeparam name="TRecord">The type of Record to build, must be a <see cref="RecordTemplate"/></typeparam>
         /// <param name="dataMap">Data map used to build the record</param>
         /// <returns>Record built using data map</returns>
-        public static TRecord BuildRecord<TRecord>(Dictionary<string, object> dataMap) where TRecord : RecordTemplate
+        public static TRecord BuildRecord<TRecord>(Dictionary<string, object> dataMap)
         {
+            if (!typeof(RecordTemplate).IsAssignableFrom(typeof(TRecord)))
+            {
+                throw new ArgumentException(String.Format("Type {0} does not implement the RecordTemplate interface.", typeof(TRecord).ToString()));
+            }
             ConstructorInfo constructor = typeof(TRecord).GetConstructor(new[] { typeof(Dictionary<string, object>) });
             return (TRecord)constructor.Invoke(new object[] { dataMap });
         }
 
         /// <summary>
-        /// Serializes an object into bytes.
+        /// Builds an EnumTemplate of specified Enum type from data string.
+        /// </summary>
+        /// <typeparam name="TEnum">The type of Enum to build, must be an <see cref="EnumTemplate"/></typeparam>
+        /// <param name="data">Data string used to build the enum</param>
+        /// <returns>Enum built using data string</returns>
+        public static TEnum BuildEnum<TEnum>(string data)
+        {
+            if (!typeof(EnumTemplate).IsAssignableFrom(typeof(TEnum)))
+            {
+                throw new ArgumentException(String.Format("Type {0} does not implement the EnumTemplate interface.", typeof(TEnum).ToString()));
+            }
+            ConstructorInfo constructor = typeof(TEnum).GetConstructor(new[] { typeof(string) });
+            return (TEnum)constructor.Invoke(new object[] { data });
+        }
+
+        /// <summary>
+        /// Serializes an object to a string.
+        /// </summary>
+        /// <param name="dataObject">Object to be serialized</param>
+        /// <returns>Object serialized as a string</returns>
+        public static string SerializeObject(object dataObject)
+        {
+            return JsonConvert.SerializeObject(dataObject);
+        }
+
+        /// <summary>
+        /// Serializes an object to bytes.
         /// </summary>
         /// <param name="dataObject">Object to be serialized</param>
         /// <returns>Object serialized as bytes</returns>
-        public static byte[] SerializeObject(object dataObject)
+        public static byte[] SerializeObjectToBytes(object dataObject)
         {
             byte[] serialized;
             using (Stream bodyStream = new MemoryStream())
