@@ -52,21 +52,26 @@
     <Compile Include="restliclientintegration\generatedDataTemplate\com\linkedin\restli\test\api\Message.cs" />
     <Compile Include="restliclientintegration\generatedDataTemplate\com\linkedin\restli\test\api\Tone.cs" />
     <Compile Include="restliclienttest\RestClientTests.cs" />
+    <Compile Include="restliclient\request\builder\CreateRequestBuilder.cs" />
     <Compile Include="restliclient\request\builder\GetRequestBuilder.cs" />
     <Compile Include="restliclient\request\builder\RequestBuilderBase.cs" />
     <Compile Include="restliclient\request\builder\SingleEntityRequestBuilder.cs" />
+    <Compile Include="restliclient\request\CreateRequest.cs" />
     <Compile Include="restliclient\request\GetRequest.cs" />
     <Compile Include="restliclient\request\Request.cs" />
+    <Compile Include="restliclient\response\decoder\CreateResponseDecoder.cs" />
     <Compile Include="restliclient\response\decoder\EntityResponseDecoder.cs" />
     <Compile Include="restliclient\response\decoder\RestResponseDecoder.cs" />
+    <Compile Include="restliclient\response\CreateResponse.cs" />
     <Compile Include="restliclient\response\EntityResponse.cs" />
     <Compile Include="restliclient\response\Response.cs" />
     <Compile Include="restliclient\RestClient.cs" />
     <Compile Include="restliclient\RestliCallback.cs" />
+    <Compile Include="restliclient\transport\DefaultTransportClient.cs" />
     <Compile Include="restliclient\transport\RestliCallbackAdapter.cs" />
     <Compile Include="restliclient\transport\TransportCallback.cs" />
     <Compile Include="restliclient\util\RestConstants.cs" />
-    <Compile Include="restliclient\transport\DefaultTransportClient.cs" />
+    <Compile Include="restliclient\transport\WebRequestTransportClient.cs" />
     <Compile Include="restliclient\transport\HttpResponse.cs" />
     <Compile Include="restliclient\transport\HttpRequest.cs" />
     <Compile Include="restliclient\transport\TransportClient.cs" />
@@ -76,6 +81,7 @@
     <Compile Include="restliclient\util\RequestUrlBuilder.cs" />
     <Compile Include="restliclient\util\HttpMethod.cs" />
     <Compile Include="restliclient\util\ResourceMethod.cs" />
+    <Compile Include="restliclient\util\DataUtil.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -24,10 +24,10 @@ namespace restlicsharpclient.restliclient.response
     /// </summary>
     public abstract class Response
     {
-        public Dictionary<string, List<string>> headers;
+        public IReadOnlyDictionary<string, IReadOnlyList<string>> headers;
         public int status;
 
-        public Response(Dictionary<string, List<string>> headers, int status)
+        public Response(IReadOnlyDictionary<string, IReadOnlyList<string>> headers, int status)
         {
             this.headers = headers;
             this.status = status;

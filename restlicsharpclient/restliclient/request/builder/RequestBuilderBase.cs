@@ -38,5 +38,21 @@ namespace restlicsharpclient.restliclient.request.builder
         }
 
         public abstract TRequest Build();
+
+        public void AddHeader(string key, string value)
+        {
+            if (headers.ContainsKey(key))
+            {
+                if (headers[key] == null)
+                {
+                    headers[key] = new List<string>();
+                }
+            }
+            else
+            {
+                headers.Add(key, new List<string>());
+            }
+            headers[key].Add(value);
+        }
     }
 }

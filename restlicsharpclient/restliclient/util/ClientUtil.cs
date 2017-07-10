@@ -17,11 +17,13 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Net;
+using Newtonsoft.Json;
+using System.Reflection;
 
 using restlicsharpclient.restliclient.request;
 using restlicsharpclient.restliclient.transport;
 using restlicsharpclient.restliclient.response;
+using restlicsharpdata.restlidata;
 
 namespace restlicsharpclient.restliclient.util
 {
@@ -47,12 +49,18 @@ namespace restlicsharpclient.restliclient.util
             string url = request.GetUrl(urlPrefix);
 
             Dictionary<string, string> headers = new Dictionary<string, string>();
-            foreach (KeyValuePair<string, List<string>> pair in request.headers)
+            headers.Add(RestConstants.kHeaderRestliProtocolVersion, RestConstants.kRestLiVersion20);
+            headers.Add(RestConstants.kHeaderRestliRequestMethod, request.method.ToString());
+            foreach (KeyValuePair<string, IReadOnlyList<string>> pair in request.headers)
             {
-                headers.Add(pair.Key, String.Join(",", pair.Value));
+                headers.Add(pair.Key, String.Join(RestConstants.kHeaderDelimiter, pair.Value));
             }
 
-            byte[] requestBody = null; // To be implemented
+            byte[] requestBody = null;
+            if (request.input != null)
+            {
+                requestBody = DataUtil.SerializeObjectToBytes(request.input);
+            }
 
             HttpRequest httpRequest = new HttpRequest(GetHttpMethod(request.method), url, headers, requestBody);
 
@@ -68,10 +76,30 @@ namespace restlicsharpclient.restliclient.util
         {
             switch (resourceMethod)
             {
+                case ResourceMethod.CREATE:
+                    return HttpMethod.POST;
                 case ResourceMethod.GET:
                     return HttpMethod.GET;
                 default:
                     throw new ArgumentException(String.Format("Unrecognized resource method: {0}", resourceMethod.ToString()));
+            }
+        }
+
+        /// <summary>
+        /// Maps an HTTP Method to the corresponding native C# HTTP Method.
+        /// </summary>
+        /// <param name="httpMethod">Rest client HTTP Method</param>
+        /// <returns>The corresponding native C# HTTP Method</returns>
+        public static System.Net.Http.HttpMethod GetHttpMethod(HttpMethod httpMethod)
+        {
+            switch (httpMethod)
+            {
+                case HttpMethod.GET:
+                    return System.Net.Http.HttpMethod.Get;
+                case HttpMethod.POST:
+                    return System.Net.Http.HttpMethod.Post;
+                default:
+                    throw new ArgumentException(String.Format("Unrecognized HTTP method: {0}", httpMethod.ToString()));
             }
         }
 
@@ -82,6 +110,8 @@ namespace restlicsharpclient.restliclient.util
         /// <returns>Byte array of entire stream data</returns>
         public static byte[] ReadAllBytes(this Stream stream)
         {
+            long position = stream.Position;
+            stream.Position = 0;
             byte[] dataBytes;
             using (MemoryStream memoryStream = new MemoryStream())
             {
@@ -89,6 +119,7 @@ namespace restlicsharpclient.restliclient.util
                 dataBytes = memoryStream.ToArray();
                 memoryStream.Close();
             }
+            stream.Position = position;
             return dataBytes;
         }
     }

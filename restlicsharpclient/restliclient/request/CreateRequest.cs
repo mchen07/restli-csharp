@@ -25,30 +25,18 @@ using restlicsharpclient.restliclient.util;
 namespace restlicsharpclient.restliclient.request
 {
     /// <summary>
-    /// Representation of a rest.li GET request.
-    /// <para>To be constructed using an instance of GetRequestBuilder.</para>
+    /// Representation of a rest.li CREATE request.
+    /// <para>To be constructed using an instance of CreateRequestBuilder.</para>
     /// </summary>
-    /// <typeparam name="TKey">The key (id) type of the entity being retrieved</typeparam>
-    /// <typeparam name="TEntity">The type of entity being retrieved</typeparam>
-    public class GetRequest<TKey, TEntity> : Request<EntityResponse<TEntity>>
+    /// <typeparam name="TKey">The key (id) type of the entity being created</typeparam>
+    /// <typeparam name="TEntity">The type of entity being created</typeparam>
+    public class CreateRequest<TKey, TEntity> : Request<CreateResponse<TKey, TEntity>>
         where TKey : IEquatable<TKey> where TEntity : class, RecordTemplate
     {
-        /*
-         * ID is stored as an object so that regardless of whether TKey is
-         * a value type or a reference type, the ID field can be nullable.
-         */
-        private object id;
-
-        public GetRequest(Dictionary<string, List<string>> headers, object id, Dictionary<string, object> queryParams, string baseUrlTemplate)
-            : base(ResourceMethod.GET, null, headers, queryParams, baseUrlTemplate)
+        public CreateRequest(TEntity input, Dictionary<string, List<string>> headers, Dictionary<string, object> queryParams, string baseUrlTemplate)
+            : base(ResourceMethod.CREATE, input, headers, queryParams, baseUrlTemplate)
         {
-            this.id = id.GetType() == typeof(TKey) ? id : null;
-            responseDecoder = new EntityResponseDecoder<TEntity>();
-        }
-
-        public override dynamic GetRequestKey()
-        {
-            return id;
+            responseDecoder = new CreateResponseDecoder<TKey, TEntity>();
         }
     }
 }

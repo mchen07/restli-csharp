@@ -20,6 +20,7 @@ using restlicsharpdata.restlidata;
 using restlicsharpclient.restliclient.util;
 using restlicsharpclient.restliclient.response;
 using restlicsharpclient.restliclient.response.decoder;
+using System.Linq;
 
 namespace restlicsharpclient.restliclient.request
 {
@@ -30,11 +31,11 @@ namespace restlicsharpclient.restliclient.request
     /// <typeparam name="TResponse">The expected Response type</typeparam>
     public abstract class Request<TResponse> where TResponse : Response
     {
-        public ResourceMethod method;
-        public RecordTemplate input;
-        public Dictionary<string, List<string>> headers;
-        public Dictionary<string, object> queryParams;
-        public string baseUrlTemplate;
+        public readonly ResourceMethod method;
+        public readonly RecordTemplate input;
+        public IReadOnlyDictionary<string, IReadOnlyList<string>> headers;
+        public IReadOnlyDictionary<string, object> queryParams;
+        public readonly string baseUrlTemplate;
         public RestResponseDecoder<TResponse> responseDecoder;
 
 
@@ -42,7 +43,7 @@ namespace restlicsharpclient.restliclient.request
         {
             this.method = method;
             this.input = input;
-            this.headers = headers;
+            this.headers = headers.ToDictionary(_ => _.Key, _ => (IReadOnlyList<string>)_.Value);
             this.queryParams = queryParams;
             this.baseUrlTemplate = baseUrlTemplate;
         }
