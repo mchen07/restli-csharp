@@ -59,14 +59,7 @@ namespace restlicsharpclient.restliclient.util
             byte[] requestBody = null;
             if (request.input != null)
             {
-                using (Stream bodyStream = new MemoryStream())
-                using (StreamWriter streamWriter = new StreamWriter(bodyStream))
-                using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter))
-                {
-                    JsonSerializer.Create().Serialize(jsonTextWriter, request.input);
-                    jsonTextWriter.Flush();
-                    requestBody = bodyStream.ReadAllBytes();
-                }
+                requestBody = DataUtil.SerializeObject(request.input);
             }
 
             HttpRequest httpRequest = new HttpRequest(GetHttpMethod(request.method), url, headers, requestBody);
@@ -92,6 +85,11 @@ namespace restlicsharpclient.restliclient.util
             }
         }
 
+        /// <summary>
+        /// Maps an HTTP Method to the corresponding native C# HTTP Method.
+        /// </summary>
+        /// <param name="httpMethod">Rest client HTTP Method</param>
+        /// <returns>The corresponding native C# HTTP Method</returns>
         public static System.Net.Http.HttpMethod GetHttpMethod(HttpMethod httpMethod)
         {
             switch (httpMethod)
@@ -123,18 +121,6 @@ namespace restlicsharpclient.restliclient.util
             }
             stream.Position = position;
             return dataBytes;
-        }
-
-        /// <summary>
-        /// Builds a RecordTemplate of specified Record type from data map.
-        /// </summary>
-        /// <typeparam name="TRecord">The type of Record to build.</typeparam>
-        /// <param name="dataMap">Data map used to build the record</param>
-        /// <returns>Record built using data map</returns>
-        public static TRecord BuildRecord<TRecord>(Dictionary<string, object> dataMap) where TRecord : RecordTemplate
-        {
-            ConstructorInfo constructor = typeof(TRecord).GetConstructor(new[] { typeof(Dictionary<string, object>) });
-            return (TRecord)constructor.Invoke(new object[] { dataMap });
         }
     }
 }

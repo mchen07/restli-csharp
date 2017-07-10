@@ -54,7 +54,7 @@ namespace restlicsharpclient.restliclient.transport
                 httpStatus = response.status;
                 string dataString = System.Text.Encoding.UTF8.GetString(response.data);
 
-                data = JsonConvert.DeserializeObject<Dictionary<string, object>>(dataString, new JsonConverter[] { new DataMapDeserializationConverter() });
+                data = DataUtil.DeserializeObject<Dictionary<string, object>>(dataString);
             }
             else
             {

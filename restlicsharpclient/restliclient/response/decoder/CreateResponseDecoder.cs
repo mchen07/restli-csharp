@@ -39,7 +39,7 @@ namespace restlicsharpclient.restliclient.response.decoder
             transportResponse.headers.TryGetValue(RestConstants.kHeaderRestliId, out headerString);
             if (headerString != null)
             {
-                key = ValueConverter.CoerceString<TKey>(headerString);
+                key = DataUtil.CoerceString<TKey>(headerString);
             }
 
             // Possible future support for returning entity in addition to just the key

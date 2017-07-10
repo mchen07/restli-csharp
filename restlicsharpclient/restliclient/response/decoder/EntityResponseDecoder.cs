@@ -36,7 +36,7 @@ namespace restlicsharpclient.restliclient.response.decoder
             Dictionary<string, object> dataMap = transportResponse.data;
             if (dataMap != null)
             {
-                record = ClientUtil.BuildRecord<TEntity>(dataMap);
+                record = DataUtil.BuildRecord<TEntity>(dataMap);
             }
             return new EntityResponse<TEntity>(transportResponse.responseHeaders, transportResponse.status ?? 200, record);
         }

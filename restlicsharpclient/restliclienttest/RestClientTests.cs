@@ -52,7 +52,7 @@ namespace restlicsharpclient.restliclienttest
                     'complexlist': [1, [2, [3, 4]]]
                 }";
 
-            Dictionary<string, object> dataMap = JsonConvert.DeserializeObject<Dictionary<string, object>>(dataMapString, new JsonConverter[] { new DataMapDeserializationConverter() });
+            Dictionary<string, object> dataMap = DataUtil.DeserializeObject<Dictionary<string, object>>(dataMapString);
 
             Assert.AreEqual("bar", dataMap["foo"]);
 
@@ -70,7 +70,7 @@ namespace restlicsharpclient.restliclienttest
 
 
             string simpleString = "33";
-            object simpleData = JsonConvert.DeserializeObject<object>(simpleString, new JsonConverter[] { new DataMapDeserializationConverter() });
+            object simpleData = DataUtil.DeserializeObject<long>(simpleString);
             Assert.AreEqual((long)33, simpleData);
         }
 
@@ -93,9 +93,9 @@ namespace restlicsharpclient.restliclienttest
             greetingBuilder.message = "Hello, Serialize test!";
             Greeting g = greetingBuilder.Build();
 
-            string serialized = JsonConvert.SerializeObject(g);
+            string serialized = System.Text.Encoding.UTF8.GetString(DataUtil.SerializeObject(g));
 
-            Dictionary<string, object> dataMap = JsonConvert.DeserializeObject<Dictionary<string, object>>(serialized, new JsonConverter[] { new DataMapDeserializationConverter() });
+            Dictionary<string, object> dataMap = DataUtil.DeserializeObject<Dictionary<string, object>>(serialized);
             Greeting reclaimed = new Greeting(dataMap);
 
             Assert.AreEqual(g.id, reclaimed.id);
