@@ -59,8 +59,10 @@
     <Compile Include="restliclient\request\CreateRequest.cs" />
     <Compile Include="restliclient\request\GetRequest.cs" />
     <Compile Include="restliclient\request\Request.cs" />
+    <Compile Include="restliclient\response\decoder\CreateResponseDecoder.cs" />
     <Compile Include="restliclient\response\decoder\EntityResponseDecoder.cs" />
     <Compile Include="restliclient\response\decoder\RestResponseDecoder.cs" />
+    <Compile Include="restliclient\response\CreateResponse.cs" />
     <Compile Include="restliclient\response\EntityResponse.cs" />
     <Compile Include="restliclient\response\Response.cs" />
     <Compile Include="restliclient\RestClient.cs" />
@@ -79,6 +81,7 @@
     <Compile Include="restliclient\util\RequestUrlBuilder.cs" />
     <Compile Include="restliclient\util\HttpMethod.cs" />
     <Compile Include="restliclient\util\ResourceMethod.cs" />
+    <Compile Include="restliclient\util\ValueConverter.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

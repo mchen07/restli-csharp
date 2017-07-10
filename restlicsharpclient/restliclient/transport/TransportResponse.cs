@@ -16,7 +16,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using Newtonsoft.Json;
 
 using restlicsharpclient.restliclient.util;
@@ -30,22 +29,17 @@ namespace restlicsharpclient.restliclient.transport
     public class TransportResponse
     {
         public Dictionary<string, object> data;
-        public Dictionary<string, string> headers;
+        public IReadOnlyDictionary<string, string> headers;
         public int? status;
         // TODO: Support for Error object
         // TODO: Support for ErrorResponseDecoder object
 
         // Convert comma-separated wire header to app-expected header
-        public Dictionary<string, List<string>> responseHeaders
+        public IReadOnlyDictionary<string, IReadOnlyList<string>> responseHeaders
         {
             get
             {
-                Dictionary<string, List<string>> appHeaders = new Dictionary<string, List<string>>();
-                foreach (KeyValuePair<string, string> pair in headers)
-                {
-                    appHeaders.Add(pair.Key, pair.Value.Split(RestConstants.kHeaderDelimiters).ToList());
-                }
-                return appHeaders;
+                return headers.ToDictionary(_ => _.Key, _ => (IReadOnlyList<string>)_.Value.Split(RestConstants.kHeaderDelimiters).ToList());
             }
         }
 

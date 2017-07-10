@@ -16,8 +16,9 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using System.Collections;
 using System.Threading;
+using System.Collections.Generic;
+using System.Linq;
 
 using com.linkedin.restli.test.api;
 using restlicsharpclient.restliclient;
@@ -25,7 +26,6 @@ using restlicsharpclient.restliclient.request;
 using restlicsharpclient.restliclient.request.builder;
 using restlicsharpclient.restliclient.response;
 using restlicsharpclient.restliclient.util;
-using System.Collections.Generic;
 
 namespace restlicsharpclient.restliclientintegrationtest
 {
@@ -46,7 +46,7 @@ namespace restlicsharpclient.restliclientintegrationtest
             requestBuilder.SetID(123);
             GetRequest<int, Greeting> request = requestBuilder.Build();
 
-            EntityResponse<Greeting> response = client.RestRequestSync<EntityResponse<Greeting>>(request);
+            EntityResponse<Greeting> response = client.RestRequestSync(request);
 
             Greeting greeting = response.element;
 
@@ -82,7 +82,7 @@ namespace restlicsharpclient.restliclientintegrationtest
             };
             RestliCallback<EntityResponse<Greeting>> callback = new RestliCallback<EntityResponse<Greeting>>(successHandler);
 
-            client.RestRequestAsync<EntityResponse<Greeting>>(request, callback);
+            client.RestRequestAsync(request, callback);
 
             blocker.WaitOne();
 
@@ -112,11 +112,11 @@ namespace restlicsharpclient.restliclientintegrationtest
             requestBuilder.input = input;
             CreateRequest<int, Greeting> request = requestBuilder.Build();
 
-            EntityResponse<Greeting> response = client.RestRequestSync<EntityResponse<Greeting>>(request);
+            CreateResponse<int, Greeting> response = client.RestRequestSync(request);
 
             Assert.AreEqual(RestConstants.httpStatusCreated, response.status);
-            CollectionAssert.AreEqual(new List<string>() { "123" }, response.headers[RestConstants.kHeaderRestliId]);
-            CollectionAssert.AreEqual(new List<string>() { "/basicCollection/123" }, response.headers[RestConstants.kHeaderLocation]);
+            Assert.AreEqual(123, response.key);
+            CollectionAssert.AreEqual(new List<string>() { "/basicCollection/123" }, response.headers[RestConstants.kHeaderLocation].ToList());
         }
 
         [TestMethod]
@@ -140,22 +140,22 @@ namespace restlicsharpclient.restliclientintegrationtest
 
             AutoResetEvent blocker = new AutoResetEvent(false);
 
-            EntityResponse<Greeting> entityResponse = null;
+            CreateResponse<int, Greeting> createResponse = null;
 
-            RestliCallback<EntityResponse<Greeting>>.SuccessHandler successHandler = delegate (EntityResponse<Greeting> response)
+            RestliCallback<CreateResponse<int, Greeting>>.SuccessHandler successHandler = delegate (CreateResponse<int, Greeting> response)
             {
-                entityResponse = response;
+                createResponse = response;
                 blocker.Set();
             };
-            RestliCallback<EntityResponse<Greeting>> callback = new RestliCallback<EntityResponse<Greeting>>(successHandler);
+            RestliCallback<CreateResponse<int, Greeting>> callback = new RestliCallback<CreateResponse<int, Greeting>>(successHandler);
             
-            client.RestRequestAsync<EntityResponse<Greeting>>(request, callback);
+            client.RestRequestAsync(request, callback);
 
             blocker.WaitOne();
 
-            Assert.AreEqual(RestConstants.httpStatusCreated, entityResponse.status);
-            CollectionAssert.AreEqual(new List<string>() { "123" }, entityResponse.headers[RestConstants.kHeaderRestliId]);
-            CollectionAssert.AreEqual(new List<string>() { "/basicCollection/123" }, entityResponse.headers[RestConstants.kHeaderLocation]);
+            Assert.AreEqual(RestConstants.httpStatusCreated, createResponse.status);
+            Assert.AreEqual(123, createResponse.key);
+            CollectionAssert.AreEqual(new List<string>() { "/basicCollection/123" }, createResponse.headers[RestConstants.kHeaderLocation].ToList());
         }
     }
 }

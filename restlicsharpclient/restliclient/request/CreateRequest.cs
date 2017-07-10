@@ -30,13 +30,13 @@ namespace restlicsharpclient.restliclient.request
     /// </summary>
     /// <typeparam name="TKey">The key (id) type of the entity being created</typeparam>
     /// <typeparam name="TEntity">The type of entity being created</typeparam>
-    public class CreateRequest<TKey, TEntity> : Request<EntityResponse<TEntity>>
-        where TKey : IEquatable<TKey> where TEntity : RecordTemplate
+    public class CreateRequest<TKey, TEntity> : Request<CreateResponse<TKey, TEntity>>
+        where TKey : IEquatable<TKey> where TEntity : class, RecordTemplate
     {
         public CreateRequest(TEntity input, Dictionary<string, List<string>> headers, Dictionary<string, object> queryParams, string baseUrlTemplate)
             : base(ResourceMethod.CREATE, input, headers, queryParams, baseUrlTemplate)
         {
-            responseDecoder = new EntityResponseDecoder<TEntity>();
+            responseDecoder = new CreateResponseDecoder<TKey, TEntity>();
         }
     }
 }

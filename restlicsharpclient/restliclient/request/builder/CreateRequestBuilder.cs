@@ -26,19 +26,20 @@ namespace restlicsharpclient.restliclient.request.builder
     /// </summary>
     /// <typeparam name="TKey">The key (id) type of the entity being created</typeparam>
     /// <typeparam name="TEntity">The type of entity being created</typeparam>
-    public class CreateRequestBuilder<TKey, TEntity> : SingleEntityRequestBuilder<CreateRequest<TKey, TEntity>, EntityResponse<TEntity>, TKey, TEntity>
+    public class CreateRequestBuilder<TKey, TEntity> : RequestBuilderBase<CreateRequest<TKey, TEntity>, CreateResponse<TKey, TEntity>>
         where TKey : IEquatable<TKey> where TEntity : class, RecordTemplate
     {
-        public CreateRequestBuilder(string baseUrlTemplate) : base(baseUrlTemplate) { }
+        public TEntity input { private get; set; }
+
+        public CreateRequestBuilder(string baseUrlTemplate) : base(baseUrlTemplate)
+        {
+            input = null;
+        }
 
         public override CreateRequest<TKey, TEntity> Build()
         {
             return new CreateRequest<TKey, TEntity>(input, headers, queryParams, baseUrlTemplate);
         }
-
-        public override void SetID(TKey id)
-        {
-            throw new InvalidOperationException("Cannot set ID for a Rest.li CREATE request.");
-        }
+       
     }
 }

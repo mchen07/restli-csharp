@@ -31,7 +31,7 @@ namespace restlicsharpclient.restliclient.request
     /// <typeparam name="TKey">The key (id) type of the entity being retrieved</typeparam>
     /// <typeparam name="TEntity">The type of entity being retrieved</typeparam>
     public class GetRequest<TKey, TEntity> : Request<EntityResponse<TEntity>>
-        where TKey : IEquatable<TKey> where TEntity : RecordTemplate
+        where TKey : IEquatable<TKey> where TEntity : class, RecordTemplate
     {
         /*
          * ID is stored as an object so that regardless of whether TKey is

@@ -46,7 +46,7 @@ namespace restlicsharpclient.restliclient.request.builder
             input = null;
         }
 
-        public virtual void SetID(TKey id)
+        public void SetID(TKey id)
         {
             this.id = id;
         }

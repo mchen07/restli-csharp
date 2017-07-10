@@ -18,10 +18,12 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Reflection;
 
 using restlicsharpclient.restliclient.request;
 using restlicsharpclient.restliclient.transport;
 using restlicsharpclient.restliclient.response;
+using restlicsharpdata.restlidata;
 
 namespace restlicsharpclient.restliclient.util
 {
@@ -47,7 +49,9 @@ namespace restlicsharpclient.restliclient.util
             string url = request.GetUrl(urlPrefix);
 
             Dictionary<string, string> headers = new Dictionary<string, string>();
-            foreach (KeyValuePair<string, List<string>> pair in request.headers)
+            headers.Add(RestConstants.kHeaderRestliProtocolVersion, RestConstants.kRestLiVersion20);
+            headers.Add(RestConstants.kHeaderRestliRequestMethod, request.method.ToString());
+            foreach (KeyValuePair<string, IReadOnlyList<string>> pair in request.headers)
             {
                 headers.Add(pair.Key, String.Join(RestConstants.kHeaderDelimiter, pair.Value));
             }
@@ -61,7 +65,6 @@ namespace restlicsharpclient.restliclient.util
                 {
                     JsonSerializer.Create().Serialize(jsonTextWriter, request.input);
                     jsonTextWriter.Flush();
-                    bodyStream.Position = 0;
                     requestBody = bodyStream.ReadAllBytes();
                 }
             }
@@ -109,6 +112,8 @@ namespace restlicsharpclient.restliclient.util
         /// <returns>Byte array of entire stream data</returns>
         public static byte[] ReadAllBytes(this Stream stream)
         {
+            long position = stream.Position;
+            stream.Position = 0;
             byte[] dataBytes;
             using (MemoryStream memoryStream = new MemoryStream())
             {
@@ -116,7 +121,20 @@ namespace restlicsharpclient.restliclient.util
                 dataBytes = memoryStream.ToArray();
                 memoryStream.Close();
             }
+            stream.Position = position;
             return dataBytes;
+        }
+
+        /// <summary>
+        /// Builds a RecordTemplate of specified Record type from data map.
+        /// </summary>
+        /// <typeparam name="TRecord">The type of Record to build.</typeparam>
+        /// <param name="dataMap">Data map used to build the record</param>
+        /// <returns>Record built using data map</returns>
+        public static TRecord BuildRecord<TRecord>(Dictionary<string, object> dataMap) where TRecord : RecordTemplate
+        {
+            ConstructorInfo constructor = typeof(TRecord).GetConstructor(new[] { typeof(Dictionary<string, object>) });
+            return (TRecord)constructor.Invoke(new object[] { dataMap });
         }
     }
 }

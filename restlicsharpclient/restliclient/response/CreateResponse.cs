@@ -14,6 +14,7 @@
    limitations under the License.
 */
 
+using System;
 using System.Collections.Generic;
 
 using restlicsharpdata.restlidata;
@@ -21,19 +22,21 @@ using restlicsharpdata.restlidata;
 namespace restlicsharpclient.restliclient.response
 {
     /// <summary>
-    /// Representation of a Rest.li entity response.
-    /// <para>Returned by an instance of the EntityResponseDecoder class.</para>
+    /// Representation of a Rest.li CREATE response.
+    /// <para>Returned by an instance of the CreateResponseDecoder class.</para>
     /// </summary>
     /// <typeparam name="TEntity">The type of Entity represented by this Response</typeparam>
-    public class EntityResponse<TEntity> : Response
-        where TEntity : RecordTemplate
+    public class CreateResponse<TKey, TEntity> : Response
+        where TKey : IEquatable<TKey> where TEntity : class, RecordTemplate
     {
-        public TEntity element;
+        public TKey key;
+        public TEntity entity;
 
-        public EntityResponse(IReadOnlyDictionary<string, IReadOnlyList<string>> headers, int status, TEntity data)
+        public CreateResponse(IReadOnlyDictionary<string, IReadOnlyList<string>> headers, int status, TKey key, TEntity entity)
             : base(headers, status)
         {
-            this.element = data;
+            this.key = key;
+            this.entity = entity;
         }
     }
 }

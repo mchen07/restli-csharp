@@ -58,7 +58,7 @@ namespace restlicsharpclient.restliclient.util
 
         public string AppendQueryParams(string url)
         {
-            Dictionary<string, object> queryParams = request.queryParams;
+            IReadOnlyDictionary<string, object> queryParams = request.queryParams;
 
             List<string> encodedQueryItems = new List<string>();
             foreach (KeyValuePair<string, object> pair in queryParams)

@@ -19,6 +19,7 @@ using System.Reflection;
 
 using restlicsharpdata.restlidata;
 using restlicsharpclient.restliclient.transport;
+using restlicsharpclient.restliclient.util;
 
 namespace restlicsharpclient.restliclient.response.decoder
 {
@@ -26,16 +27,16 @@ namespace restlicsharpclient.restliclient.response.decoder
     /// Class for decoding an entity TransportResponse into an EntityResponse.
     /// </summary>
     /// <typeparam name="TEntity">The type of entity to be retrieved</typeparam>
-    public class EntityResponseDecoder<TEntity> : RestResponseDecoder<EntityResponse<TEntity>> where TEntity : RecordTemplate
+    public class EntityResponseDecoder<TEntity> : RestResponseDecoder<EntityResponse<TEntity>>
+        where TEntity : class, RecordTemplate
     {
         public EntityResponse<TEntity> DecodeResponse(TransportResponse transportResponse)
         {
-            TEntity record = default(TEntity);
+            TEntity record = null;
             Dictionary<string, object> dataMap = transportResponse.data;
             if (dataMap != null)
             {
-                ConstructorInfo constructor = typeof(TEntity).GetConstructor(new[] { typeof(Dictionary<string, object>) });
-                record = (TEntity)constructor.Invoke(new object[] { dataMap });
+                record = ClientUtil.BuildRecord<TEntity>(dataMap);
             }
             return new EntityResponse<TEntity>(transportResponse.responseHeaders, transportResponse.status ?? 200, record);
         }

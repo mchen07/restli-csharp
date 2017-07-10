@@ -32,7 +32,7 @@ namespace restlicsharpclient.restliclient.transport
     public class HttpResponse
     {
         public int? status { get; }
-        public Dictionary<string, string> headers { get; }
+        public IReadOnlyDictionary<string, string> headers { get; }
         public byte[] data { get; }
 
 
