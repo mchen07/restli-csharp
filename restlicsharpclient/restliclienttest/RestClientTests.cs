@@ -17,12 +17,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System.Collections.Generic;
-using Newtonsoft.Json;
-
-using restlicsharpclient.restliclient.util;
 using System.IO;
 
 using com.linkedin.restli.test.api;
+using restlicsharpclient.restliclient.util;
 
 namespace restlicsharpclient.restliclienttest
 {
@@ -93,7 +91,7 @@ namespace restlicsharpclient.restliclienttest
             greetingBuilder.message = "Hello, Serialize test!";
             Greeting g = greetingBuilder.Build();
 
-            string serialized = DataUtil.SerializeObject(g);
+            string serialized = DataUtil.SerializeObject(g.Data());
 
             Dictionary<string, object> dataMap = DataUtil.DeserializeObject<Dictionary<string, object>>(serialized);
             Greeting reclaimed = new Greeting(dataMap);

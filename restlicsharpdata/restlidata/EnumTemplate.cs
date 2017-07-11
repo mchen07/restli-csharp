@@ -14,11 +14,8 @@
    limitations under the License.
 */
 
-using Newtonsoft.Json;
-
 namespace restlicsharpdata.restlidata
 {
-    [JsonConverter(typeof(EnumSerializationConverter))]
     public interface EnumTemplate : DataTemplate<string>
     {
     }

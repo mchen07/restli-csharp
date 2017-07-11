@@ -17,13 +17,10 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using System.Reflection;
 
 using restlicsharpclient.restliclient.request;
 using restlicsharpclient.restliclient.transport;
 using restlicsharpclient.restliclient.response;
-using restlicsharpdata.restlidata;
 
 namespace restlicsharpclient.restliclient.util
 {
@@ -59,7 +56,7 @@ namespace restlicsharpclient.restliclient.util
             byte[] requestBody = null;
             if (request.input != null)
             {
-                requestBody = DataUtil.SerializeObjectToBytes(request.input);
+                requestBody = DataUtil.SerializeObjectToBytes(request.input.Data());
             }
 
             HttpRequest httpRequest = new HttpRequest(GetHttpMethod(request.method), url, headers, requestBody);

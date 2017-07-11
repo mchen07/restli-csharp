@@ -21,6 +21,7 @@ package com.linkedin.restli.datagenerator.csharp;
  */
 public class GeneratorConstants {
   public static final String NEWLINE = System.getProperty("line.separator");
+  public static final String INDICATOR_FIELD_PREFIX = "has";
 
   public enum FieldParseType {
     FROM_DATAMAP,

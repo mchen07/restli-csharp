@@ -1,0 +1,20 @@
+{
+  "type": "record",
+  "name": "ReservedNames",
+  "namespace": "com.linkedin.restli.datagenerator.integration",
+  "fields": [
+    {
+      "name": "class",
+      "type": "string"
+    },
+    {
+      "name": "private",
+      "type": "int",
+      "default": 1
+    },
+    {
+      "name": "notReserved",
+      "type": "int"
+    }
+  ]
+}

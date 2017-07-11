@@ -12,7 +12,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 
 using restlicsharpdata.restlidata;
 
@@ -28,8 +27,7 @@ namespace @cSharpRecord.getNamespace()
     @field.getDoc().restli_comment()
 }
     public @(field.getTypeString()) @(field.getName()) { get; }
-    [JsonIgnore]
-    public bool has@(field.getName().capFirst()) { get; }
+    public bool @(field.getIndicatorName()) { get; }
 }
 
     public @(cSharpRecord.getName())(Dictionary<string, object> data)
@@ -37,7 +35,7 @@ namespace @cSharpRecord.getNamespace()
       object value;
 @for (Field field : cSharpRecord.getFields()) {
       // Retrieve data for @field.getName()
-      if (data.TryGetValue("@field.getName()", out value))
+      if (data.TryGetValue("@field.getSchemaFieldName()", out value))
       {
 @if (field.getType() instanceof CSharpCollectionType) {
         @field.getType().getName(CSharpType.NameModifier.DATAMAP_PARSE) data0 = (@field.getType().getName(CSharpType.NameModifier.DATAMAP_PARSE))value;
@@ -47,14 +45,14 @@ namespace @cSharpRecord.getNamespace()
 } else {
         @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, field.getType(), "value", field.getName(), GeneratorConstants.FieldParseType.FROM_DATAMAP, 1).restli_addIndent(8)
 }
-        has@field.getName().capFirst() = true;
+        @field.getIndicatorName() = true;
       }
       else
       {
 @if (field.hasDefaultValue()) {
         @field.getName() = @field.getDefaultValueLiteral();
 }
-        has@field.getName().capFirst() = false;
+        @field.getIndicatorName() = false;
       }
 }
     }
@@ -73,7 +71,7 @@ namespace @cSharpRecord.getNamespace()
 } else {
         @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, field.getType(), "builder." + field.getName(), field.getName(), GeneratorConstants.FieldParseType.FROM_BUILDER, 1).restli_addIndent(8)
 }
-        has@field.getName().capFirst() = true;
+        @field.getIndicatorName() = true;
       }
       else
       {
@@ -83,7 +81,7 @@ namespace @cSharpRecord.getNamespace()
         throw new ArgumentException("Required field with no default must be included in builder: @field.getName()");
 }
 @if (field.isOptional() || field.hasDefaultValue()) {
-        has@field.getName().capFirst() = false;
+        @field.getIndicatorName() = false;
 }
       }
 }
@@ -93,8 +91,8 @@ namespace @cSharpRecord.getNamespace()
     {
       Dictionary<string, object> dataMap = new Dictionary<string, object>();
 @for (Field field : cSharpRecord.getFields()) {
-      if (has@field.getName().capFirst())
-        dataMap.Add("@(field.getName())", @(field.getName())@(field.getType().getDataMapExpression()));
+      if (@field.getIndicatorName())
+        dataMap.Add("@(field.getSchemaFieldName())", @(field.getName())@(field.getType().getDataMapExpression()));
 }
       return dataMap;
     }
