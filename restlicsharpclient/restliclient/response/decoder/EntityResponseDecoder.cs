@@ -15,7 +15,6 @@
 */
 
 using System.Collections.Generic;
-using System.Reflection;
 
 using restlicsharpdata.restlidata;
 using restlicsharpclient.restliclient.transport;

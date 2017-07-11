@@ -17,12 +17,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System.Collections.Generic;
-using Newtonsoft.Json;
-
-using restlicsharpclient.restliclient.util;
 using System.IO;
 
 using com.linkedin.restli.test.api;
+using restlicsharpclient.restliclient.util;
 
 namespace restlicsharpclient.restliclienttest
 {
@@ -52,7 +50,7 @@ namespace restlicsharpclient.restliclienttest
                     'complexlist': [1, [2, [3, 4]]]
                 }";
 
-            Dictionary<string, object> dataMap = DataUtil.DeserializeObject<Dictionary<string, object>>(dataMapString);
+            Dictionary<string, object> dataMap = DataUtil.StringToMap(dataMapString);
 
             Assert.AreEqual("bar", dataMap["foo"]);
 
@@ -67,11 +65,6 @@ namespace restlicsharpclient.restliclienttest
             CollectionAssert.AreEqual(new List<object> { (long)1, "hello", null, (double)4.2 }, (List<object>)(((dataMap["one"] as Dictionary<string, object>)["two"] as Dictionary<string, object>)["three"] as Dictionary<string, object>)["four"], "Failed on [1, 'hello', null, 4.2]");
 
             Assert.AreEqual((long)4, (((dataMap["complexlist"] as List<object>)[1] as List<object>)[1] as List<object>)[1]);
-
-
-            string simpleString = "33";
-            object simpleData = DataUtil.DeserializeObject<long>(simpleString);
-            Assert.AreEqual((long)33, simpleData);
         }
 
         [TestMethod]
@@ -93,9 +86,9 @@ namespace restlicsharpclient.restliclienttest
             greetingBuilder.message = "Hello, Serialize test!";
             Greeting g = greetingBuilder.Build();
 
-            string serialized = DataUtil.SerializeObject(g);
+            string serialized = DataUtil.MapToString(g.Data());
 
-            Dictionary<string, object> dataMap = DataUtil.DeserializeObject<Dictionary<string, object>>(serialized);
+            Dictionary<string, object> dataMap = DataUtil.StringToMap(serialized);
             Greeting reclaimed = new Greeting(dataMap);
 
             Assert.AreEqual(g.id, reclaimed.id);

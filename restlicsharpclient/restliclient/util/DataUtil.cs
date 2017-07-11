@@ -14,12 +14,12 @@
    limitations under the License.
 */
 
-using Newtonsoft.Json;
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Newtonsoft.Json;
 
 using restlicsharpdata.restlidata;
 
@@ -85,28 +85,28 @@ namespace restlicsharpclient.restliclient.util
         }
 
         /// <summary>
-        /// Serializes an object to a string.
+        /// Serializes a data map to a string.
         /// </summary>
-        /// <param name="dataObject">Object to be serialized</param>
-        /// <returns>Object serialized as a string</returns>
-        public static string SerializeObject(object dataObject)
+        /// <param name="dataMap">Data map to be serialized</param>
+        /// <returns>Data map serialized as a string</returns>
+        public static string MapToString(Dictionary<string, object> dataMap)
         {
-            return JsonConvert.SerializeObject(dataObject);
+            return JsonConvert.SerializeObject(dataMap);
         }
 
         /// <summary>
-        /// Serializes an object to bytes.
+        /// Serializes a data map to bytes.
         /// </summary>
-        /// <param name="dataObject">Object to be serialized</param>
-        /// <returns>Object serialized as bytes</returns>
-        public static byte[] SerializeObjectToBytes(object dataObject)
+        /// <param name="dataMap">Data map to be serialized</param>
+        /// <returns>Data map serialized as bytes</returns>
+        public static byte[] MapToBytes(Dictionary<string, object> dataMap)
         {
             byte[] serialized;
             using (Stream bodyStream = new MemoryStream())
             using (StreamWriter streamWriter = new StreamWriter(bodyStream))
             using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter))
             {
-                JsonSerializer.Create().Serialize(jsonTextWriter, dataObject);
+                JsonSerializer.Create().Serialize(jsonTextWriter, dataMap);
                 jsonTextWriter.Flush();
                 serialized = bodyStream.ReadAllBytes();
             }
@@ -114,14 +114,23 @@ namespace restlicsharpclient.restliclient.util
         }
 
         /// <summary>
-        /// Deserializes an object from string.
+        /// Deserializes a data map from a string.
         /// </summary>
-        /// <typeparam name="TObject">Type of object being deserialized</typeparam>
-        /// <param name="dataString">String data to be used in object deserialization</param>
+        /// <param name="dataString">String data to be used in data map deserialization</param>
         /// <returns>Deserialized object</returns>
-        public static TObject DeserializeObject<TObject>(string dataString)
+        public static Dictionary<string, object> StringToMap(string dataString)
         {
-            return (TObject)JsonConvert.DeserializeObject<object>(dataString, new JsonConverter[] { new DataMapDeserializationConverter() });
+            return (Dictionary<string, object>)JsonConvert.DeserializeObject<object>(dataString, new JsonConverter[] { new DataMapDeserializationConverter() });
+        }
+
+        /// <summary>
+        /// Deserializes a data map from bytes.
+        /// </summary>
+        /// <param name="dataBytes">Bytes data to be used in data map deserialization</param>
+        /// <returns>Deserialized object</returns>
+        public static Dictionary<string, object> BytesToMap(byte[] dataBytes)
+        {
+            return StringToMap(System.Text.Encoding.UTF8.GetString(dataBytes));
         }
     }
 }

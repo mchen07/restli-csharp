@@ -17,10 +17,10 @@
 using System.Net;
 using System.Collections.Generic;
 using System.Net.Http;
-
-using restlicsharpclient.restliclient.util;
 using System.Net.Http.Headers;
 using System;
+
+using restlicsharpclient.restliclient.util;
 
 namespace restlicsharpclient.restliclient.transport
 {

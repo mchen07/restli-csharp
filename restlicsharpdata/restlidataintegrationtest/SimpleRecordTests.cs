@@ -15,6 +15,7 @@
 */
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System.Collections.Generic;
 using System;
 
@@ -26,7 +27,7 @@ namespace restlicsharpdata.restlidataintegrationtest
     public class SimpleRecordTests
     {
         [TestMethod]
-        public void SimpleRecord_DataMapInit()
+        public void DataMapInit()
         {
             SimpleRecord s;
 
@@ -48,7 +49,7 @@ namespace restlicsharpdata.restlidataintegrationtest
         }
 
         [TestMethod]
-        public void SimpleRecord_DataMapInit_Defaults()
+        public void DataMapInit_Defaults()
         {
             SimpleRecord s;
 
@@ -68,7 +69,7 @@ namespace restlicsharpdata.restlidataintegrationtest
         }
 
         [TestMethod]
-        public void SimpleRecord_Builder()
+        public void Builder()
         {
             SimpleRecord s;
 
@@ -88,7 +89,7 @@ namespace restlicsharpdata.restlidataintegrationtest
         }
 
         [TestMethod]
-        public void SimpleRecord_Builder_Defaults()
+        public void Builder_Defaults()
         {
             SimpleRecord s;
 
@@ -107,7 +108,7 @@ namespace restlicsharpdata.restlidataintegrationtest
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void SimpleRecord_Builder_OmitRequired()
+        public void Builder_OmitRequired()
         {
             SimpleRecord s;
 
@@ -116,6 +117,28 @@ namespace restlicsharpdata.restlidataintegrationtest
             b.anotherIntValue = 6;
 
             s = b.Build();
+        }
+
+        [TestMethod]
+        public void FullCycle()
+        {
+            SimpleRecord s;
+
+            SimpleRecordBuilder b = new SimpleRecordBuilder();
+            b.stringField = "hello";
+            b.intValue = 5;
+            b.anotherIntValue = 6;
+
+            s = b.Build();
+
+            Dictionary<string, object> dataMap = s.Data();
+
+            SimpleRecord reclaimed = new SimpleRecord(dataMap);
+
+            Assert.AreNotSame(s, reclaimed);
+            Assert.AreEqual(s.stringField, reclaimed.stringField);
+            Assert.AreEqual(s.intValue, reclaimed.intValue);
+            Assert.AreEqual(s.anotherIntValue, reclaimed.anotherIntValue);
         }
     }
 }

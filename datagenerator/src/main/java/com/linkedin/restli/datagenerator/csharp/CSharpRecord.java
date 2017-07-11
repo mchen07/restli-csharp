@@ -166,6 +166,10 @@ public class CSharpRecord extends CSharpComplexType {
       return CSharpUtil.escapeReserved(fieldName);
     }
 
+    public String getIndicatorName() {
+      return GeneratorConstants.INDICATOR_FIELD_PREFIX + CSharpUtil.toCapitalized(getName());
+    }
+
     public String getDoc() {
       return _specField.getSchemaField().getDoc();
     }

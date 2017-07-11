@@ -15,12 +15,12 @@
 */
 
 using System.Collections.Generic;
+using System.Linq;
 
 using restlicsharpdata.restlidata;
 using restlicsharpclient.restliclient.util;
 using restlicsharpclient.restliclient.response;
 using restlicsharpclient.restliclient.response.decoder;
-using System.Linq;
 
 namespace restlicsharpclient.restliclient.request
 {

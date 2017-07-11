@@ -50,5 +50,10 @@ namespace @cSharpEnum.getNamespace()
         symbol = Symbol.UNKNOWN;
       }
     }
+
+    public string Data()
+    {
+      return symbol.ToString();
+    }
   }
 }

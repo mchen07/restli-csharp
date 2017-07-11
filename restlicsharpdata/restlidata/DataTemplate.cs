@@ -16,7 +16,8 @@
 
 namespace restlicsharpdata.restlidata
 {
-    public interface DataTemplate
+    public interface DataTemplate<TData>
     {
+        TData Data();
     }
 }

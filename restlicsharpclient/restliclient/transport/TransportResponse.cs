@@ -16,7 +16,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 
 using restlicsharpclient.restliclient.util;
 
@@ -52,9 +51,7 @@ namespace restlicsharpclient.restliclient.transport
             {
                 headers = response.headers;
                 httpStatus = response.status;
-                string dataString = System.Text.Encoding.UTF8.GetString(response.data);
-
-                data = DataUtil.DeserializeObject<Dictionary<string, object>>(dataString);
+                data = DataUtil.BytesToMap(response.data);
             }
             else
             {

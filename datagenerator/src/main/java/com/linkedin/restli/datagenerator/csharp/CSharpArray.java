@@ -61,4 +61,10 @@ public class CSharpArray extends CSharpCollectionType {
         return "IReadOnlyList<" + getElementType().getName(NameModifier.NONE) + ">";
     }
   }
+
+  @Override
+  public String getDataMapExpression(SequentialIdentifierGenerator generator) {
+    String identifier = generator.generateIdentifier();
+    return String.format(".Select(%1$s => %1$s%2$s).ToList()", identifier, getElementType().getDataMapExpression(generator));
+  }
 }

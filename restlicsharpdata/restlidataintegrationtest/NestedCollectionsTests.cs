@@ -15,6 +15,7 @@
 */
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System.Collections.Generic;
 
 using com.linkedin.restli.datagenerator.integration;
@@ -25,7 +26,7 @@ namespace restlicsharpdata.restlidataintegrationtest
     public class NestedCollectionsTests
     {
         [TestMethod]
-        public void NestedCollections_DataMap_OmitAll()
+        public void DataMap_OmitAll()
         {
             NestedCollections n = new NestedCollections(new Dictionary<string, object>());
 
@@ -36,7 +37,7 @@ namespace restlicsharpdata.restlidataintegrationtest
         }
 
         [TestMethod]
-        public void NestedCollections_DataMap_NestedArray()
+        public void DataMap_NestedArray()
         {
             NestedCollections n;
 
@@ -73,7 +74,7 @@ namespace restlicsharpdata.restlidataintegrationtest
         }
 
         [TestMethod]
-        public void NestedCollections_DataMap_NestedMap()
+        public void DataMap_NestedMap()
         {
             NestedCollections n;
 
@@ -110,7 +111,7 @@ namespace restlicsharpdata.restlidataintegrationtest
         }
 
         [TestMethod]
-        public void NestedCollections_DataMap_Mixed()
+        public void DataMap_Mixed()
         {
             NestedCollections n;
 
@@ -156,7 +157,7 @@ namespace restlicsharpdata.restlidataintegrationtest
         }
 
         [TestMethod]
-        public void NestedCollection_Builder()
+        public void Builder()
         {
             NestedCollections n;
 
@@ -199,6 +200,77 @@ namespace restlicsharpdata.restlidataintegrationtest
             Assert.AreEqual("0, one, 0", n.mixed[0]["one"][0].stringField);
             Assert.AreEqual("0, one, 1", n.mixed[0]["one"][1].stringField);
             Assert.AreEqual("0, extra, 0", n.mixed[0]["extra"][0].stringField);
+        }
+
+        [TestMethod]
+        public void FullCycle()
+        {
+            NestedCollections n;
+
+            NestedCollectionsBuilder b = new NestedCollectionsBuilder();
+            b.mixed = new List<Dictionary<string, List<SimpleRecord>>>()
+                {
+                    new Dictionary<string, List<SimpleRecord>>()
+                    {
+                        { "one",
+                            new List<SimpleRecord>()
+                            {
+                                new SimpleRecord(new Dictionary<string, object>()
+                                {
+                                    { "stringField", "0, one, 0" }
+                                }),
+                                new SimpleRecord(new Dictionary<string, object>()
+                                {
+                                    { "stringField", "0, one, 1" }
+                                })
+                            }
+                        },
+                        { "extra",
+                            new List<SimpleRecord>()
+                            {
+                                new SimpleRecord(new Dictionary<string, object>()
+                                {
+                                    { "stringField", "0, extra, 0" }
+                                })
+                            }
+                        }
+                    }
+                };
+            b.nestedMap = new Dictionary<string, Dictionary<string, SimpleRecordProjection>>()
+                {
+                    { "one",
+                        new Dictionary<string, SimpleRecordProjection>()
+                        {
+                            { "two",
+                                new SimpleRecordProjection(new Dictionary<string, object>()
+                                {
+                                    { "stringField", "one, two" }
+                                })
+                            },
+                            { "extra",
+                                new SimpleRecordProjection(new Dictionary<string, object>()
+                                {
+                                    { "stringField", "one, extra" }
+                                })
+                            }
+                        }
+                    }
+                };
+
+            n = b.Build();
+
+            NestedCollections reclaimed = new NestedCollections(n.Data());
+
+            Assert.AreNotSame(n, reclaimed);
+            Assert.IsFalse(n.hasCollectionWithDefault || reclaimed.hasCollectionWithDefault);
+            Assert.IsFalse(n.hasNestedArray || reclaimed.hasNestedArray);
+            Assert.IsTrue(n.hasNestedMap && reclaimed.hasNestedMap);
+            Assert.IsTrue(n.hasMixed && reclaimed.hasMixed);
+            Assert.AreEqual(n.nestedMap["one"]["two"].stringField, reclaimed.nestedMap["one"]["two"].stringField);
+            Assert.AreEqual(n.nestedMap["one"]["extra"].stringField, reclaimed.nestedMap["one"]["extra"].stringField);
+            Assert.AreEqual(n.mixed[0]["one"][0].stringField, reclaimed.mixed[0]["one"][0].stringField);
+            Assert.AreEqual(n.mixed[0]["one"][1].stringField, reclaimed.mixed[0]["one"][1].stringField);
+            Assert.AreEqual(n.mixed[0]["extra"][0].stringField, reclaimed.mixed[0]["extra"][0].stringField);
         }
     }
 }

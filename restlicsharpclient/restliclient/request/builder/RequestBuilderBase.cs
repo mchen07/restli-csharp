@@ -15,6 +15,7 @@
 */
 
 using System.Collections.Generic;
+
 using restlicsharpclient.restliclient.response;
 
 namespace restlicsharpclient.restliclient.request.builder

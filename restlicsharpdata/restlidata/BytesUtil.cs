@@ -15,10 +15,6 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace restlicsharpdata.restlidata
 {
@@ -27,9 +23,9 @@ namespace restlicsharpdata.restlidata
         /// <summary>
         /// Get bytes from string following Pegasus JSON encoding.
         ///
-        /// This method extracts the least significant 8-bits of each character in the string
+        /// <para>This method extracts the least significant 8-bits of each character in the string
         /// (following Avro convention.) The returned byte array is the same length as the string,
-        /// i.e. if there are 8 characters in the string, the byte array will have 8 bytes.
+        /// i.e. if there are 8 characters in the string, the byte array will have 8 bytes.</para>
         /// </summary>
         /// <param name="input">string to get bytes from</param>
         /// <returns>extracted bytes if the string is valid or validation is not enabled, else return null</returns>
@@ -49,6 +45,27 @@ namespace restlicsharpdata.restlidata
                 throw new ArgumentException("'" + input + "' is not a valid string representation of bytes.");
             }
             return bytes;
+        }
+
+        /// <summary>
+        /// Get string from bytes following Pegasus JSON encoding.
+        /// 
+        /// <para>This method expands each byte into a character in the output string by encoding
+        /// the byte's value into the least significant 8-bits of the character. The returned
+        /// string will have the same length as the byte array, i.e. if there are 8 bytes in
+        /// the byte array, the string will have 8 characters.</para>
+        /// </summary>
+        /// <param name="input">byte array to get string from.</param>
+        /// <returns>string whose least significant 8-bits of each character represents one byte.</returns>
+        public static string BytesToString(byte[] input)
+        {
+            int length = input.Length;
+            char[] charArray = new char[length];
+            for (int i = 0; i < length; ++i)
+            {
+                charArray[i] = (char)(((char)input[i]) & 0x00ff);
+            }
+            return new string(charArray);
         }
     }
 }

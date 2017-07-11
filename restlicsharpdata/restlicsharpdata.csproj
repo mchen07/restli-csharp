@@ -54,6 +54,7 @@
     <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\EnumInUnionTest.cs" />
     <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\NestedCollections.cs" />
     <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\RecordInUnionTest.cs" />
+    <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\ReservedNames.cs" />
     <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\SimpleRecord.cs" />
     <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\SimpleRecordProjection.cs" />
     <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\TestEnum.cs" />
@@ -64,7 +65,6 @@
     <Compile Include="restlidata\Bytes.cs" />
     <Compile Include="restlidata\BytesUtil.cs" />
     <Compile Include="restlidata\DataTemplate.cs" />
-    <Compile Include="restlidata\EnumSerializationConverter.cs" />
     <Compile Include="restlidata\EnumTemplate.cs" />
     <Compile Include="restlidata\RecordTemplate.cs" />
     <Compile Include="restlidata\UnionTemplate.cs" />
