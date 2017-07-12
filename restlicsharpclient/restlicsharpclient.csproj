@@ -52,6 +52,7 @@
     <Compile Include="restliclientintegration\generatedDataTemplate\com\linkedin\restli\test\api\Message.cs" />
     <Compile Include="restliclientintegration\generatedDataTemplate\com\linkedin\restli\test\api\Tone.cs" />
     <Compile Include="restliclienttest\RestClientTests.cs" />
+    <Compile Include="restliclienttest\UrlParamUtilTests.cs" />
     <Compile Include="restliclient\request\builder\CreateRequestBuilder.cs" />
     <Compile Include="restliclient\request\builder\GetRequestBuilder.cs" />
     <Compile Include="restliclient\request\builder\RequestBuilderBase.cs" />
@@ -82,6 +83,8 @@
     <Compile Include="restliclient\util\HttpMethod.cs" />
     <Compile Include="restliclient\util\ResourceMethod.cs" />
     <Compile Include="restliclient\util\DataUtil.cs" />
+    <Compile Include="restliclient\util\UrlConstants.cs" />
+    <Compile Include="restliclient\util\UrlParamUtil.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

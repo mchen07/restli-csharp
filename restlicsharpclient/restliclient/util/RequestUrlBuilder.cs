@@ -19,6 +19,7 @@ using System.Collections.Generic;
 
 using restlicsharpclient.restliclient.request;
 using restlicsharpclient.restliclient.response;
+using System.Linq;
 
 namespace restlicsharpclient.restliclient.util
 {
@@ -39,35 +40,24 @@ namespace restlicsharpclient.restliclient.util
 
         public string Build()
         {
-            string url = urlPrefix + request.baseUrlTemplate;
-
             dynamic requestKey = request.GetRequestKey();
-            if (requestKey != null)
-            {
-                url = AppendKeyToPath(url, requestKey);
-            }
-
-            url = AppendQueryParams(url);
-            return url;
+            return String.Format("{0}{1}{2}{3}", urlPrefix, request.baseUrlTemplate, GetEncodedRequestKey(requestKey), GetEncodedQueryParams(request.queryParams));
         }
 
-        public string AppendKeyToPath(string url, dynamic requestKey)
+        public string GetEncodedRequestKey(dynamic requestKey)
         {
-            return String.Format("{0}/{1}", url, requestKey.ToString());
+            // Returns "/{requestKey}" if requestKey is not null
+            return requestKey == null ? "" : String.Format("{0}{1}", UrlConstants.kPathSep, UrlParamUtil.EncodeDataObject(requestKey));
         }
 
-        public string AppendQueryParams(string url)
+        public string GetEncodedQueryParams(IReadOnlyDictionary<string, object> queryParams)
         {
-            IReadOnlyDictionary<string, object> queryParams = request.queryParams;
-
-            List<string> encodedQueryItems = new List<string>();
-            foreach (KeyValuePair<string, object> pair in queryParams)
+            // Returns "?{key1}={value1}&...&{keyN}={valueN}" if queryParams isn't empty
+            if (request.queryParams.Count > 0)
             {
-                // Currently not encoded. To be implemented later.
-                encodedQueryItems.Add(String.Format("{0}={1}", pair.Key, pair.Value.ToString())); 
+                return UrlParamUtil.EncodeQueryParams(queryParams.ToDictionary(_ => _.Key, _ => _.Value));
             }
-
-            return String.Format("{0}?{1}", url, String.Join("&", encodedQueryItems));
+            return "";
         }
     }
 }
