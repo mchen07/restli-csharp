@@ -57,7 +57,8 @@ public class CSharpUnion extends CSharpComplexType {
   @Override
   public String getName(NameModifier modifier) {
     switch (modifier) {
-      case IN_BUILDER:
+      case BUILDER_OUTER:
+      case BUILDER_INNER:
         if (_enclosingType != null) {
           return _enclosingType.getName(NameModifier.NONE) + "." + getName(NameModifier.NONE);
         }

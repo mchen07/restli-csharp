@@ -24,6 +24,7 @@ using restlicsharpclient.restliclient.request;
 using restlicsharpclient.restliclient.request.builder;
 using restlicsharpclient.restliclient.response;
 using com.linkedin.restli.test.api;
+using com.linkedin.restli.common;
 
 namespace restlicsharpclient.restliclienttest
 {
@@ -41,9 +42,9 @@ namespace restlicsharpclient.restliclienttest
 
             GetRequestBuilder<int, Greeting> requestBuilder = new GetRequestBuilder<int, Greeting>("foo/{one}/bar/{list}/baz/{complex}/biz");
             requestBuilder.SetID(123);
-            requestBuilder.PathKey("one", 1);
-            requestBuilder.PathKey("list", new List<object>() { "foo", 2, 3 });
-            requestBuilder.PathKey("complex", new Dictionary<string, object>() { { "deeper", new List<object>() { "found", "it", complexString } } });
+            requestBuilder.SetPathKey("one", 1);
+            requestBuilder.SetPathKey("list", new List<object>() { "foo", 2, 3 });
+            requestBuilder.SetPathKey("complex", new Dictionary<string, object>() { { "deeper", new List<object>() { "found", "it", complexString } } });
             GetRequest<int, Greeting> request = requestBuilder.Build();
 
             RequestUrlBuilder<EntityResponse<Greeting>> urlBuilder = new RequestUrlBuilder<EntityResponse<Greeting>>(request, "http://testprefix");
@@ -66,12 +67,31 @@ namespace restlicsharpclient.restliclienttest
             Greeting greeting = greetingBuilder.Build();
 
             CreateRequestBuilder<int, Greeting> requestBuilder = new CreateRequestBuilder<int, Greeting>("foo/{one}/bar/{list}/baz/{complex}/biz");
-            requestBuilder.PathKey("one", 1);
-            requestBuilder.PathKey("list", new List<object>() { "foo", 2, 3 });
-            requestBuilder.PathKey("complex", new Dictionary<string, object>() { { "deeper", new List<object>() { "found", "it", complexString } } });
+            requestBuilder.SetPathKey("one", 1);
+            requestBuilder.SetPathKey("list", new List<object>() { "foo", 2, 3 });
+            requestBuilder.SetPathKey("complex", new Dictionary<string, object>() { { "deeper", new List<object>() { "found", "it", complexString } } });
             CreateRequest<int, Greeting> request = requestBuilder.Build();
 
             RequestUrlBuilder<CreateResponse<int, Greeting>> urlBuilder = new RequestUrlBuilder<CreateResponse<int, Greeting>>(request, "http://testprefix");
+            Uri url = urlBuilder.Build();
+
+            Assert.AreEqual(expected, url.AbsoluteUri);
+        }
+
+        [TestMethod]
+        public void BuildComplexUrl_Finder()
+        {
+            string expected = String.Format("http://testprefix/foo/1/bar/List(foo,2,3)/baz/(deeper:List(found,it,{0}))/biz?q={1}", complexStringEscapedPath, complexStringEscapedQuery);
+
+            FinderRequestBuilder<Greeting, EmptyRecord> requestBuilder = new FinderRequestBuilder<Greeting, EmptyRecord>("foo/{one}/bar/{list}/baz/{complex}/biz");
+            requestBuilder.Name(complexString);
+            requestBuilder.SetPathKey("one", 1);
+            requestBuilder.SetPathKey("list", new List<object>() { "foo", 2, 3 });
+            requestBuilder.SetPathKey("complex", new Dictionary<string, object>() { { "deeper", new List<object>() { "found", "it", complexString } } });
+
+            FinderRequest<Greeting, EmptyRecord> request = requestBuilder.Build();
+
+            RequestUrlBuilder<CollectionResponse<Greeting, EmptyRecord>> urlBuilder = new RequestUrlBuilder<CollectionResponse<Greeting, EmptyRecord>>(request, "http://testprefix");
             Uri url = urlBuilder.Build();
 
             Assert.AreEqual(expected, url.AbsoluteUri);

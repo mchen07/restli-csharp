@@ -142,8 +142,8 @@ public class CSharpRecord extends CSharpComplexType {
       switch(modifier) {
         case NULLABLE:
           return _type.getName(NameModifier.NULLABLE);
-        case IN_BUILDER:
-          return _type.getName(NameModifier.IN_BUILDER);
+        case BUILDER_OUTER:
+          return _type.getName(NameModifier.BUILDER_OUTER);
         default:
           return _type.getName(NameModifier.NONE);
       }

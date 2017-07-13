@@ -8,7 +8,7 @@
 @{
   CSharpType.NameModifier sourceTypeNameModifier =
     fieldParseType == GeneratorConstants.FieldParseType.FROM_DATAMAP ?
-    CSharpType.NameModifier.DATAMAP_PARSE : CSharpType.NameModifier.DEEP_MUTABLE;
+    CSharpType.NameModifier.DATAMAP_SHALLOW : CSharpType.NameModifier.DEEP_MUTABLE;
 }
 foreach (@cSharpArray.getElementType().getName(sourceTypeNameModifier) @(sourceName + level) in @(sourceName + (level-1)))
 {

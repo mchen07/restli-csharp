@@ -31,8 +31,10 @@ public CSharpPrimitive(ClassTemplateSpec spec) {
   @Override
   public String getName(NameModifier modifier) {
     switch (modifier) {
+      case DATAMAP_SHALLOW:
+        return "object";
       case NULLABLE:
-      case IN_BUILDER:
+      case BUILDER_OUTER:
         return getName(true);
       default:
         return getName(false);
@@ -96,12 +98,17 @@ public CSharpPrimitive(ClassTemplateSpec spec) {
   }
 
   @Override
-  public String getDataMapExpression(SequentialIdentifierGenerator generator) {
+  public String coerceToDataMapExpression(SequentialIdentifierGenerator generator) {
     switch (getSpec().getSchema().getType()) {
       case BYTES:
         return ".Data()";
       default:
         return "";
     }
+  }
+
+  @Override
+  public String coerceFromDataMapExpression(SequentialIdentifierGenerator generator, String previousIdentifier) {
+    return getInitializationExpression(previousIdentifier);
   }
 }

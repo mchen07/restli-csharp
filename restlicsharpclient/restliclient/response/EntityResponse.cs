@@ -26,11 +26,11 @@ namespace restlicsharpclient.restliclient.response
     /// </summary>
     /// <typeparam name="TEntity">The type of Entity represented by this Response</typeparam>
     public class EntityResponse<TEntity> : Response
-        where TEntity : RecordTemplate
+        where TEntity : class, RecordTemplate
     {
         public TEntity element;
 
-        public EntityResponse(IReadOnlyDictionary<string, IReadOnlyList<string>> headers, int status, TEntity data)
+        public EntityResponse(Dictionary<string, List<string>> headers, int status, TEntity data)
             : base(headers, status)
         {
             this.element = data;

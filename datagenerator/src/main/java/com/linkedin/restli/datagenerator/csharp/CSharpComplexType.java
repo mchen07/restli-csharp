@@ -39,6 +39,7 @@ public class CSharpComplexType extends CSharpType {
   public String getName(NameModifier modifier) {
     switch (modifier) {
       case DATAMAP_PARSE:
+      case DATAMAP_SHALLOW:
         return "Dictionary<string, object>";
       default:
         return CSharpUtil.escapeReserved(super.getName(NameModifier.NONE));
@@ -66,7 +67,12 @@ public class CSharpComplexType extends CSharpType {
   }
 
   @Override
-  public String getDataMapExpression(SequentialIdentifierGenerator generator) {
+  public String coerceToDataMapExpression(SequentialIdentifierGenerator generator) {
     return ".Data()";
+  }
+
+  @Override
+  public String coerceFromDataMapExpression(SequentialIdentifierGenerator generator, String previousIdentifier) {
+    return getInitializationExpression(previousIdentifier);
   }
 }

@@ -30,7 +30,16 @@ import java.util.regex.Pattern;
  */
 public abstract class CSharpType {
   private final ClassTemplateSpec _spec;
-  public enum NameModifier {NONE, NULLABLE, MUTABLE, DEEP_MUTABLE, DATAMAP_PARSE, IN_BUILDER}
+  public enum NameModifier {
+    NONE,           // immutable recursive
+    NULLABLE,       // immutable recursive, nullable if outer layer primitive
+    MUTABLE,        // outer later mutable, else immutable recursive
+    DEEP_MUTABLE,   // mutable recursive
+    DATAMAP_PARSE,  // mutable recursive, complex types represented as data maps
+    DATAMAP_SHALLOW,// mutable, outer layer only, complex types represented as data maps
+    BUILDER_OUTER,  // mutable, recursive calls are BUILDER_INNER, nullable, unions with fully qualified name
+    BUILDER_INNER   // mutable recursive, unions with fully qualified name
+  }
 
   public CSharpType(ClassTemplateSpec spec) {
     _spec = spec;
@@ -56,21 +65,38 @@ public abstract class CSharpType {
 
   public abstract String getInitializationExpression(String identifier);
 
-  public abstract String getDataMapExpression(SequentialIdentifierGenerator generator);
-
   /**
    * Creates an inline C# expression that - when placed after the identifier -
    * will create a nested expression converting that Rest.li object to a data map.
    * @param baseName base value of the identifier string (e.g. x -> x0, x1, x2, ...)
    * @return expression in C# to convert to data map
    */
-  public final String getDataMapExpression(String baseName) {
+  public final String coerceToDataMapExpression(String baseName) {
     SequentialIdentifierGenerator generator = new SequentialIdentifierGenerator(baseName);
-    return getDataMapExpression(generator);
+    return coerceToDataMapExpression(generator);
   }
 
-  public final String getDataMapExpression() {
-    return getDataMapExpression("_");
+  public abstract String coerceToDataMapExpression(SequentialIdentifierGenerator generator);
+
+  public final String coerceToDataMapExpression() {
+    return coerceToDataMapExpression("_");
+  }
+
+  /**
+   * Creates an inline C# expression that - when placed after the identifier -
+   * will create a nested expression converting that data map back to a Rest.li object.
+   * @param baseName base value of the identifier string (e.g. x -> x0, x1, x2, ...)
+   * @return expression in C# to convert from data map
+   */
+  public final String coerceFromDataMapExpression(String baseName, String previousIdentifier) {
+    SequentialIdentifierGenerator generator = new SequentialIdentifierGenerator(baseName);
+    return coerceFromDataMapExpression(generator, previousIdentifier);
+  }
+
+  public abstract String coerceFromDataMapExpression(SequentialIdentifierGenerator generator, String previousIdentifier);
+
+  public final String coerceFromDataMapExpression(String previousIdentifier) {
+    return coerceFromDataMapExpression("_", previousIdentifier);
   }
 
   public boolean needsCastFromBuilder() { return false; }

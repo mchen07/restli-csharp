@@ -253,7 +253,7 @@ namespace restlicsharpclient.restliclienttest
         [TestMethod]
         public void EncodeQueryParams()
         {
-            string expected = String.Format("?complex=(deeper:List(found,it,{0}))&list=List(foo,2,3)&one=1", complexEscapedStringQuery);
+            string expected = String.Format("complex=(deeper:List(found,it,{0}))&list=List(foo,2,3)&one=1", complexEscapedStringQuery);
             Dictionary <string, object> queryParams = new Dictionary<string, object>()
             {
                 { "one", 1 },

@@ -51,20 +51,34 @@ public class CSharpArray extends CSharpCollectionType {
   public String getName(NameModifier modifier) {
     switch (modifier) {
       case DEEP_MUTABLE:
-      case IN_BUILDER:
         return "List<" + getElementType().getName(NameModifier.DEEP_MUTABLE) + ">";
+      case BUILDER_OUTER:
+      case BUILDER_INNER:
+        return "List<" + getElementType().getName(NameModifier.BUILDER_INNER) + ">";
       case MUTABLE:
         return "List<" + getElementType().getName(NameModifier.NONE) + ">";
       case DATAMAP_PARSE:
         return "List<" + getElementType().getName(NameModifier.DATAMAP_PARSE) + ">";
+      case DATAMAP_SHALLOW:
+        return "List<object>";
       default:
         return "IReadOnlyList<" + getElementType().getName(NameModifier.NONE) + ">";
     }
   }
 
   @Override
-  public String getDataMapExpression(SequentialIdentifierGenerator generator) {
+  public String coerceToDataMapExpression(SequentialIdentifierGenerator generator) {
     String identifier = generator.generateIdentifier();
-    return String.format(".Select(%1$s => %1$s%2$s).ToList()", identifier, getElementType().getDataMapExpression(generator));
+    return String.format(".Select(%1$s => %1$s%2$s).Cast<object>().ToList()", identifier, getElementType().coerceToDataMapExpression(generator));
+  }
+
+  @Override
+  public String coerceFromDataMapExpression(SequentialIdentifierGenerator generator, String previousIdentifier) {
+    String identifier = generator.generateIdentifier();
+    return String.format("(%4$s)(%1$s.Select(%2$s => %3$s).ToList())",
+        previousIdentifier,
+        identifier,
+        getElementType().coerceFromDataMapExpression(generator, identifier),
+        getName(NameModifier.NONE));
   }
 }

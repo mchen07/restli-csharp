@@ -27,5 +27,17 @@ task generateClientTestDataTemplate(type: JavaExec) {
        '--source', sourceDir
 }
 
+task generateCommonDataTemplate(type: JavaExec) {
+  ext.sourceDir = project.file('../restlicsharpdata/restlicommon/pegasus')
+  ext.outputDir = project.file('../restlicsharpdata/restlicommon')
+
+  main = 'com.linkedin.restli.datagenerator.csharp.CSharpRythmGenerator'
+  classpath = project.sourceSets.main.output + project.configurations.runtime
+  args '--resolverPath', files(sourceDir).asPath,
+       '--output', outputDir,
+       '--source', sourceDir
+}
+
 project.tasks.test.dependsOn(generateTestDataTemplate)
 project.tasks.test.dependsOn(generateClientTestDataTemplate)
+project.tasks.test.dependsOn(generateCommonDataTemplate)

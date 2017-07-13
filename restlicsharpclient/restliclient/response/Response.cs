@@ -15,6 +15,7 @@
 */
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace restlicsharpclient.restliclient.response
 {
@@ -27,9 +28,9 @@ namespace restlicsharpclient.restliclient.response
         public IReadOnlyDictionary<string, IReadOnlyList<string>> headers;
         public int status;
 
-        public Response(IReadOnlyDictionary<string, IReadOnlyList<string>> headers, int status)
+        public Response(Dictionary<string, List<string>> headers, int status)
         {
-            this.headers = headers;
+            this.headers = headers.ToDictionary(_ => _.Key, _ => (IReadOnlyList<string>)_.Value.ToList());
             this.status = status;
         }
     }

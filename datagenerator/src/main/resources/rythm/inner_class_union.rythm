@@ -40,10 +40,18 @@ public class @cSharpUnion.getName() : UnionTemplate
   CSharpType type = ((Member) entry.getValue()).type;
 }
 @if (type instanceof CSharpCollectionType) {
-        @type.getName(CSharpType.NameModifier.DATAMAP_PARSE) data0 = (@type.getName(CSharpType.NameModifier.DATAMAP_PARSE))dataPair.Value;
-        @type.getName(CSharpType.NameModifier.MUTABLE) result0 = new @(type.getName(CSharpType.NameModifier.MUTABLE))();
-        @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, type, "data", "result", GeneratorConstants.FieldParseType.FROM_DATAMAP, 1).restli_addIndent(8)
-        @varName = result0;
+        //if (dataPair.Value is @type.getName(CSharpType.NameModifier.DATAMAP_PARSE))
+        //{
+        //  @type.getName(CSharpType.NameModifier.DATAMAP_PARSE) typeSafe = (@type.getName(CSharpType.NameModifier.DATAMAP_PARSE))dataPair.Value;
+        //  @varName = @(type.coerceFromDataMapExpression("typeSafe"));
+        //}
+        //else
+        //{
+          @type.getName(CSharpType.NameModifier.DATAMAP_SHALLOW) data0 = (@type.getName(CSharpType.NameModifier.DATAMAP_SHALLOW))dataPair.Value;
+          @type.getName(CSharpType.NameModifier.MUTABLE) result0 = new @(type.getName(CSharpType.NameModifier.MUTABLE))();
+          @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, type, "data", "result", GeneratorConstants.FieldParseType.FROM_DATAMAP, 1).restli_addIndent(8)
+          @varName = result0;
+        //}
 } else {
         @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, type, "dataPair.Value", varName, GeneratorConstants.FieldParseType.FROM_DATAMAP, 1).restli_addIndent(8)
 }
@@ -72,7 +80,7 @@ public class @cSharpUnion.getName() : UnionTemplate
     {
 @for (Map.Entry entry : memberEntrySet) {
       case Member.@(entry.getKey().capFirst()):
-        return new Dictionary<string, object>() { { "@(((Member) entry.getValue()).key)", as@(CSharpUtil.toCapitalized(entry.getKey()))@(((Member) entry.getValue()).type.getDataMapExpression()) } };
+        return new Dictionary<string, object>() { { "@(((Member) entry.getValue()).key)", as@(CSharpUtil.toCapitalized(entry.getKey()))@(((Member) entry.getValue()).type.coerceToDataMapExpression()) } };
 }
       default:
         return new Dictionary<string, object>();

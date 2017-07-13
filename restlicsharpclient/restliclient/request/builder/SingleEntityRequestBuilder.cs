@@ -30,7 +30,9 @@ namespace restlicsharpclient.restliclient.request.builder
     /// <typeparam name="TKey">The key (id) type of the entity</typeparam>
     /// <typeparam name="TEntity">The type of entity</typeparam>
     public abstract class SingleEntityRequestBuilder<TRequest, TResponse, TKey, TEntity> : RequestBuilderBase<TRequest, TResponse>
-        where TRequest : Request<TResponse> where TResponse : Response where TKey : IEquatable<TKey> where TEntity : class, RecordTemplate
+        where TRequest : Request<TResponse>
+        where TResponse : Response
+        where TEntity : class, RecordTemplate
     {
         /*
          * ID is stored as an object so that regardless of whether TKey is
