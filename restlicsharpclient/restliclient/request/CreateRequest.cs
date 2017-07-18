@@ -33,8 +33,8 @@ namespace restlicsharpclient.restliclient.request
     public class CreateRequest<TKey, TEntity> : Request<CreateResponse<TKey, TEntity>>
         where TKey : IEquatable<TKey> where TEntity : class, RecordTemplate
     {
-        public CreateRequest(TEntity input, Dictionary<string, List<string>> headers, Dictionary<string, object> queryParams, string baseUrlTemplate)
-            : base(ResourceMethod.CREATE, input, headers, queryParams, baseUrlTemplate)
+        public CreateRequest(TEntity input, Dictionary<string, List<string>> headers, Dictionary<string, object> queryParams, string baseUrlTemplate, Dictionary<string, object> pathKeys)
+            : base(ResourceMethod.CREATE, input, headers, queryParams, baseUrlTemplate, pathKeys)
         {
             responseDecoder = new CreateResponseDecoder<TKey, TEntity>();
         }

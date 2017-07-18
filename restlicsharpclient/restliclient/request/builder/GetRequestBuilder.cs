@@ -33,7 +33,7 @@ namespace restlicsharpclient.restliclient.request.builder
 
         public override GetRequest<TKey, TEntity> Build()
         {
-            return new GetRequest<TKey, TEntity>(headers, id, queryParams, baseUrlTemplate);
+            return new GetRequest<TKey, TEntity>(headers, id, queryParams, baseUrlTemplate, pathKeys);
         }
     }
 }

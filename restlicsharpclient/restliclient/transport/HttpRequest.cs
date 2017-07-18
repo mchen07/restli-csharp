@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Net;
 
 using restlicsharpclient.restliclient.util;
+using System;
 
 namespace restlicsharpclient.restliclient.transport
 {
@@ -27,7 +28,7 @@ namespace restlicsharpclient.restliclient.transport
     public class HttpRequest
     {
         public HttpMethod httpMethod { get; }
-        public string url { get; }
+        public Uri url { get; }
         public Dictionary<string, string> headers { get; }
         public WebHeaderCollection webHeaderCollection
         {
@@ -43,7 +44,7 @@ namespace restlicsharpclient.restliclient.transport
         }
         public byte[] entityBody { get; }
 
-        public HttpRequest(HttpMethod httpMethod, string url, Dictionary<string, string> headers, byte[] entityBody)
+        public HttpRequest(HttpMethod httpMethod, Uri url, Dictionary<string, string> headers, byte[] entityBody)
         {
             this.httpMethod = httpMethod;
             this.url = url;

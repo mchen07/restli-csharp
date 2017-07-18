@@ -19,8 +19,10 @@ using System.Linq;
 
 using restlicsharpdata.restlidata;
 using restlicsharpclient.restliclient.util;
+using restlicsharpclient.restliclient.util.url;
 using restlicsharpclient.restliclient.response;
 using restlicsharpclient.restliclient.response.decoder;
+using System;
 
 namespace restlicsharpclient.restliclient.request
 {
@@ -36,16 +38,18 @@ namespace restlicsharpclient.restliclient.request
         public IReadOnlyDictionary<string, IReadOnlyList<string>> headers;
         public IReadOnlyDictionary<string, object> queryParams;
         public readonly string baseUrlTemplate;
+        public IReadOnlyDictionary<string, object> pathKeys;
         public RestResponseDecoder<TResponse> responseDecoder;
 
 
-        public Request(ResourceMethod method, RecordTemplate input, Dictionary<string, List<string>> headers, Dictionary<string, object> queryParams, string baseUrlTemplate)
+        public Request(ResourceMethod method, RecordTemplate input, Dictionary<string, List<string>> headers, Dictionary<string, object> queryParams, string baseUrlTemplate, Dictionary<string, object> pathKeys)
         {
             this.method = method;
             this.input = input;
             this.headers = headers.ToDictionary(_ => _.Key, _ => (IReadOnlyList<string>)_.Value);
             this.queryParams = queryParams;
             this.baseUrlTemplate = baseUrlTemplate;
+            this.pathKeys = pathKeys;
         }
 
         public virtual dynamic GetRequestKey()
@@ -53,7 +57,7 @@ namespace restlicsharpclient.restliclient.request
             return null;
         }
 
-        public string GetUrl(string urlPrefix)
+        public Uri GetUrl(string urlPrefix)
         {
             RequestUrlBuilder<TResponse> requestUrlBuilder = new RequestUrlBuilder<TResponse>(this, urlPrefix);
             return requestUrlBuilder.Build();

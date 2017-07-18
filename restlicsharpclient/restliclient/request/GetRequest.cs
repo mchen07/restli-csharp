@@ -39,8 +39,8 @@ namespace restlicsharpclient.restliclient.request
          */
         private object id;
 
-        public GetRequest(Dictionary<string, List<string>> headers, object id, Dictionary<string, object> queryParams, string baseUrlTemplate)
-            : base(ResourceMethod.GET, null, headers, queryParams, baseUrlTemplate)
+        public GetRequest(Dictionary<string, List<string>> headers, object id, Dictionary<string, object> queryParams, string baseUrlTemplate, Dictionary<string, object> pathKeys)
+            : base(ResourceMethod.GET, null, headers, queryParams, baseUrlTemplate, pathKeys)
         {
             this.id = id.GetType() == typeof(TKey) ? id : null;
             responseDecoder = new EntityResponseDecoder<TEntity>();

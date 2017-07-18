@@ -16,7 +16,7 @@
 
 using System;
 
-namespace restlicsharpclient.restliclient.util
+namespace restlicsharpclient.restliclient.util.url
 {
     /// <summary>
     /// Contains constants for use when constructing a Rest.li encoded URL.
@@ -35,9 +35,21 @@ namespace restlicsharpclient.restliclient.util
         public const string kQueryItemSep = "&";
         public const string kQueryParamsBegin = "?";
         public const string kPathSep = "/";
+        public const string kPlus = "+";
 
-        public static readonly string[] RESERVED_CHARS = { kObjectStart, kObjectEnd, kKeyValueSep, kItemSep, kEmptyStrChar, kQueryKeyValueSep, kQueryItemSep, kPathSep };
+        public const string kPathKeyTargetBegin = "{";
+        public const string kPathKeyTargetEnd = "}";
 
-        public static readonly string kReservedCharsRegex = String.Format("[{0}]", String.Join("", RESERVED_CHARS));
+        public enum EncodingContext
+        {
+            Path,
+            Query
+        }
+
+        public static readonly string[] PATH_RESERVED_CHARS = { kObjectStart, kObjectEnd, kKeyValueSep, kItemSep, kEmptyStrChar, kPathSep, kQueryParamsBegin };
+        public static readonly string[] QUERY_RESERVED_CHARS = { kObjectStart, kObjectEnd, kKeyValueSep, kItemSep, kEmptyStrChar, kQueryKeyValueSep, kQueryItemSep, kPlus };
+
+        public static readonly string kPathReservedCharsRegex = String.Format("[{0}]", String.Join("", PATH_RESERVED_CHARS));
+        public static readonly string kQueryReservedCharsRegex = String.Format("[{0}]", String.Join("", QUERY_RESERVED_CHARS));
     }
 }
