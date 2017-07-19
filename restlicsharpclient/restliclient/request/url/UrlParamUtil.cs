@@ -17,12 +17,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 using restlicsharpdata.restlidata;
 
-namespace restlicsharpclient.restliclient.util.url
+namespace restlicsharpclient.restliclient.request.url
 {
     /// <summary>
     /// Various utility methods to be used when constructing a Request URL.
@@ -55,6 +54,10 @@ namespace restlicsharpclient.restliclient.util.url
             else if (data is Bytes)
             {
                 return EncodeDataObject((data as Bytes).Data(), encodingContext);
+            }
+            else if (data is bool)
+            {
+                return ((bool)data) ? "true" : "false";
             }
             else
             {
@@ -116,11 +119,11 @@ namespace restlicsharpclient.restliclient.util.url
 
         public static string EncodeQueryParams(Dictionary<string, object> dataMap)
         {
-            Dictionary<string, string> encodedParams = DataMapToQueryParams(dataMap);
+            Dictionary<string, string> encodedParams = DataMapToEncodedQueryParams(dataMap);
             return JoinQueryItems(encodedParams);
         }
 
-        private static Dictionary<string, string> DataMapToQueryParams(Dictionary<string, object> dataMap)
+        private static Dictionary<string, string> DataMapToEncodedQueryParams(Dictionary<string, object> dataMap)
         {
             Dictionary<string, string> encodedParams = new Dictionary<string, string>();
             foreach (KeyValuePair<string, object> pair in dataMap)

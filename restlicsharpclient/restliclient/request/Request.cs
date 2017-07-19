@@ -19,7 +19,7 @@ using System.Linq;
 
 using restlicsharpdata.restlidata;
 using restlicsharpclient.restliclient.util;
-using restlicsharpclient.restliclient.util.url;
+using restlicsharpclient.restliclient.request.url;
 using restlicsharpclient.restliclient.response;
 using restlicsharpclient.restliclient.response.decoder;
 using System;

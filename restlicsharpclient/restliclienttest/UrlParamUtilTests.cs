@@ -19,7 +19,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 
-using restlicsharpclient.restliclient.util.url;
+using restlicsharpclient.restliclient.request.url;
 using restlicsharpdata.restlidata;
 using com.linkedin.restli.test.api;
 
@@ -29,8 +29,15 @@ namespace restlicsharpclient.restliclienttest
     public class UrlParamUtilTests
     {
         const string complexString = " () :', hello123%=&+?/";
-        const string complexStringEscapedQuery = "%20%28%29%20%3A%27%2C%20hello123%25%3D%26%2B?/";
-        const string complexStringEscapedPath = "%20%28%29%20%3A%27%2C%20hello123%25=&+%3F%2F";
+        const string complexEscapedStringQuery = "%20%28%29%20%3A%27%2C%20hello123%25%3D%26%2B?/";
+        const string complexEscapedStringPath = "%20%28%29%20%3A%27%2C%20hello123%25=&+%3F%2F";
+
+        private static readonly Dictionary<UrlConstants.EncodingContext, string> complexEscapedStrings = 
+            new Dictionary<UrlConstants.EncodingContext, string>()
+        {
+            { UrlConstants.EncodingContext.Path, complexEscapedStringPath },
+            { UrlConstants.EncodingContext.Query, complexEscapedStringQuery },
+        };
 
         private static Greeting greeting;
         const string greetingEncoded = "(id:123,message:encode%20me!,tone:FRIENDLY)";
@@ -61,61 +68,156 @@ namespace restlicsharpclient.restliclienttest
         [TestMethod]
         public void EncodeString()
         {
-            string actualQuery = UrlParamUtil.EncodeString(complexString, UrlConstants.EncodingContext.Query);
-            string actualPath = UrlParamUtil.EncodeString(complexString, UrlConstants.EncodingContext.Path);
+            string input = complexString;
 
-            Assert.AreEqual(complexStringEscapedQuery, actualQuery);
-            Assert.AreEqual(complexStringEscapedPath, actualPath);
+            foreach (UrlConstants.EncodingContext encodingContext in Enum.GetValues(typeof(UrlConstants.EncodingContext)))
+            {
+                string actual = UrlParamUtil.EncodeDataObject(input, encodingContext);
+                Assert.AreEqual(complexEscapedStrings[encodingContext], actual);
+            }
         }
 
         [TestMethod]
         public void EncodeDataList()
         {
-            string expected = string.Format("List(one,2,3,{0})", complexStringEscapedQuery);
+            string expectedTemplate = "List(one,2,3,{0})";
             List<object> input = new List<object>() { "one", 2, 3, complexString };
 
-            string actual = UrlParamUtil.EncodeDataList(input, UrlConstants.EncodingContext.Query);
-
-            Assert.AreEqual(expected, actual);
+            foreach (UrlConstants.EncodingContext encodingContext in Enum.GetValues(typeof(UrlConstants.EncodingContext)))
+            {
+                string actual = UrlParamUtil.EncodeDataObject(input, encodingContext);
+                Assert.AreEqual(String.Format(expectedTemplate, complexEscapedStrings[encodingContext]), actual);
+            }
         }
 
         [TestMethod]
         public void EncodeDataMap()
         {
-            string expected = string.Format("(one:foo,three:{0},two:2)", complexStringEscapedPath);
+            string expectedTemplate = "(one:foo,three:{0},two:2)";
             Dictionary<string, object> input = new Dictionary<string, object>() {
                 { "one", "foo" },
                 { "two", 2 },
                 { "three", complexString }
             };
 
-            string actual = UrlParamUtil.EncodeDataMap(input, UrlConstants.EncodingContext.Path);
-
-            Assert.AreEqual(expected, actual);
+            foreach (UrlConstants.EncodingContext encodingContext in Enum.GetValues(typeof(UrlConstants.EncodingContext)))
+            {
+                string actual = UrlParamUtil.EncodeDataObject(input, encodingContext);
+                Assert.AreEqual(String.Format(expectedTemplate, complexEscapedStrings[encodingContext]), actual);
+            }
         }
 
         [TestMethod]
         public void EncodeRecord()
         {
-            string actual = UrlParamUtil.EncodeDataObject(greeting, UrlConstants.EncodingContext.Query);
+            string expected = greetingEncoded;
+            Greeting input = greeting;
 
-            Assert.AreEqual(greetingEncoded, actual);
+            foreach (UrlConstants.EncodingContext encodingContext in Enum.GetValues(typeof(UrlConstants.EncodingContext)))
+            {
+                string actual = UrlParamUtil.EncodeDataObject(input, encodingContext);
+                Assert.AreEqual(expected, actual);
+            }
         }
 
         [TestMethod]
         public void EncodeEnum()
         {
-            string actual = UrlParamUtil.EncodeDataObject(tone, UrlConstants.EncodingContext.Query);
+            string expected = toneEncoded;
+            Tone input= tone;
 
-            Assert.AreEqual(toneEncoded, actual);
+            foreach (UrlConstants.EncodingContext encodingContext in Enum.GetValues(typeof(UrlConstants.EncodingContext)))
+            {
+                string actual = UrlParamUtil.EncodeDataObject(input, encodingContext);
+                Assert.AreEqual(expected, actual);
+            }
         }
 
         [TestMethod]
         public void EncodeBytes()
         {
-            string actual = UrlParamUtil.EncodeDataObject(bytes, UrlConstants.EncodingContext.Query);
+            string expected = bytesEncoded;
+            Bytes input = bytes;
 
-            Assert.AreEqual(bytesEncoded, actual);
+            foreach (UrlConstants.EncodingContext encodingContext in Enum.GetValues(typeof(UrlConstants.EncodingContext)))
+            {
+                string actual = UrlParamUtil.EncodeDataObject(input, encodingContext);
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod]
+        public void EncodeInt()
+        {
+            string expected = "234";
+            int input = 234;
+
+            foreach (UrlConstants.EncodingContext encodingContext in Enum.GetValues(typeof(UrlConstants.EncodingContext)))
+            {
+                string actual = UrlParamUtil.EncodeDataObject(input, encodingContext);
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod]
+        public void EncodeOne()
+        {
+            string expected = "1";
+            int input = 1;
+
+            foreach (UrlConstants.EncodingContext encodingContext in Enum.GetValues(typeof(UrlConstants.EncodingContext)))
+            {
+                string actual = UrlParamUtil.EncodeDataObject(input, encodingContext);
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod]
+        public void EncodeFloat()
+        {
+            string expected = "1.23";
+            float input = 1.23F;
+
+            foreach (UrlConstants.EncodingContext encodingContext in Enum.GetValues(typeof(UrlConstants.EncodingContext)))
+            {
+                string actual = UrlParamUtil.EncodeDataObject(input, encodingContext);
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod]
+        public void EncodeDouble()
+        {
+            string expected = "12.3456789";
+            double input = 12.3456789;
+
+            foreach (UrlConstants.EncodingContext encodingContext in Enum.GetValues(typeof(UrlConstants.EncodingContext)))
+            {
+                string actual = UrlParamUtil.EncodeDataObject(input, encodingContext);
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod]
+        public void EncodeBool()
+        {
+            string expected = "true";
+            bool input = true;
+
+            foreach (UrlConstants.EncodingContext encodingContext in Enum.GetValues(typeof(UrlConstants.EncodingContext)))
+            {
+                string actual = UrlParamUtil.EncodeDataObject(input, encodingContext);
+                Assert.AreEqual(expected, actual);
+            }
+
+            expected = "false";
+            input = false;
+
+            foreach (UrlConstants.EncodingContext encodingContext in Enum.GetValues(typeof(UrlConstants.EncodingContext)))
+            {
+                string actual = UrlParamUtil.EncodeDataObject(input, encodingContext);
+                Assert.AreEqual(expected, actual);
+            }
         }
 
         [TestMethod]
@@ -124,30 +226,34 @@ namespace restlicsharpclient.restliclienttest
             const string expected = UrlConstants.kEmptyStrRep;
             const string input = "";
 
-            string actual = UrlParamUtil.EncodeString(input, UrlConstants.EncodingContext.Query);
-
-            Assert.AreEqual(expected, actual);
+            foreach (UrlConstants.EncodingContext encodingContext in Enum.GetValues(typeof(UrlConstants.EncodingContext)))
+            {
+                string actual = UrlParamUtil.EncodeDataObject(input, encodingContext);
+                Assert.AreEqual(expected, actual);
+            }
         }
 
         [TestMethod]
         public void EncodeComplexObject()
         {
-            string expected = string.Format("(one:foo,three:{1},two:List(one,2,{3},(bytes:{4},record:{2},zero:{0})))", UrlConstants.kEmptyStrRep, complexStringEscapedPath, greetingEncoded, toneEncoded, bytesEncoded);
+            string expectedTemplate = string.Format("(one:foo,three:{1},two:List(one,2,{3},(bytes:{4},record:{2},zero:{0})))", UrlConstants.kEmptyStrRep, "{0}", greetingEncoded, toneEncoded, bytesEncoded);
             Dictionary<string, object> input = new Dictionary<string, object>() {
                 { "one", "foo" },
                 { "two", new List<object>() { "one", 2, tone, new Dictionary<string, object>() { { "zero", "" }, { "record", greeting }, { "bytes", bytes } } } },
                 { "three", complexString }
             };
 
-            string actual = UrlParamUtil.EncodeDataObject(input, UrlConstants.EncodingContext.Path);
-
-            Assert.AreEqual(expected, actual);
+            foreach (UrlConstants.EncodingContext encodingContext in Enum.GetValues(typeof(UrlConstants.EncodingContext)))
+            {
+                string actual = UrlParamUtil.EncodeDataObject(input, encodingContext);
+                Assert.AreEqual(String.Format(expectedTemplate, complexEscapedStrings[encodingContext]), actual);
+            }
         }
 
         [TestMethod]
         public void EncodeQueryParams()
         {
-            string expected = String.Format("?complex=(deeper:List(found,it,{0}))&list=List(foo,2,3)&one=1", complexStringEscapedQuery);
+            string expected = String.Format("?complex=(deeper:List(found,it,{0}))&list=List(foo,2,3)&one=1", complexEscapedStringQuery);
             Dictionary <string, object> queryParams = new Dictionary<string, object>()
             {
                 { "one", 1 },
@@ -167,7 +273,7 @@ namespace restlicsharpclient.restliclienttest
             {
                 { "one", "1" },
                 { "list", "List(foo,2,3)" },
-                { "complex", String.Format("(deeper:List(found,it,{0}))", complexStringEscapedPath) }
+                { "complex", String.Format("(deeper:List(found,it,{0}))", complexEscapedStringPath) }
             };
 
             IReadOnlyDictionary<string, object> pathKeys = new Dictionary<string, object>()

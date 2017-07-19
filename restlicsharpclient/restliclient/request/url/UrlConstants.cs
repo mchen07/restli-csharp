@@ -16,7 +16,7 @@
 
 using System;
 
-namespace restlicsharpclient.restliclient.util.url
+namespace restlicsharpclient.restliclient.request.url
 {
     /// <summary>
     /// Contains constants for use when constructing a Rest.li encoded URL.

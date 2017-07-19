@@ -17,11 +17,10 @@
 using System;
 using System.Collections.Generic;
 
-using restlicsharpclient.restliclient.request;
 using restlicsharpclient.restliclient.response;
 using System.Linq;
 
-namespace restlicsharpclient.restliclient.util.url
+namespace restlicsharpclient.restliclient.request.url
 {
     /// <summary>
     /// Builder class used for constructing Rest.li request URLs.
@@ -53,7 +52,7 @@ namespace restlicsharpclient.restliclient.util.url
             return uriBuilder.Uri;
         }
         
-        public string GetEncodedPath(object requestKey)
+        internal string GetEncodedPath(object requestKey)
         {
             string boundPath = BindPathKeys();
             
@@ -67,7 +66,7 @@ namespace restlicsharpclient.restliclient.util.url
             }
         }
 
-        public string BindPathKeys()
+        private string BindPathKeys()
         {
             // baseUrlTemplate begins as "foo/{fooID}/bar/{barID}/baz"
             // with baz being the actual resource we're calling.
@@ -85,7 +84,7 @@ namespace restlicsharpclient.restliclient.util.url
             return finalString;
         }
 
-        public string GetEncodedQueryParams(IReadOnlyDictionary<string, object> queryParams)
+        private string GetEncodedQueryParams(IReadOnlyDictionary<string, object> queryParams)
         {
             // Returns "{key1}={value1}&...&{keyN}={valueN}"
             return UrlParamUtil.EncodeQueryParams(queryParams.ToDictionary(_ => _.Key, _ => _.Value));
