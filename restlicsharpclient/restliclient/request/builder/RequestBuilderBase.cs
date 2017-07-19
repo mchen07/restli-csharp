@@ -30,12 +30,14 @@ namespace restlicsharpclient.restliclient.request.builder
         public Dictionary<string, List<string>> headers;
         public Dictionary<string, object> queryParams;
         public string baseUrlTemplate { get; }
+        public Dictionary<string, object> pathKeys;
 
         public RequestBuilderBase(string baseUrlTemplate)
         {
             headers = new Dictionary<string, List<string>>();
             queryParams = new Dictionary<string, object>();
             this.baseUrlTemplate = baseUrlTemplate;
+            pathKeys = new Dictionary<string, object>();
         }
 
         public abstract TRequest Build();
@@ -54,6 +56,11 @@ namespace restlicsharpclient.restliclient.request.builder
                 headers.Add(key, new List<string>());
             }
             headers[key].Add(value);
+        }
+
+        public void PathKey(string key, object value)
+        {
+            pathKeys.Add(key, value);
         }
     }
 }

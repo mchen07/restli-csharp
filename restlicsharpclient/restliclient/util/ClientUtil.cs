@@ -43,7 +43,7 @@ namespace restlicsharpclient.restliclient.util
                 return null;
             }
             
-            string url = request.GetUrl(urlPrefix);
+            Uri url = request.GetUrl(urlPrefix);
 
             Dictionary<string, string> headers = new Dictionary<string, string>();
             headers.Add(RestConstants.kHeaderRestliProtocolVersion, RestConstants.kRestLiVersion20);

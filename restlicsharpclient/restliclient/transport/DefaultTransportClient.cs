@@ -59,7 +59,7 @@ namespace restlicsharpclient.restliclient.transport
         {
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage()
             {
-                RequestUri = new Uri(httpRequest.url),
+                RequestUri = httpRequest.url,
                 Method = ClientUtil.GetHttpMethod(httpRequest.httpMethod)
             };
             if (httpRequest.entityBody != null)
