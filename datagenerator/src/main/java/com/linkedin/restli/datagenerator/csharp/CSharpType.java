@@ -30,15 +30,45 @@ import java.util.regex.Pattern;
  */
 public abstract class CSharpType {
   private final ClassTemplateSpec _spec;
+
   public enum NameModifier {
-    NONE,           // immutable recursive
-    NULLABLE,       // immutable recursive, nullable if outer layer primitive
-    MUTABLE,        // outer later mutable, else immutable recursive
-    DEEP_MUTABLE,   // mutable recursive
-    DATAMAP_PARSE,  // mutable recursive, complex types represented as data maps
-    DATAMAP_SHALLOW,// mutable, outer layer only, complex types represented as data maps
-    BUILDER_OUTER,  // mutable, recursive calls are BUILDER_INNER, nullable, unions with fully qualified name
-    BUILDER_INNER   // mutable recursive, unions with fully qualified name
+    // Immutable recursive.
+    // used for class field declaration.
+    // e.g. int, IReadOnlyList<IReadOnlyList<int>>, etc.
+    IMMUTABLE,
+
+    // immutable recursive for complex type, and nullable for primitive type.
+    // used for class field declaration.
+    // e.g. int?, IReadOnlyList<IReadOnlyList<int>>, etc.
+    IMMUTABLE_NULLABLE,
+
+    // outermost layer mutable, and immutable recursive inner layers.
+    // used mainly in processing collection types.
+    // e.g. int, List<IReadOnlyList<int>>, etc.
+    MUTABLE_SHALLOW,
+
+    // mutable recursive.
+    // used mainly in processing collection types.
+    // e.g. int, List<List<int>>, etc.
+    MUTABLE,
+
+    // mutable strongly typed data map representation for a CSharpType.
+    // e.g. Dictionary<string, List<Dictionary<string, object>>> (for Dictionary<string, List<FooRecord>>), etc.
+    TYPED_DATAMAP,
+
+    // generic data map representation for a CSharpType.
+    // e.g. Dictionary<string, object> (for Dictionary<string, List<FooRecord>>), List<object> (for List<List<int>>), etc.
+    GENERIC_DATAMAP,
+
+    // used for builder field declaration, where nullable for outermost primitive type
+    // and mutable recursive for inner complex types. Fields containing a union type
+    // are prefixed with its enclosing class.
+    // e.g. int?, List<List<int>>, UnionRecord.UnionField, etc.
+    BUILDER_NULLABLE,
+
+    // same as BUILDER_NULLABLE, except not nullable for primitive type (including nested and outermost).
+    // e.g. int, List<List<int>>, UnionRecord.UnionField, etc.
+    BUILDER
   }
 
   public CSharpType(ClassTemplateSpec spec) {
@@ -46,7 +76,7 @@ public abstract class CSharpType {
   }
 
   public final String getName() {
-    return getName(NameModifier.NONE);
+    return getName(NameModifier.IMMUTABLE);
   }
 
   public String getName(NameModifier modifier) { return getSpec().getClassName(); }

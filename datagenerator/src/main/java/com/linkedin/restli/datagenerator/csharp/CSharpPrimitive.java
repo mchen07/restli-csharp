@@ -31,10 +31,10 @@ public CSharpPrimitive(ClassTemplateSpec spec) {
   @Override
   public String getName(NameModifier modifier) {
     switch (modifier) {
-      case DATAMAP_SHALLOW:
+      case GENERIC_DATAMAP:
         return "object";
-      case NULLABLE:
-      case BUILDER_OUTER:
+      case IMMUTABLE_NULLABLE:
+      case BUILDER_NULLABLE:
         return getName(true);
       default:
         return getName(false);
@@ -82,7 +82,7 @@ public CSharpPrimitive(ClassTemplateSpec spec) {
       case BYTES:
         return "new Bytes(BytesUtil.StringToBytes((string)" + identifier + "))";
       default:
-        return "(" + getName(NameModifier.NONE) + ")" + identifier;
+        return "(" + getName(NameModifier.IMMUTABLE) + ")" + identifier;
     }
   }
 

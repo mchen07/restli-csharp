@@ -22,8 +22,8 @@ namespace restlicsharpclient.restliclient.request.builder
 {
     public abstract class PagingRequestBuilder<TRequest, TEntity, TMeta> : RequestBuilderBase<TRequest, CollectionResponse<TEntity, TMeta>>
         where TRequest : Request<CollectionResponse<TEntity, TMeta>>
-        where TEntity : class, RecordTemplate
-        where TMeta : class, RecordTemplate
+        where TEntity : RecordTemplate
+        where TMeta : RecordTemplate
     {
         public PagingRequestBuilder(string baseUrlTemplate) : base(baseUrlTemplate) { }
 

@@ -76,6 +76,7 @@
     <Compile Include="restlidata\BytesUtil.cs" />
     <Compile Include="restlidata\DataTemplate.cs" />
     <Compile Include="restlidata\EnumTemplate.cs" />
+    <Compile Include="restlidata\DictionaryRecordTemplate.cs" />
     <Compile Include="restlidata\RecordTemplate.cs" />
     <Compile Include="restlidata\UnionTemplate.cs" />
   </ItemGroup>

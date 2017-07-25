@@ -32,7 +32,7 @@ namespace restlicsharpclient.restliclient.request.builder
     public abstract class SingleEntityRequestBuilder<TRequest, TResponse, TKey, TEntity> : RequestBuilderBase<TRequest, TResponse>
         where TRequest : Request<TResponse>
         where TResponse : Response
-        where TEntity : class, RecordTemplate
+        where TEntity : RecordTemplate
     {
         /*
          * ID is stored as an object so that regardless of whether TKey is

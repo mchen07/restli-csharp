@@ -161,7 +161,7 @@ result1 = data1;
       }
     }
 
-    public Dictionary<string, object> Data()
+    public override Dictionary<string, object> Data()
     {
       Dictionary<string, object> dataMap = new Dictionary<string, object>();
       if (hasStart)

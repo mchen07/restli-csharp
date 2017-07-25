@@ -27,7 +27,7 @@ namespace restlicsharpclient.restliclient.request.builder
     /// <typeparam name="TKey">The key (id) type of the entity being created</typeparam>
     /// <typeparam name="TEntity">The type of entity being created</typeparam>
     public class CreateRequestBuilder<TKey, TEntity> : RequestBuilderBase<CreateRequest<TKey, TEntity>, CreateResponse<TKey, TEntity>>
-        where TEntity : class, RecordTemplate
+        where TEntity : RecordTemplate
     {
         public TEntity input { private get; set; }
 

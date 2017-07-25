@@ -24,7 +24,7 @@ namespace com.linkedin.restli.common
     {
     }
 
-    public Dictionary<string, object> Data()
+    public override Dictionary<string, object> Data()
     {
       Dictionary<string, object> dataMap = new Dictionary<string, object>();
       return dataMap;

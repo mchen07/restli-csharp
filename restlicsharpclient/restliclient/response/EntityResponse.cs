@@ -26,7 +26,7 @@ namespace restlicsharpclient.restliclient.response
     /// </summary>
     /// <typeparam name="TEntity">The type of Entity represented by this Response</typeparam>
     public class EntityResponse<TEntity> : Response
-        where TEntity : class, RecordTemplate
+        where TEntity : RecordTemplate
     {
         public TEntity element;
 

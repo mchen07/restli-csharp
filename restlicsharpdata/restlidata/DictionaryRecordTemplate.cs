@@ -14,10 +14,22 @@
    limitations under the License.
 */
 
+using System.Collections.Generic;
+
 namespace restlicsharpdata.restlidata
 {
-    public abstract class EnumTemplate : DataTemplate<string>
+    public class DictionaryRecordTemplate : RecordTemplate
     {
-        public abstract string Data();
+        private Dictionary<string, object> data;
+
+        public DictionaryRecordTemplate(Dictionary<string, object> data)
+        {
+            this.data = data;
+        }
+
+        public override Dictionary<string, object> Data()
+        {
+            return data;
+        }
     }
 }

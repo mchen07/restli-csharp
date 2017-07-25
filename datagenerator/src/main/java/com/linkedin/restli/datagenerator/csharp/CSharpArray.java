@@ -35,11 +35,11 @@ public class CSharpArray extends CSharpCollectionType {
   }
 
   /**
-   * If param modifier is MUTABLE:
+   * If param modifier is MUTABLE_SHALLOW:
    *  Returns a mutable list of immutable types. The reason for this is that
    *  C# cannot handle casting a nested list/dictionary object; it can only handle
    *  casting the outer layer. Thus, the inner types must be immutable.
-   * If param modifier is DATAMAP_PARSE:
+   * If param modifier is TYPED_DATAMAP:
    *  Returns a mutable list of types that are readable by the constructors
    *  of each datamodel. For instance, all record types would be represented
    *  as Dictionary(string, object)
@@ -50,19 +50,19 @@ public class CSharpArray extends CSharpCollectionType {
   @Override
   public String getName(NameModifier modifier) {
     switch (modifier) {
-      case DEEP_MUTABLE:
-        return "List<" + getElementType().getName(NameModifier.DEEP_MUTABLE) + ">";
-      case BUILDER_OUTER:
-      case BUILDER_INNER:
-        return "List<" + getElementType().getName(NameModifier.BUILDER_INNER) + ">";
       case MUTABLE:
-        return "List<" + getElementType().getName(NameModifier.NONE) + ">";
-      case DATAMAP_PARSE:
-        return "List<" + getElementType().getName(NameModifier.DATAMAP_PARSE) + ">";
-      case DATAMAP_SHALLOW:
+        return "List<" + getElementType().getName(NameModifier.MUTABLE) + ">";
+      case BUILDER_NULLABLE:
+      case BUILDER:
+        return "List<" + getElementType().getName(NameModifier.BUILDER) + ">";
+      case MUTABLE_SHALLOW:
+        return "List<" + getElementType().getName(NameModifier.IMMUTABLE) + ">";
+      case TYPED_DATAMAP:
+        return "List<" + getElementType().getName(NameModifier.TYPED_DATAMAP) + ">";
+      case GENERIC_DATAMAP:
         return "List<object>";
       default:
-        return "IReadOnlyList<" + getElementType().getName(NameModifier.NONE) + ">";
+        return "IReadOnlyList<" + getElementType().getName(NameModifier.IMMUTABLE) + ">";
     }
   }
 
@@ -79,6 +79,6 @@ public class CSharpArray extends CSharpCollectionType {
         previousIdentifier,
         identifier,
         getElementType().coerceFromDataMapExpression(generator, identifier),
-        getName(NameModifier.NONE));
+        getName(NameModifier.IMMUTABLE));
   }
 }

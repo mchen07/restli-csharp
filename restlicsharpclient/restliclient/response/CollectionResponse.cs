@@ -28,8 +28,8 @@ namespace restlicsharpclient.restliclient.response
     /// <typeparam name="TEntity">Type of entity in the retrieved collection</typeparam>
     /// <typeparam name="TMeta">Type of record used to store the response metadata</typeparam>
     public class CollectionResponse<TEntity, TMeta> : Response
-        where TEntity : class, RecordTemplate
-        where TMeta : class, RecordTemplate
+        where TEntity : RecordTemplate
+        where TMeta : RecordTemplate
     {
         public IReadOnlyList<TEntity> elements;
         public CollectionMetadata paging;

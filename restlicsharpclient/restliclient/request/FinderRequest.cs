@@ -24,8 +24,8 @@ using restlicsharpclient.restliclient.util;
 namespace restlicsharpclient.restliclient.request
 {
     public class FinderRequest<TEntity, TMeta> : Request<CollectionResponse<TEntity, TMeta>>
-        where TEntity : class, RecordTemplate
-        where TMeta : class, RecordTemplate
+        where TEntity : RecordTemplate
+        where TMeta : RecordTemplate
     {
         private string methodName;
 

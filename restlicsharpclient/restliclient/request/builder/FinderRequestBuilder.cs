@@ -20,8 +20,8 @@ using restlicsharpclient.restliclient.util;
 namespace restlicsharpclient.restliclient.request.builder
 {
     public class FinderRequestBuilder<TEntity, TMeta> : PagingRequestBuilder<FinderRequest<TEntity, TMeta>, TEntity, TMeta>
-        where TEntity : class, RecordTemplate
-        where TMeta : class, RecordTemplate
+        where TEntity : RecordTemplate
+        where TMeta : RecordTemplate
     {
         private string name;
 

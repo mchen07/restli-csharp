@@ -8,11 +8,11 @@
 @{
   CSharpType.NameModifier sourceTypeNameModifier =
     fieldParseType == GeneratorConstants.FieldParseType.FROM_DATAMAP ?
-    CSharpType.NameModifier.DATAMAP_SHALLOW : CSharpType.NameModifier.DEEP_MUTABLE;
+    CSharpType.NameModifier.GENERIC_DATAMAP : CSharpType.NameModifier.MUTABLE;
 }
 foreach (@cSharpArray.getElementType().getName(sourceTypeNameModifier) @(sourceName + level) in @(sourceName + (level-1)))
 {
-  @cSharpArray.getElementType().getName(CSharpType.NameModifier.MUTABLE) result@(level)@if (cSharpArray.getElementType() instanceof CSharpCollectionType){ = new @(cSharpArray.getElementType().getName(CSharpType.NameModifier.MUTABLE))()};
+  @cSharpArray.getElementType().getName(CSharpType.NameModifier.MUTABLE_SHALLOW) result@(level)@if (cSharpArray.getElementType() instanceof CSharpCollectionType){ = new @(cSharpArray.getElementType().getName(CSharpType.NameModifier.MUTABLE_SHALLOW))()};
   @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, cSharpArray.getElementType(), sourceName, targetName, fieldParseType, level+1).restli_addIndent(2)
   result@(level - 1).Add(result@(level));
 }

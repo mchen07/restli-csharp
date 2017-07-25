@@ -51,7 +51,7 @@ namespace @cSharpEnum.getNamespace()
       }
     }
 
-    public string Data()
+    public override string Data()
     {
       return symbol.ToString();
     }

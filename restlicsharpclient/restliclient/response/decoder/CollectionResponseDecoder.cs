@@ -26,8 +26,8 @@ using com.linkedin.restli.common;
 namespace restlicsharpclient.restliclient.response.decoder
 {
     public class CollectionResponseDecoder<TEntity, TMeta> : RestResponseDecoder<CollectionResponse<TEntity, TMeta>>
-        where TEntity : class, RecordTemplate
-        where TMeta : class, RecordTemplate
+        where TEntity : RecordTemplate
+        where TMeta : RecordTemplate
     {
         public CollectionResponse<TEntity, TMeta> DecodeResponse(TransportResponse transportResponse)
         {

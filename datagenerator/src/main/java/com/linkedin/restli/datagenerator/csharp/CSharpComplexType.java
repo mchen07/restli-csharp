@@ -38,11 +38,11 @@ public class CSharpComplexType extends CSharpType {
   @Override
   public String getName(NameModifier modifier) {
     switch (modifier) {
-      case DATAMAP_PARSE:
-      case DATAMAP_SHALLOW:
+      case TYPED_DATAMAP:
+      case GENERIC_DATAMAP:
         return "Dictionary<string, object>";
       default:
-        return CSharpUtil.escapeReserved(super.getName(NameModifier.NONE));
+        return CSharpUtil.escapeReserved(super.getName(NameModifier.IMMUTABLE));
     }
   }
 
@@ -63,7 +63,7 @@ public class CSharpComplexType extends CSharpType {
 
   @Override
   public String getInitializationExpression(String identifier) {
-    return "new " + getName(NameModifier.NONE) + "((" + getName(NameModifier.DATAMAP_PARSE) + ")" + identifier + ")";
+    return "new " + getName(NameModifier.IMMUTABLE) + "((" + getName(NameModifier.TYPED_DATAMAP) + ")" + identifier + ")";
   }
 
   @Override
