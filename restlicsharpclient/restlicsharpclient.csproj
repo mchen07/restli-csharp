@@ -47,7 +47,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="restliclientintegrationtest\DataTemplateTests.cs" />
-    <Compile Include="restliclientintegrationtest\DictionaryRecordIntegrationTests.cs" />
     <Compile Include="restliclientintegrationtest\RestClientIntegrationTests.cs" />
     <Compile Include="restliclientintegrationtest\SerializedDataTests.cs" />
     <Compile Include="restliclientintegration\generatedDataTemplate\com\linkedin\restli\test\api\Greeting.cs" />
