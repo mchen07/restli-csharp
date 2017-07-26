@@ -76,6 +76,7 @@ namespace restlicsharpclient.restliclient.util
                 case ResourceMethod.CREATE:
                     return HttpMethod.POST;
                 case ResourceMethod.GET:
+                case ResourceMethod.FINDER:
                     return HttpMethod.GET;
                 default:
                     throw new ArgumentException(String.Format("Unrecognized resource method: {0}", resourceMethod.ToString()));

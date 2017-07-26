@@ -42,18 +42,18 @@ namespace restlicsharpdata.restlidataintegrationtest
             NestedCollections n;
 
             Dictionary<string, object> data = new Dictionary<string, object>();
-            data.Add("nestedArray", new List<List<List<Dictionary<string, object>>>>()
+            data.Add("nestedArray", new List<object>()
                 {
-                    new List<List<Dictionary<string, object>>>()
+                    new List<object>()
                     {
-                        new List<Dictionary<string, object>>()
+                        new List<object>()
                         {
                             new Dictionary<string, object>()
                             {
                                 { "stringField", "hello, nested!" }
                             }
                         },
-                        new List<Dictionary<string, object>>()
+                        new List<object>()
                         {
                             new Dictionary<string, object>()
                             {
@@ -79,10 +79,10 @@ namespace restlicsharpdata.restlidataintegrationtest
             NestedCollections n;
 
             Dictionary<string, object> data = new Dictionary<string, object>();
-            data.Add("nestedMap", new Dictionary<string, Dictionary<string, Dictionary<string, object>>>()
+            data.Add("nestedMap", new Dictionary<string, object>()
                 {
                     { "one",
-                        new Dictionary<string, Dictionary<string, object>>()
+                        new Dictionary<string, object>()
                         {
                             { "two",
                                 new Dictionary<string, object>()
@@ -116,12 +116,12 @@ namespace restlicsharpdata.restlidataintegrationtest
             NestedCollections n;
 
             Dictionary<string, object> data = new Dictionary<string, object>();
-            data.Add("mixed", new List<Dictionary<string, List<Dictionary<string, object>>>>()
+            data.Add("mixed", new List<object>()
                 {
-                    new Dictionary<string, List<Dictionary<string, object>>>()
+                    new Dictionary<string, object>()
                     {
                         { "one",
-                            new List<Dictionary<string, object>>()
+                            new List<object>()
                             {
                                 new Dictionary<string, object>()
                                 {
@@ -134,7 +134,7 @@ namespace restlicsharpdata.restlidataintegrationtest
                             }
                         },
                         { "extra",
-                            new List<Dictionary<string, object>>()
+                            new List<object>()
                             {
                                 new Dictionary<string, object>()
                                 {

@@ -16,7 +16,8 @@
 
 namespace restlicsharpdata.restlidata
 {
-    public interface EnumTemplate : DataTemplate<string>
+    public abstract class EnumTemplate : DataTemplate<string>
     {
+        public abstract string Data();
     }
 }

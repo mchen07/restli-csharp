@@ -22,7 +22,8 @@ namespace restlicsharpclient.restliclient
     /// Callback used by the Rest Client in handling the received Response.
     /// </summary>
     /// <typeparam name="TResponse">The expected Response type</typeparam>
-    public class RestliCallback<TResponse> where TResponse : Response
+    public class RestliCallback<TResponse>
+        where TResponse : Response
     {
         public delegate void SuccessHandler(TResponse response);
 

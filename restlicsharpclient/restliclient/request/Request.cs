@@ -31,7 +31,8 @@ namespace restlicsharpclient.restliclient.request
     /// <para>To be constructed using an instance of the RequestBuilderBase interface.</para>
     /// </summary>
     /// <typeparam name="TResponse">The expected Response type</typeparam>
-    public abstract class Request<TResponse> where TResponse : Response
+    public abstract class Request<TResponse>
+        where TResponse : Response
     {
         public readonly ResourceMethod method;
         public readonly RecordTemplate input;

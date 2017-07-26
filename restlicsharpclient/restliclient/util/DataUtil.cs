@@ -28,7 +28,7 @@ namespace restlicsharpclient.restliclient.util
     /// <summary>
     /// Util class for converting data relevant to the client.
     /// </summary>
-    class DataUtil
+    public static class DataUtil
     {
         /// <summary>
         /// Converts a string to a value of the specified type.

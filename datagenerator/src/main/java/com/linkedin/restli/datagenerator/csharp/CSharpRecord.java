@@ -134,23 +134,23 @@ public class CSharpRecord extends CSharpComplexType {
     /**
      * Return a string representing this field type in a C#-readable format,
      * with the nullable decorator appended to the type name if primitive field
-     * is optional or user uses NULLABLE modifier to coerce nullable.
-     * @param modifier  Will always add nullable decorator to primitive types if NULLABLE
+     * is optional or user uses IMMUTABLE_NULLABLE modifier to coerce nullable.
+     * @param modifier  Will always add nullable decorator to primitive types if IMMUTABLE_NULLABLE
      * @return  String representing this field type in a C#-readable format
      */
     public String getTypeString(NameModifier modifier) {
       switch(modifier) {
-        case NULLABLE:
-          return _type.getName(NameModifier.NULLABLE);
-        case IN_BUILDER:
-          return _type.getName(NameModifier.IN_BUILDER);
+        case IMMUTABLE_NULLABLE:
+          return _type.getName(NameModifier.IMMUTABLE_NULLABLE);
+        case BUILDER_NULLABLE:
+          return _type.getName(NameModifier.BUILDER_NULLABLE);
         default:
-          return _type.getName(NameModifier.NONE);
+          return _type.getName(NameModifier.IMMUTABLE);
       }
     }
 
     public String getTypeString() {
-      return getTypeString(NameModifier.NONE);
+      return getTypeString(NameModifier.IMMUTABLE);
     }
 
     public RecordTemplateSpec.Field getSpecField() {

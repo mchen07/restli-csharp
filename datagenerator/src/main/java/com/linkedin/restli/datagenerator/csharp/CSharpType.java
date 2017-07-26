@@ -30,14 +30,53 @@ import java.util.regex.Pattern;
  */
 public abstract class CSharpType {
   private final ClassTemplateSpec _spec;
-  public enum NameModifier {NONE, NULLABLE, MUTABLE, DEEP_MUTABLE, DATAMAP_PARSE, IN_BUILDER}
+
+  public enum NameModifier {
+    // Immutable recursive.
+    // used for class field declaration.
+    // e.g. int, IReadOnlyList<IReadOnlyList<int>>, etc.
+    IMMUTABLE,
+
+    // immutable recursive for complex type, and nullable for primitive type.
+    // used for class field declaration.
+    // e.g. int?, IReadOnlyList<IReadOnlyList<int>>, etc.
+    IMMUTABLE_NULLABLE,
+
+    // outermost layer mutable, and immutable recursive inner layers.
+    // used mainly in processing collection types.
+    // e.g. int, List<IReadOnlyList<int>>, etc.
+    MUTABLE_SHALLOW,
+
+    // mutable recursive.
+    // used mainly in processing collection types.
+    // e.g. int, List<List<int>>, etc.
+    MUTABLE,
+
+    // mutable strongly typed data map representation for a CSharpType.
+    // e.g. Dictionary<string, List<Dictionary<string, object>>> (for Dictionary<string, List<FooRecord>>), etc.
+    TYPED_DATAMAP,
+
+    // generic data map representation for a CSharpType.
+    // e.g. Dictionary<string, object> (for Dictionary<string, List<FooRecord>>), List<object> (for List<List<int>>), etc.
+    GENERIC_DATAMAP,
+
+    // used for builder field declaration, where nullable for outermost primitive type
+    // and mutable recursive for inner complex types. Fields containing a union type
+    // are prefixed with its enclosing class.
+    // e.g. int?, List<List<int>>, UnionRecord.UnionField, etc.
+    BUILDER_NULLABLE,
+
+    // same as BUILDER_NULLABLE, except not nullable for primitive type (including nested and outermost).
+    // e.g. int, List<List<int>>, UnionRecord.UnionField, etc.
+    BUILDER
+  }
 
   public CSharpType(ClassTemplateSpec spec) {
     _spec = spec;
   }
 
   public final String getName() {
-    return getName(NameModifier.NONE);
+    return getName(NameModifier.IMMUTABLE);
   }
 
   public String getName(NameModifier modifier) { return getSpec().getClassName(); }
@@ -56,21 +95,38 @@ public abstract class CSharpType {
 
   public abstract String getInitializationExpression(String identifier);
 
-  public abstract String getDataMapExpression(SequentialIdentifierGenerator generator);
-
   /**
    * Creates an inline C# expression that - when placed after the identifier -
    * will create a nested expression converting that Rest.li object to a data map.
    * @param baseName base value of the identifier string (e.g. x -> x0, x1, x2, ...)
    * @return expression in C# to convert to data map
    */
-  public final String getDataMapExpression(String baseName) {
+  public final String coerceToDataMapExpression(String baseName) {
     SequentialIdentifierGenerator generator = new SequentialIdentifierGenerator(baseName);
-    return getDataMapExpression(generator);
+    return coerceToDataMapExpression(generator);
   }
 
-  public final String getDataMapExpression() {
-    return getDataMapExpression("_");
+  public abstract String coerceToDataMapExpression(SequentialIdentifierGenerator generator);
+
+  public final String coerceToDataMapExpression() {
+    return coerceToDataMapExpression("_");
+  }
+
+  /**
+   * Creates an inline C# expression that - when placed after the identifier -
+   * will create a nested expression converting that data map back to a Rest.li object.
+   * @param baseName base value of the identifier string (e.g. x -> x0, x1, x2, ...)
+   * @return expression in C# to convert from data map
+   */
+  public final String coerceFromDataMapExpression(String baseName, String previousIdentifier) {
+    SequentialIdentifierGenerator generator = new SequentialIdentifierGenerator(baseName);
+    return coerceFromDataMapExpression(generator, previousIdentifier);
+  }
+
+  public abstract String coerceFromDataMapExpression(SequentialIdentifierGenerator generator, String previousIdentifier);
+
+  public final String coerceFromDataMapExpression(String previousIdentifier) {
+    return coerceFromDataMapExpression("_", previousIdentifier);
   }
 
   public boolean needsCastFromBuilder() { return false; }
