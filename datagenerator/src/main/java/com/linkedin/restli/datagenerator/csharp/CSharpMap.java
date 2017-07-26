@@ -33,19 +33,6 @@ public class CSharpMap extends CSharpCollectionType {
     _elementType = dataTemplateGenerator.generate(valueSpec, _map.getValueDataClass());
   }
 
-  /**
-   * If param modifier is MUTABLE_SHALLOW:
-   *  Returns a mutable map of immutable types. The reason for this is that
-   *  C# cannot handle casting a nested list/dictionary object; it can only handle
-   *  casting the outer layer. Thus, the inner types must be immutable.
-   * If param modifier is TYPED_DATAMAP:
-   *  Returns a mutable map of types that are readable by the constructors
-   *  of each datamodel. For instance, all record types would be represented
-   *  as Dictionary(string, object)
-   * Else:
-   *  Return immutable map.
-   * @return String representation of this map type in C#
-   */
   @Override
   public String getName(NameModifier modifier) {
     switch (modifier) {
