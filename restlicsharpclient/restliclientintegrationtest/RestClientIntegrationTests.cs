@@ -27,6 +27,7 @@ using restlicsharpclient.restliclient.request;
 using restlicsharpclient.restliclient.request.builder;
 using restlicsharpclient.restliclient.response;
 using restlicsharpclient.restliclient.util;
+using restlicsharpdata.restlidata;
 
 namespace restlicsharpclient.restliclientintegrationtest
 {
@@ -42,7 +43,7 @@ namespace restlicsharpclient.restliclientintegrationtest
              * This test makes the assumption that an instance of `restli-integration-test-server`
              * is running at the urlPrefix (hostname and port) specified below.
              */
-            string urlPrefix = "http://evwillia-ld1:1338";
+            string urlPrefix = "http://localhost:1338";
             RestClient client = new RestClient(urlPrefix);
 
             GetRequestBuilder<int, Greeting> requestBuilder = new GetRequestBuilder<int, Greeting>("/basicCollection");
@@ -67,7 +68,7 @@ namespace restlicsharpclient.restliclientintegrationtest
              * This test makes the assumption that an instance of `restli-integration-test-server`
              * is running at the urlPrefix (hostname and port) specified below.
              */
-            string urlPrefix = "http://evwillia-ld1:1338";
+            string urlPrefix = "http://localhost:1338";
             RestClient client = new RestClient(urlPrefix);
 
             GetRequestBuilder<int, Greeting> requestBuilder = new GetRequestBuilder<int, Greeting>("/basicCollection");
@@ -103,7 +104,7 @@ namespace restlicsharpclient.restliclientintegrationtest
              * This test makes the assumption that an instance of `restli-integration-test-server`
              * is running at the urlPrefix (hostname and port) specified below.
              */
-            string urlPrefix = "http://evwillia-ld1:1338";
+            string urlPrefix = "http://localhost:1338";
             RestClient client = new RestClient(urlPrefix);
             GreetingBuilder greetingBuilder = new GreetingBuilder();
             greetingBuilder.id = 0; // Dummy value
@@ -129,7 +130,7 @@ namespace restlicsharpclient.restliclientintegrationtest
              * This test makes the assumption that an instance of `restli-integration-test-server`
              * is running at the urlPrefix (hostname and port) specified below.
              */
-            string urlPrefix = "http://evwillia-ld1:1338";
+            string urlPrefix = "http://localhost:1338";
             RestClient client = new RestClient(urlPrefix);
             GreetingBuilder greetingBuilder = new GreetingBuilder();
             greetingBuilder.id = 0; // Dummy value
@@ -168,7 +169,7 @@ namespace restlicsharpclient.restliclientintegrationtest
              * This test makes the assumption that an instance of `restli-integration-test-server`
              * is running at the urlPrefix (hostname and port) specified below.
              */
-            string urlPrefix = "http://evwillia-ld1:1338";
+            string urlPrefix = "http://localhost:1338";
             RestClient client = new RestClient(urlPrefix);
 
             FinderRequestBuilder<Greeting, EmptyRecord> requestBuilder = new FinderRequestBuilder<Greeting, EmptyRecord>("/basicCollection");
@@ -195,7 +196,7 @@ namespace restlicsharpclient.restliclientintegrationtest
              * This test makes the assumption that an instance of `restli-integration-test-server`
              * is running at the urlPrefix (hostname and port) specified below.
              */
-            string urlPrefix = "http://evwillia-ld1:1338";
+            string urlPrefix = "http://localhost:1338";
             RestClient client = new RestClient(urlPrefix);
 
             FinderRequestBuilder<Greeting, EmptyRecord> requestBuilder = new FinderRequestBuilder<Greeting, EmptyRecord>("/basicCollection");
@@ -226,6 +227,34 @@ namespace restlicsharpclient.restliclientintegrationtest
             Assert.AreEqual(0, collectionResponse.paging.start);
             CollectionAssert.AllItemsAreInstancesOfType(collectionResponse.paging.links.ToList(), typeof(Link));
             Assert.AreEqual("application/json", collectionResponse.paging.links[0].type);
+        }
+
+        [TestMethod]
+        public void FinderGreeting_DictionaryRecord_Async()
+        {
+            /*
+             * This test makes the assumption that an instance of `restli-integration-test-server`
+             * is running at the urlPrefix (hostname and port) specified below.
+             */
+            string urlPrefix = "http://localhost:1338";
+            RestClient client = new RestClient(urlPrefix);
+
+            FinderRequestBuilder<DictionaryRecordTemplate, EmptyRecord> requestBuilder =
+                new FinderRequestBuilder<DictionaryRecordTemplate, EmptyRecord>("/basicCollection");
+            requestBuilder.Name("search");
+            requestBuilder.SetParam("tone", "FRIENDLY");
+            FinderRequest<DictionaryRecordTemplate, EmptyRecord> request = requestBuilder.Build();
+
+            CollectionResponse<DictionaryRecordTemplate, EmptyRecord> response = client.RestRequestSync(request);
+
+            IReadOnlyList<DictionaryRecordTemplate> greetings = response.elements;
+
+            Assert.IsTrue(greetings.Count() > 0);
+            Assert.IsTrue(greetings.All(_ => _.Data()["message"].Equals("search") && _.Data()["tone"].Equals("FRIENDLY")));
+            Assert.AreEqual(10, response.paging.count);
+            Assert.AreEqual(0, response.paging.start);
+            CollectionAssert.AllItemsAreInstancesOfType(response.paging.links.ToList(), typeof(Link));
+            Assert.AreEqual("application/json", response.paging.links[0].type);
         }
     }
 }
