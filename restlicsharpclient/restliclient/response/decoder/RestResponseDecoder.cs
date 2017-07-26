@@ -22,8 +22,7 @@ namespace restlicsharpclient.restliclient.response.decoder
     /// Interface for decoding a TransportResponse into a Response.
     /// </summary>
     /// <typeparam name="TResponse">The type of Response to be retrieved</typeparam>
-    public interface RestResponseDecoder<TResponse>
-        where TResponse : Response
+    public interface RestResponseDecoder<TResponse> where TResponse : Response
     {
         TResponse DecodeResponse(TransportResponse transportResponse);
     }

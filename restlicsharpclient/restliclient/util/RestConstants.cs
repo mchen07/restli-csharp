@@ -21,10 +21,6 @@ namespace restlicsharpclient.restliclient.util
     /// </summary>
     class RestConstants
     {
-        public const string kStartParam = "start";
-        public const string kCountParam = "count";
-        public const string kQueryTypeParam = "q";
-
         public static readonly char[] kHeaderDelimiters = { ',' };
         public const string kHeaderDelimiter = ",";
         public const string kHeaderContentType = "Content-Type";

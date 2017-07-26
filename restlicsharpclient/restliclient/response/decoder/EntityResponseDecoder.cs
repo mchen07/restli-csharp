@@ -27,7 +27,7 @@ namespace restlicsharpclient.restliclient.response.decoder
     /// </summary>
     /// <typeparam name="TEntity">The type of entity to be retrieved</typeparam>
     public class EntityResponseDecoder<TEntity> : RestResponseDecoder<EntityResponse<TEntity>>
-        where TEntity : RecordTemplate
+        where TEntity : class, RecordTemplate
     {
         public EntityResponse<TEntity> DecodeResponse(TransportResponse transportResponse)
         {

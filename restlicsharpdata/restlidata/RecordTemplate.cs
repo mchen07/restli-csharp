@@ -18,8 +18,7 @@ using System.Collections.Generic;
 
 namespace restlicsharpdata.restlidata
 {
-    public abstract class RecordTemplate : DataTemplate<Dictionary<string, object>>
+    public interface RecordTemplate : DataTemplate<Dictionary<string, object>>
     {
-        public abstract Dictionary<string, object> Data();
     }
 }

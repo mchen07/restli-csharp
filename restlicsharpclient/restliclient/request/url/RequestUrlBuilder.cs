@@ -26,8 +26,7 @@ namespace restlicsharpclient.restliclient.request.url
     /// Builder class used for constructing Rest.li request URLs.
     /// </summary>
     /// <typeparam name="TResponse">The type of Response to be retrieved</typeparam>
-    class RequestUrlBuilder<TResponse>
-        where TResponse : Response
+    class RequestUrlBuilder<TResponse> where TResponse : Response
     {
         private Request<TResponse> request;
         private string urlPrefix;

@@ -30,7 +30,7 @@ namespace restlicsharpclient.restliclient.response
     {
         public TEntity element;
 
-        public EntityResponse(Dictionary<string, List<string>> headers, int status, TEntity data)
+        public EntityResponse(IReadOnlyDictionary<string, IReadOnlyList<string>> headers, int status, TEntity data)
             : base(headers, status)
         {
             this.element = data;

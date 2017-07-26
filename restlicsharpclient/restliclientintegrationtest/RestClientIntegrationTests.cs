@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using com.linkedin.restli.test.api;
-using com.linkedin.restli.common;
 using restlicsharpclient.restliclient;
 using restlicsharpclient.restliclient.request;
 using restlicsharpclient.restliclient.request.builder;
@@ -33,8 +32,6 @@ namespace restlicsharpclient.restliclientintegrationtest
     [TestClass]
     public class RestClientIntegrationTests
     {
-        const int asyncTimeoutMillis = 3000;
-
         [TestMethod]
         public void GetGreeting_Sync()
         {
@@ -87,7 +84,7 @@ namespace restlicsharpclient.restliclientintegrationtest
 
             client.RestRequestAsync(request, callback);
 
-            blocker.WaitOne(asyncTimeoutMillis);
+            blocker.WaitOne();
 
             Assert.IsNotNull(greeting);
 
@@ -154,78 +151,11 @@ namespace restlicsharpclient.restliclientintegrationtest
             
             client.RestRequestAsync(request, callback);
 
-            blocker.WaitOne(asyncTimeoutMillis);
+            blocker.WaitOne();
 
             Assert.AreEqual(RestConstants.httpStatusCreated, createResponse.status);
             Assert.AreEqual(123, createResponse.key);
             CollectionAssert.AreEqual(new List<string>() { "/basicCollection/123" }, createResponse.headers[RestConstants.kHeaderLocation].ToList());
-        }
-
-        [TestMethod]
-        public void FinderGreeting_Sync()
-        {
-            /*
-             * This test makes the assumption that an instance of `restli-integration-test-server`
-             * is running at the urlPrefix (hostname and port) specified below.
-             */
-            string urlPrefix = "http://evwillia-ld1:1338";
-            RestClient client = new RestClient(urlPrefix);
-
-            FinderRequestBuilder<Greeting, EmptyRecord> requestBuilder = new FinderRequestBuilder<Greeting, EmptyRecord>("/basicCollection");
-            requestBuilder.Name("search");
-            requestBuilder.SetParam("tone", Tone.Symbol.FRIENDLY);
-            FinderRequest<Greeting, EmptyRecord> request = requestBuilder.Build();
-
-            CollectionResponse<Greeting, EmptyRecord> response = client.RestRequestSync(request);
-
-            IReadOnlyList<Greeting> greetings = response.elements;
-
-            Assert.IsTrue(greetings.Count() > 0);
-            Assert.IsTrue(greetings.All(_ => _.message.Equals("search") && _.tone.symbol == Tone.Symbol.FRIENDLY));
-            Assert.AreEqual(10, response.paging.count);
-            Assert.AreEqual(0, response.paging.start);
-            CollectionAssert.AllItemsAreInstancesOfType(response.paging.links.ToList(), typeof(Link));
-            Assert.AreEqual("application/json", response.paging.links[0].type);
-        }
-
-        [TestMethod]
-        public void FinderGreeting_Async()
-        {
-            /*
-             * This test makes the assumption that an instance of `restli-integration-test-server`
-             * is running at the urlPrefix (hostname and port) specified below.
-             */
-            string urlPrefix = "http://evwillia-ld1:1338";
-            RestClient client = new RestClient(urlPrefix);
-
-            FinderRequestBuilder<Greeting, EmptyRecord> requestBuilder = new FinderRequestBuilder<Greeting, EmptyRecord>("/basicCollection");
-            requestBuilder.Name("search");
-            requestBuilder.SetParam("tone", Tone.Symbol.FRIENDLY);
-            FinderRequest<Greeting, EmptyRecord> request = requestBuilder.Build();
-
-            AutoResetEvent blocker = new AutoResetEvent(false);
-
-            CollectionResponse<Greeting, EmptyRecord> collectionResponse = null;
-
-            RestliCallback<CollectionResponse<Greeting, EmptyRecord>>.SuccessHandler successHandler = delegate (CollectionResponse<Greeting, EmptyRecord> response)
-            {
-                collectionResponse = response;
-                blocker.Set();
-            };
-            RestliCallback<CollectionResponse<Greeting, EmptyRecord>> callback = new RestliCallback<CollectionResponse<Greeting, EmptyRecord>>(successHandler);
-
-            client.RestRequestAsync(request, callback);
-
-            blocker.WaitOne(asyncTimeoutMillis);
-
-            IReadOnlyList<Greeting> greetings = collectionResponse.elements;
-
-            Assert.IsTrue(greetings.Count() > 0);
-            Assert.IsTrue(greetings.All(_ => _.message.Equals("search") && _.tone.symbol == Tone.Symbol.FRIENDLY));
-            Assert.AreEqual(10, collectionResponse.paging.count);
-            Assert.AreEqual(0, collectionResponse.paging.start);
-            CollectionAssert.AllItemsAreInstancesOfType(collectionResponse.paging.links.ToList(), typeof(Link));
-            Assert.AreEqual("application/json", collectionResponse.paging.links[0].type);
         }
     }
 }

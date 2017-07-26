@@ -8,15 +8,12 @@
 @{
   CSharpType.NameModifier sourceTypeNameModifier =
     fieldParseType == GeneratorConstants.FieldParseType.FROM_DATAMAP ?
-    CSharpType.NameModifier.GENERIC_DATAMAP : CSharpType.NameModifier.MUTABLE;
-  String pairValueType =
-    fieldParseType == GeneratorConstants.FieldParseType.FROM_DATAMAP ?
-    "object" : cSharpMap.getElementType().getName(CSharpType.NameModifier.MUTABLE);
+    CSharpType.NameModifier.DATAMAP_PARSE : CSharpType.NameModifier.DEEP_MUTABLE;
 }
-foreach (KeyValuePair<string, @(pairValueType)> @(sourceName + level)pair in @(sourceName + (level-1)))
+foreach (KeyValuePair<string, @cSharpMap.getElementType().getName(sourceTypeNameModifier)> @(sourceName + level)pair in @(sourceName + (level-1)))
 {
-  @cSharpMap.getElementType().getName(sourceTypeNameModifier) @(sourceName + level) = (@cSharpMap.getElementType().getName(sourceTypeNameModifier))@(sourceName + level)pair.Value;
-  @cSharpMap.getElementType().getName(CSharpType.NameModifier.MUTABLE_SHALLOW) result@(level)@if (cSharpMap.getElementType() instanceof CSharpCollectionType){ = new @(cSharpMap.getElementType().getName(CSharpType.NameModifier.MUTABLE_SHALLOW))()};
+  @cSharpMap.getElementType().getName(sourceTypeNameModifier) @(sourceName + level) = @(sourceName + level)pair.Value;
+  @cSharpMap.getElementType().getName(CSharpType.NameModifier.MUTABLE) result@(level)@if (cSharpMap.getElementType() instanceof CSharpCollectionType){ = new @(cSharpMap.getElementType().getName(CSharpType.NameModifier.MUTABLE))()};
   @CSharpUtil.invokeRythmTemplate("record_field_parse", engine, cSharpMap.getElementType(), sourceName, targetName, fieldParseType, level+1).restli_addIndent(2)
   result@(level - 1).Add(@(sourceName + level)pair.Key, result@(level));
 }

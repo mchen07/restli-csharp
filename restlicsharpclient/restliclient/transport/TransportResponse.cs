@@ -34,11 +34,11 @@ namespace restlicsharpclient.restliclient.transport
         // TODO: Support for ErrorResponseDecoder object
 
         // Convert comma-separated wire header to app-expected header
-        public Dictionary<string, List<string>> responseHeaders
+        public IReadOnlyDictionary<string, IReadOnlyList<string>> responseHeaders
         {
             get
             {
-                return headers.ToDictionary(_ => _.Key, _ => _.Value.Split(RestConstants.kHeaderDelimiters).ToList());
+                return headers.ToDictionary(_ => _.Key, _ => (IReadOnlyList<string>)_.Value.Split(RestConstants.kHeaderDelimiters).ToList());
             }
         }
 

@@ -18,8 +18,7 @@ using System.Collections.Generic;
 
 namespace restlicsharpdata.restlidata
 {
-    public abstract class UnionTemplate : DataTemplate<Dictionary<string, object>>
+    public interface UnionTemplate : DataTemplate<Dictionary<string, object>>
     {
-        public abstract Dictionary<string, object> Data();
     }
 }

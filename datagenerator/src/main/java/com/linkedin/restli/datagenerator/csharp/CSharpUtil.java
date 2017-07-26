@@ -66,12 +66,12 @@ public class CSharpUtil {
   public static String stringify(CSharpType type, Object obj) {
     if (type instanceof CSharpCollectionType) {
       if (((DataList) obj).isEmpty()) {
-        return "new " + type.getName(CSharpType.NameModifier.MUTABLE_SHALLOW) + "()";
+        return "new " + type.getName(CSharpType.NameModifier.MUTABLE) + "()";
       } else {
         return null;
       }
     } else if (type instanceof CSharpEnum) {
-      String enumType = type.getName(CSharpType.NameModifier.IMMUTABLE);
+      String enumType = type.getName(CSharpType.NameModifier.NONE);
       if (obj instanceof String) {
         return "new " + enumType + "(\"" + obj + "\")";
       } else {

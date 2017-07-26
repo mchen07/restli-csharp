@@ -57,10 +57,9 @@ public class CSharpUnion extends CSharpComplexType {
   @Override
   public String getName(NameModifier modifier) {
     switch (modifier) {
-      case BUILDER_NULLABLE:
-      case BUILDER:
+      case IN_BUILDER:
         if (_enclosingType != null) {
-          return _enclosingType.getName(NameModifier.IMMUTABLE) + "." + getName(NameModifier.IMMUTABLE);
+          return _enclosingType.getName(NameModifier.NONE) + "." + getName(NameModifier.NONE);
         }
         // else use default case
       default:

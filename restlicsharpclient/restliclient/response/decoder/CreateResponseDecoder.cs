@@ -29,7 +29,7 @@ namespace restlicsharpclient.restliclient.response.decoder
     /// </summary>
     /// <typeparam name="TEntity">The type of entity created</typeparam>
     public class CreateResponseDecoder<TKey, TEntity> : RestResponseDecoder<CreateResponse<TKey, TEntity>>
-        where TEntity : RecordTemplate
+        where TKey : IEquatable<TKey> where TEntity : class, RecordTemplate
     {
         public CreateResponse<TKey, TEntity> DecodeResponse(TransportResponse transportResponse)
         {
