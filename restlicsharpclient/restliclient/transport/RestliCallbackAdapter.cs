@@ -24,7 +24,8 @@ namespace restlicsharpclient.restliclient.transport
     /// and passes the resulting repsonse into a specified Rest.li callback.
     /// </summary>
     /// <typeparam name="TResponse">The type of Response handled</typeparam>
-    class RestliCallbackAdapter<TResponse> : TransportCallback where TResponse : Response
+    class RestliCallbackAdapter<TResponse> : TransportCallback
+        where TResponse : Response
     {
         private RestResponseDecoder<TResponse> responseDecoder;
         private RestliCallback<TResponse> callback;

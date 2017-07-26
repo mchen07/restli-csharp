@@ -46,6 +46,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="restlicommon\com\linkedin\restli\common\CollectionMetadata.cs" />
+    <Compile Include="restlicommon\com\linkedin\restli\common\CreateStatus.cs" />
+    <Compile Include="restlicommon\com\linkedin\restli\common\EmptyRecord.cs" />
+    <Compile Include="restlicommon\com\linkedin\restli\common\ErrorDetails.cs" />
+    <Compile Include="restlicommon\com\linkedin\restli\common\ErrorResponse.cs" />
+    <Compile Include="restlicommon\com\linkedin\restli\common\Link.cs" />
+    <Compile Include="restlicommon\com\linkedin\restli\common\PegasusSchema.cs" />
+    <Compile Include="restlicommon\com\linkedin\restli\common\UpdateStatus.cs" />
+    <Compile Include="restlidataintegrationtest\NestedTypesTests.cs" />
     <Compile Include="restlidataintegrationtest\NestedCollectionsTests.cs" />
     <Compile Include="restlidataintegrationtest\UnionTestTests.cs" />
     <Compile Include="restlidataintegrationtest\TestEnumTests.cs" />
@@ -53,6 +62,7 @@
     <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\ComplexRequiredRecord.cs" />
     <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\EnumInUnionTest.cs" />
     <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\NestedCollections.cs" />
+    <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\NestedTypes.cs" />
     <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\RecordInUnionTest.cs" />
     <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\ReservedNames.cs" />
     <Compile Include="restlidataintegration\generatedDataTemplate\com\linkedin\restli\datagenerator\integration\SimpleRecord.cs" />
@@ -66,6 +76,7 @@
     <Compile Include="restlidata\BytesUtil.cs" />
     <Compile Include="restlidata\DataTemplate.cs" />
     <Compile Include="restlidata\EnumTemplate.cs" />
+    <Compile Include="restlidata\DictionaryRecordTemplate.cs" />
     <Compile Include="restlidata\RecordTemplate.cs" />
     <Compile Include="restlidata\UnionTemplate.cs" />
   </ItemGroup>
@@ -77,14 +88,23 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="restlicommon\pegasus\com\linkedin\restli\common\CollectionMetadata.pdsc" />
+    <None Include="restlicommon\pegasus\com\linkedin\restli\common\CreateStatus.pdsc" />
+    <None Include="restlicommon\pegasus\com\linkedin\restli\common\EmptyRecord.pdsc" />
+    <None Include="restlicommon\pegasus\com\linkedin\restli\common\ErrorResponse.pdsc" />
+    <None Include="restlicommon\pegasus\com\linkedin\restli\common\Link.pdsc" />
+    <None Include="restlicommon\pegasus\com\linkedin\restli\common\PegasusSchema.pdsc" />
+    <None Include="restlicommon\pegasus\com\linkedin\restli\common\UpdateStatus.pdsc" />
     <None Include="restlidataintegration\pegasus\com\linkedin\restli\datagenerator\integration\ComplexRequiredRecord.pdsc" />
     <None Include="restlidataintegration\pegasus\com\linkedin\restli\datagenerator\integration\NestedCollections.pdsc" />
     <None Include="restlidataintegration\pegasus\com\linkedin\restli\datagenerator\integration\SimpleRecord.pdsc" />
     <None Include="restlidataintegration\pegasus\com\linkedin\restli\datagenerator\integration\SimpleRecordProjection.pdsc" />
     <None Include="restlidataintegration\pegasus\com\linkedin\restli\datagenerator\integration\TestEnum.pdsc" />
+    <None Include="restlidataintegration\pegasus\com\linkedin\restli\datagenerator\integration\NestedTypes.pdsc" />
     <None Include="restlidataintegration\pegasus\com\linkedin\restli\datagenerator\integration\ThoroughRecord.pdsc" />
     <None Include="restlidataintegration\pegasus\com\linkedin\restli\datagenerator\integration\UnionTest.pdsc" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

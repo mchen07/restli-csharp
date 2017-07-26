@@ -22,6 +22,7 @@ namespace restlicsharpclient.restliclient.util
     public enum ResourceMethod
     {
         CREATE,
-        GET
+        GET,
+        FINDER
     }
 }

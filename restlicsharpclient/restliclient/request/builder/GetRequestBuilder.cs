@@ -27,7 +27,7 @@ namespace restlicsharpclient.restliclient.request.builder
     /// <typeparam name="TKey">The key (id) type of the entity being retrieved</typeparam>
     /// <typeparam name="TEntity">The type of entity being retrieved</typeparam>
     public class GetRequestBuilder<TKey, TEntity> : SingleEntityRequestBuilder<GetRequest<TKey, TEntity>, EntityResponse<TEntity>, TKey, TEntity>
-        where TKey : IEquatable<TKey> where TEntity : class, RecordTemplate
+        where TEntity : RecordTemplate
     {
         public GetRequestBuilder(string baseUrlTemplate) : base(baseUrlTemplate) { }
 

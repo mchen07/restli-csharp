@@ -31,8 +31,10 @@ public CSharpPrimitive(ClassTemplateSpec spec) {
   @Override
   public String getName(NameModifier modifier) {
     switch (modifier) {
-      case NULLABLE:
-      case IN_BUILDER:
+      case GENERIC_DATAMAP:
+        return "object";
+      case IMMUTABLE_NULLABLE:
+      case BUILDER_NULLABLE:
         return getName(true);
       default:
         return getName(false);
@@ -80,7 +82,7 @@ public CSharpPrimitive(ClassTemplateSpec spec) {
       case BYTES:
         return "new Bytes(BytesUtil.StringToBytes((string)" + identifier + "))";
       default:
-        return "(" + getName(NameModifier.NONE) + ")" + identifier;
+        return "(" + getName(NameModifier.IMMUTABLE) + ")" + identifier;
     }
   }
 
@@ -96,12 +98,17 @@ public CSharpPrimitive(ClassTemplateSpec spec) {
   }
 
   @Override
-  public String getDataMapExpression(SequentialIdentifierGenerator generator) {
+  public String coerceToDataMapExpression(SequentialIdentifierGenerator generator) {
     switch (getSpec().getSchema().getType()) {
       case BYTES:
         return ".Data()";
       default:
         return "";
     }
+  }
+
+  @Override
+  public String coerceFromDataMapExpression(SequentialIdentifierGenerator generator, String previousIdentifier) {
+    return getInitializationExpression(previousIdentifier);
   }
 }

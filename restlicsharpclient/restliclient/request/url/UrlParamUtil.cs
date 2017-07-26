@@ -28,7 +28,6 @@ namespace restlicsharpclient.restliclient.request.url
     /// </summary>
     public static class UrlParamUtil
     {
-
         internal static string EncodeDataObject(object data, UrlConstants.EncodingContext encodingContext)
         {
             if (data is Dictionary<string, object>)
@@ -142,7 +141,7 @@ namespace restlicsharpclient.restliclient.request.url
             }
             // Sort and join with &
             encodedQueryItems.Sort();
-            return String.Format("{0}{1}", UrlConstants.kQueryParamsBegin, String.Join(UrlConstants.kQueryItemSep, encodedQueryItems));
+            return String.Join(UrlConstants.kQueryItemSep, encodedQueryItems);
         }
 
         public static Dictionary<string, string> EncodePathKeysForUrl(IReadOnlyDictionary<string, object> pathKeys)

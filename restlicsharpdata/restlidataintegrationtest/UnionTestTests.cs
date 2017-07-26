@@ -74,7 +74,7 @@ namespace restlicsharpdata.restlidataintegrationtest
                 },
                 { "unionWithInline", new Dictionary<string, object>()
                     {
-                        { "map", new Dictionary<string, long>()
+                        { "map", new Dictionary<string, object>()
                             {
                                 { "key", 9999 }
                             }
@@ -153,7 +153,7 @@ namespace restlicsharpdata.restlidataintegrationtest
                 },
                 { "unionWithInline", new Dictionary<string, object>()
                     {
-                        { "map", new Dictionary<string, long>()
+                        { "map", new Dictionary<string, object>()
                             {
                                 { "key", 9999 }
                             }

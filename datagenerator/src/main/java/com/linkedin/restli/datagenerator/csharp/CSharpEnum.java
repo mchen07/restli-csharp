@@ -35,10 +35,12 @@ public class CSharpEnum extends CSharpComplexType {
   @Override
   public String getName(NameModifier modifier) {
     switch (modifier) {
-      case DATAMAP_PARSE:
+      case GENERIC_DATAMAP:
+        return "object";
+      case TYPED_DATAMAP:
         return "string";
       default:
-        return super.getName(NameModifier.NONE);
+        return super.getName(NameModifier.IMMUTABLE);
     }
   }
 
