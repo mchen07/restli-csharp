@@ -11,6 +11,7 @@
 - open `restlicsharp.sln` in Visual Studio:
     - build the solution
     - run all tests for the solution to ensure everything is setup
+    - **note:** all tests in `RestliClientIntegrationTests` may fail, as those tests assume there is a Rest.li server running at `http://localhost:1338` that supports `GET`, `CREATE`, and `FINDER` requests for the `basicCollection` resource; however, all other tests should pass
      
 ## Example Data Templates
 
@@ -31,13 +32,15 @@ li/datagenerator/integration/UnionTest.cs`
 
 ### Synchronous Request
 
-Here is a snippet showing how you would use the client to issue a synchronous GET request to a resource `resourceName` for a Record `Greeting` with integer ID `123`
+Here is a snippet showing how you would use the client to issue a synchronous `GET` request to a resource `foo` for a Record `Greeting` with integer ID `123`
 
-```
+```C#
 string urlPrefix = "http://hostname:port";
+string baseTemplateUrl = "/foo";
+
 RestClient client = new RestClient(urlPrefix);
 
-GetRequestBuilder<int, Greeting> requestBuilder = new GetRequestBuilder<int, Greeting>("/resourceName");
+GetRequestBuilder<int, Greeting> requestBuilder = new GetRequestBuilder<int, Greeting>(baseTemplateUrl);
 requestBuilder.SetID(123);
 GetRequest<int, Greeting> request = requestBuilder.Build();
 
@@ -50,11 +53,13 @@ Greeting greeting = response.element;
 
 Here is a snippet showing how you would use the client to issue the asynchronous analogue of the same request in the previous example
 
-```
+```C#
 string urlPrefix = "http://hostname:port";
+string baseTemplateUrl = "/foo";
+
 RestClient client = new RestClient(urlPrefix);
 
-GetRequestBuilder<int, Greeting> requestBuilder = new GetRequestBuilder<int, Greeting>("/resourceName");
+GetRequestBuilder<int, Greeting> requestBuilder = new GetRequestBuilder<int, Greeting>(baseTemplateUrl);
 requestBuilder.SetID(123);
 GetRequest<int, Greeting> request = requestBuilder.Build();
 
