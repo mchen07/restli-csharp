@@ -42,15 +42,43 @@ namespace restlicsharpclient.restliclient.transport
             HttpRequestMessage httpRequestMessage = ConstructHttpRequestMessage(httpRequest);
 
             httpClient.SendAsync(httpRequestMessage)
-                .ContinueWith(task => transportCallback.OnSuccess(new HttpResponse(task.Result)));
+                .ContinueWith(task =>
+                    {
+                        HttpResponse httpResponse;
+                        try
+                        {
+                            httpResponse = new HttpResponse(task.Result);
+                        }
+                        catch (Exception e)
+                        {
+                            httpResponse = new HttpResponse(RestConstants.httpStatusInternalServerError, null, null, new RestliException("Error issuing asynchronous rest request", e));
+                        }
+
+                        if (httpResponse.hasError())
+                        {
+                            transportCallback.OnError(httpResponse);
+                        }
+                        else
+                        {
+                            transportCallback.OnSuccess(httpResponse);
+                        }
+                    });
         }
 
         public HttpResponse RestRequestSync(HttpRequest httpRequest)
         {
             HttpRequestMessage httpRequestMessage = ConstructHttpRequestMessage(httpRequest);
 
-            HttpResponseMessage httpResponseMessage = httpClient.SendAsync(httpRequestMessage).Result;
-            HttpResponse httpResponse = new HttpResponse(httpResponseMessage);
+            HttpResponse httpResponse;
+            try
+            {
+                HttpResponseMessage httpResponseMessage = httpClient.SendAsync(httpRequestMessage).Result;
+                httpResponse = new HttpResponse(httpResponseMessage);
+            }
+            catch (Exception e)
+            {
+                httpResponse = new HttpResponse(RestConstants.httpStatusInternalServerError, null, null, new RestliException("Error issuing asynchronous rest request", e));
+            }
 
             return httpResponse;
         }

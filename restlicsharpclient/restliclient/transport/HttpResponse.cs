@@ -34,13 +34,23 @@ namespace restlicsharpclient.restliclient.transport
         public int? status { get; }
         public IReadOnlyDictionary<string, string> headers { get; }
         public byte[] data { get; }
+        public RestliException error;
 
 
-        public HttpResponse(int? status, Dictionary<string, string> headers, byte[] data)
+        public HttpResponse(int? status, Dictionary<string, string> headers, byte[] data, RestliException error)
         {
             this.status = status;
-            this.headers = headers;
+            this.headers = headers ?? new Dictionary<string, string>();
             this.data = data;
+            
+            if (error != null)
+            {
+                this.error = error;
+            }
+            else
+            {
+                AddStatusOrHeaderError();
+            }
         }
 
         public HttpResponse(HttpWebResponse httpWebResponse)
@@ -59,6 +69,8 @@ namespace restlicsharpclient.restliclient.transport
             status = (int)httpWebResponse.StatusCode;
             headers = tempHeaders;
             data = dataBytes;
+
+            AddStatusOrHeaderError();
         }
 
         public HttpResponse(HttpResponseMessage httpResponseMessage)
@@ -74,6 +86,25 @@ namespace restlicsharpclient.restliclient.transport
             status = (int)httpResponseMessage.StatusCode;
             headers = tempHeaders;
             data = httpResponseMessage.Content.ReadAsByteArrayAsync().Result;
+
+            AddStatusOrHeaderError();
+        }
+
+        public bool hasError()
+        {
+            return error != null;
+        }
+
+        private void AddStatusOrHeaderError()
+        {
+            if (headers.ContainsKey(RestConstants.kHeaderRestliErrorResponse))
+            {
+                error = new RestliException("Server returned Rest.li error response", null);
+            }
+            else if (status < 200 || status >= 300)
+            {
+                error = new RestliException(String.Format("Response has HTTP status code {0}", status), null);
+            }
         }
     }
 }

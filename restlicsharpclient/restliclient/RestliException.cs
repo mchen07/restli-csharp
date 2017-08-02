@@ -14,16 +14,19 @@
    limitations under the License.
 */
 
-namespace restlicsharpclient.restliclient.transport
-{
-    /// <summary>
-    /// Interface defining the callback used by the TransportClient
-    /// after making an asynchronous request.
-    /// </summary>
-    public interface TransportCallback
-    {
-        void OnSuccess(HttpResponse httpResponse);
+using System;
 
-        void OnError(HttpResponse httpResponse);
+using com.linkedin.restli.common;
+
+namespace restlicsharpclient.restliclient
+{
+    public class RestliException : Exception
+    {
+        public ErrorResponse details { get; internal set; }
+
+        public RestliException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
     }
 }

@@ -18,6 +18,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 using restlicsharpclient.restliclient.util;
+using restlicsharpclient.restliclient.response.decoder;
+using restlicsharpclient.restliclient.response;
 
 namespace restlicsharpclient.restliclient.transport
 {
@@ -30,8 +32,8 @@ namespace restlicsharpclient.restliclient.transport
         public Dictionary<string, object> data;
         public IReadOnlyDictionary<string, string> headers;
         public int? status;
-        // TODO: Support for Error object
-        // TODO: Support for ErrorResponseDecoder object
+        public RestliException error;
+        private ErrorResponseDecoder errorResponseDecoder = new ErrorResponseDecoder();
 
         // Convert comma-separated wire header to app-expected header
         public Dictionary<string, List<string>> responseHeaders
@@ -46,18 +48,18 @@ namespace restlicsharpclient.restliclient.transport
         {
             int? httpStatus = null;
 
-            // if response non-null, extract headers, status code, and data
+            // if response non-null, extract headers, status code, data, and error
             if (response != null)
             {
                 headers = response.headers;
                 httpStatus = response.status;
                 data = DataUtil.BytesToMap(response.data);
+                error = response.error;
             }
             else
             {
                 headers = new Dictionary<string, string>();
             }
-            
 
             status = httpStatus;
         }
@@ -68,11 +70,12 @@ namespace restlicsharpclient.restliclient.transport
 
             int? httpStatus = null;
 
-            // if response non-null, extract headers and status code
+            // if response non-null, extract headers, status code, and error
             if (response != null)
             {
                 headers = response.headers;
                 httpStatus = response.status;
+                error = response.error;
             }
             else
             {
@@ -80,6 +83,32 @@ namespace restlicsharpclient.restliclient.transport
             }
 
             status = httpStatus;
+        }
+
+        public bool hasError()
+        {
+            return error != null;
+        }
+
+        public ClientErrorResponse getError()
+        {
+            //if (hasErrorResponseHeader())
+            //{
+                return errorResponseDecoder.DecodeResponse(this);
+            //}
+            //return new ClientErrorResponse(responseHeaders, status ?? RestConstants.httpStatusInternalServerError, null, error);
+        }
+
+        private bool hasErrorResponseHeader()
+        {
+            if (headers == null)
+            {
+                return false;
+            }
+            else
+            {
+                return headers.ContainsKey(RestConstants.kHeaderRestliErrorResponse);
+            }
         }
     }
 }

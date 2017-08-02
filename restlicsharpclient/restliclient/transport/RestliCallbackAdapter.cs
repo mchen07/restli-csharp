@@ -43,6 +43,11 @@ namespace restlicsharpclient.restliclient.transport
             callback.OnSuccess(response);
         }
 
-        // TODO: Support OnError
+        public void OnError(HttpResponse httpResponse)
+        {
+            TransportResponse transportResponse = new TransportResponse(httpResponse);
+            ClientErrorResponse clientErrorResponse = transportResponse.getError();
+            callback.OnError(clientErrorResponse);
+        }
     }
 }

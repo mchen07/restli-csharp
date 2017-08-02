@@ -26,12 +26,15 @@ namespace restlicsharpclient.restliclient
         where TResponse : Response
     {
         public delegate void SuccessHandler(TResponse response);
+        public delegate void ErrorHandler(ClientErrorResponse response);
 
         public SuccessHandler successHandler;
+        public ErrorHandler errorHandler;
 
-        public RestliCallback(SuccessHandler successHandler)
+        public RestliCallback(SuccessHandler successHandler, ErrorHandler errorHandler)
         {
             this.successHandler = successHandler;
+            this.errorHandler = errorHandler;
         }
 
         public void OnSuccess(TResponse response)
@@ -39,6 +42,9 @@ namespace restlicsharpclient.restliclient
             successHandler(response);
         }
 
-        // TODO: Support OnError(ErrorResponse)
+        public void OnError(ClientErrorResponse response)
+        {
+            errorHandler(response);
+        }
     }
 }
