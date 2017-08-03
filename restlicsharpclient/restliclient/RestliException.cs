@@ -20,6 +20,12 @@ using com.linkedin.restli.common;
 
 namespace restlicsharpclient.restliclient
 {
+    /// <summary>
+    /// Exception class used as a wrapper for any errors caught during rest operations,
+    /// as well as to store information created in the case of a Rest.li server
+    /// service exception. This class is also used as a flag in certain classes
+    /// to indicate that an error has occured.
+    /// </summary>
     public class RestliException : Exception
     {
         public ErrorResponse details { get; internal set; }

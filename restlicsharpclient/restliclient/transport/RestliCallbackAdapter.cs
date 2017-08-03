@@ -39,8 +39,17 @@ namespace restlicsharpclient.restliclient.transport
         public void OnSuccess(HttpResponse httpResponse)
         {
             TransportResponse transportResponse = new TransportResponse(httpResponse);
-            TResponse response = responseDecoder.DecodeResponse(transportResponse);
-            callback.OnSuccess(response);
+
+            if (transportResponse.hasError())
+            {
+                ClientErrorResponse clientErrorResponse = transportResponse.getError();
+                callback.OnError(clientErrorResponse);
+            }
+            else
+            {
+                TResponse response = responseDecoder.DecodeResponse(transportResponse);
+                callback.OnSuccess(response);
+            }
         }
 
         public void OnError(HttpResponse httpResponse)

@@ -22,6 +22,11 @@ using com.linkedin.restli.common;
 
 namespace restlicsharpclient.restliclient.response.decoder
 {
+    /// <summary>
+    /// Class for decoding a TransportResponse containing error info returned
+    /// by a Rest.li server. Decodes this info into a ClientErrorResponse
+    /// and wraps the created ErrorResponse into a RestliException instance.
+    /// </summary>
     public class ErrorResponseDecoder : RestResponseDecoder<ClientErrorResponse>
     {
         public ClientErrorResponse DecodeResponse(TransportResponse transportResponse)
@@ -33,7 +38,7 @@ namespace restlicsharpclient.restliclient.response.decoder
                 data = DataUtil.BuildRecord<ErrorResponse>(dataMap);
                 transportResponse.error.details = data;
             }
-            return new ClientErrorResponse(transportResponse.responseHeaders, transportResponse.status.Value, transportResponse.error);
+            return new ClientErrorResponse(transportResponse.responseHeaders, transportResponse.status ?? data?.status ?? RestConstants.httpStatusInternalServerError, transportResponse.error);
         }
     }
 }

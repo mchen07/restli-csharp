@@ -62,6 +62,8 @@ namespace restlicsharpclient.restliclient.transport
             }
 
             status = httpStatus;
+
+            AddStatusOrHeaderError();
         }
 
         public TransportResponse(Dictionary<string, object> data, HttpResponse response)
@@ -83,6 +85,8 @@ namespace restlicsharpclient.restliclient.transport
             }
 
             status = httpStatus;
+
+            AddStatusOrHeaderError();
         }
 
         public bool hasError()
@@ -92,22 +96,18 @@ namespace restlicsharpclient.restliclient.transport
 
         public ClientErrorResponse getError()
         {
-            //if (hasErrorResponseHeader())
-            //{
-                return errorResponseDecoder.DecodeResponse(this);
-            //}
-            //return new ClientErrorResponse(responseHeaders, status ?? RestConstants.httpStatusInternalServerError, null, error);
+            return errorResponseDecoder.DecodeResponse(this);
         }
 
-        private bool hasErrorResponseHeader()
+        private void AddStatusOrHeaderError()
         {
-            if (headers == null)
+            if (headers.ContainsKey(RestConstants.kHeaderRestliErrorResponse))
             {
-                return false;
+                error = new RestliException("Server returned Rest.li error response", null);
             }
-            else
+            else if (status < 200 || status >= 300)
             {
-                return headers.ContainsKey(RestConstants.kHeaderRestliErrorResponse);
+                error = new RestliException(string.Format("Response has HTTP status code {0}", status), null);
             }
         }
     }
