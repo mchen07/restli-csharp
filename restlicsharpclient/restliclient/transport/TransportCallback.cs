@@ -22,8 +22,6 @@ namespace restlicsharpclient.restliclient.transport
     /// </summary>
     public interface TransportCallback
     {
-        void OnSuccess(HttpResponse httpResponse);
-
-        void OnError(HttpResponse httpResponse);
+        void OnResponse(HttpResponse httpResponse);
     }
 }

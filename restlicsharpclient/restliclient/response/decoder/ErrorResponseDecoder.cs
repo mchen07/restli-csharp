@@ -37,8 +37,9 @@ namespace restlicsharpclient.restliclient.response.decoder
             {
                 data = DataUtil.BuildRecord<ErrorResponse>(dataMap);
                 transportResponse.error.details = data;
+                transportResponse.status = data.status;
             }
-            return new ClientErrorResponse(transportResponse.responseHeaders, transportResponse.status ?? data?.status ?? RestConstants.httpStatusInternalServerError, transportResponse.error);
+            return new ClientErrorResponse(transportResponse.responseHeaders, transportResponse.status ?? RestConstants.httpStatusInternalServerError, transportResponse.error);
         }
     }
 }

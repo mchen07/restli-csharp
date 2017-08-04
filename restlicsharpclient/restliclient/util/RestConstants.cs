@@ -36,6 +36,7 @@ namespace restlicsharpclient.restliclient.util
         public const string kRestLiVersion20 = "2.0.0";
         public const string kHeaderLocation = "Location";
 
+        // HTTP status codes
         public const int httpStatusCreated = 201;
         public const int httpStatusInternalServerError = 500;
     }

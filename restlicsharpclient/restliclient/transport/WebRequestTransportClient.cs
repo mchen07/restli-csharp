@@ -70,7 +70,7 @@ namespace restlicsharpclient.restliclient.transport
                 httpResponse = new HttpResponse(RestConstants.httpStatusInternalServerError, null, null, new RestliException("Error issuing asynchronous rest request", e));
             }
 
-            transportCallback.OnSuccess(httpResponse);
+            transportCallback.OnResponse(httpResponse);
         }
 
         public void RestRequestAsync(HttpRequest httpRequest, TransportCallback transportCallback)

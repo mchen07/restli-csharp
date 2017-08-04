@@ -22,7 +22,7 @@ namespace restlicsharpclient.restliclient.response
     /// Representation of a Rest.li error response,
     /// corresponding to any request that returns an error.
     /// If the error is a Rest.li service exception, then the RestliException
-    /// object will have the error data in the form of a ErrorResponse wrapped into it.
+    /// object will have the error data in the form of an ErrorResponse wrapped into it.
     /// </summary>
     public class ClientErrorResponse : Response
     {

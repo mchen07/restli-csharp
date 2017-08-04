@@ -136,9 +136,7 @@ namespace restlicsharpclient.restliclient.util
             }
             else
             {
-                string stringData = System.Text.Encoding.UTF8.GetString(dataBytes);
-                Dictionary<string, object> temp = StringToMap(stringData);
-                return temp;
+                return StringToMap(System.Text.Encoding.UTF8.GetString(dataBytes));
             }
         }
     }

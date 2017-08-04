@@ -101,13 +101,16 @@ namespace restlicsharpclient.restliclient.transport
 
         private void AddStatusOrHeaderError()
         {
-            if (headers.ContainsKey(RestConstants.kHeaderRestliErrorResponse))
+            if (error == null)
             {
-                error = new RestliException("Server returned Rest.li error response", null);
-            }
-            else if (status < 200 || status >= 300)
-            {
-                error = new RestliException(string.Format("Response has HTTP status code {0}", status), null);
+                if (headers.ContainsKey(RestConstants.kHeaderRestliErrorResponse))
+                {
+                    error = new RestliException("Server returned Rest.li error response", null);
+                }
+                else if (status < 200 || status >= 300)
+                {
+                    error = new RestliException(string.Format("Response has HTTP status code {0}", status), null);
+                }
             }
         }
     }
