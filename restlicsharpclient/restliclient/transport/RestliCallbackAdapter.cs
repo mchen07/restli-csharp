@@ -36,13 +36,20 @@ namespace restlicsharpclient.restliclient.transport
             this.callback = callback;
         }
 
-        public void OnSuccess(HttpResponse httpResponse)
+        public void OnResponse(HttpResponse httpResponse)
         {
             TransportResponse transportResponse = new TransportResponse(httpResponse);
-            TResponse response = responseDecoder.DecodeResponse(transportResponse);
-            callback.OnSuccess(response);
-        }
 
-        // TODO: Support OnError
+            if (transportResponse.hasError())
+            {
+                ClientErrorResponse clientErrorResponse = transportResponse.getError();
+                callback.OnError(clientErrorResponse);
+            }
+            else
+            {
+                TResponse response = responseDecoder.DecodeResponse(transportResponse);
+                callback.OnSuccess(response);
+            }
+        }
     }
 }

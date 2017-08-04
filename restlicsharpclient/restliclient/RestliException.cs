@@ -14,14 +14,25 @@
    limitations under the License.
 */
 
-namespace restlicsharpclient.restliclient.transport
+using System;
+
+using com.linkedin.restli.common;
+
+namespace restlicsharpclient.restliclient
 {
     /// <summary>
-    /// Interface defining the callback used by the TransportClient
-    /// after making an asynchronous request.
+    /// Exception class used as a wrapper for any errors caught during rest operations,
+    /// as well as to store information created in the case of a Rest.li server
+    /// service exception. This class is also used as a flag in certain classes
+    /// to indicate that an error has occured.
     /// </summary>
-    public interface TransportCallback
+    public class RestliException : Exception
     {
-        void OnResponse(HttpResponse httpResponse);
+        public ErrorResponse details { get; internal set; }
+
+        public RestliException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
     }
 }

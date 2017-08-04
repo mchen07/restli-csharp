@@ -130,7 +130,14 @@ namespace restlicsharpclient.restliclient.util
         /// <returns>Deserialized object</returns>
         public static Dictionary<string, object> BytesToMap(byte[] dataBytes)
         {
-            return StringToMap(System.Text.Encoding.UTF8.GetString(dataBytes));
+            if (dataBytes == null)
+            {
+                return null;
+            }
+            else
+            {
+                return StringToMap(System.Text.Encoding.UTF8.GetString(dataBytes));
+            }
         }
     }
 }

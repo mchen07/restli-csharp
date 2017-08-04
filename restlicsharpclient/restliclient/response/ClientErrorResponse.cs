@@ -16,26 +16,22 @@
 
 using System.Collections.Generic;
 
-using restlicsharpdata.restlidata;
-
 namespace restlicsharpclient.restliclient.response
 {
     /// <summary>
-    /// Representation of a Rest.li CREATE response.
-    /// <para>Returned by an instance of the CreateResponseDecoder class.</para>
+    /// Representation of a Rest.li error response,
+    /// corresponding to any request that returns an error.
+    /// If the error is a Rest.li service exception, then the RestliException
+    /// object will have the error data in the form of an ErrorResponse wrapped into it.
     /// </summary>
-    /// <typeparam name="TEntity">The type of Entity represented by this Response</typeparam>
-    public class CreateResponse<TKey, TEntity> : Response
-        where TEntity : RecordTemplate
+    public class ClientErrorResponse : Response
     {
-        public TKey key;
-        public TEntity entity;
+        public RestliException error { get; }
 
-        public CreateResponse(Dictionary<string, List<string>> headers, int status, TKey key, TEntity entity)
+        public ClientErrorResponse(Dictionary<string, List<string>> headers, int status, RestliException error)
             : base(headers, status)
         {
-            this.key = key;
-            this.entity = entity;
+            this.error = error;
         }
     }
 }

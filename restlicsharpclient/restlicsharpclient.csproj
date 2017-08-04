@@ -56,6 +56,7 @@
     <Compile Include="restliclientintegration\generatedDataTemplate\com\linkedin\restli\test\api\Tone.cs" />
     <Compile Include="restliclienttest\decoder\CreateResponseDecoderTests.cs" />
     <Compile Include="restliclienttest\decoder\CollectionResponseDecoderTests.cs" />
+    <Compile Include="restliclienttest\decoder\ErrorResponseDecoderTests.cs" />
     <Compile Include="restliclienttest\decoder\EntityResponseDecoderTests.cs" />
     <Compile Include="restliclienttest\RequestBuilderBaseTests.cs" />
     <Compile Include="restliclienttest\RestClientTests.cs" />
@@ -74,12 +75,15 @@
     <Compile Include="restliclient\response\CollectionResponse.cs" />
     <Compile Include="restliclient\response\decoder\CollectionResponseDecoder.cs" />
     <Compile Include="restliclient\response\decoder\CreateResponseDecoder.cs" />
+    <Compile Include="restliclient\response\decoder\ErrorResponseDecoder.cs" />
     <Compile Include="restliclient\response\decoder\EntityResponseDecoder.cs" />
     <Compile Include="restliclient\response\decoder\RestResponseDecoder.cs" />
     <Compile Include="restliclient\response\CreateResponse.cs" />
+    <Compile Include="restliclient\response\ClientErrorResponse.cs" />
     <Compile Include="restliclient\response\EntityResponse.cs" />
     <Compile Include="restliclient\response\Response.cs" />
     <Compile Include="restliclient\RestClient.cs" />
+    <Compile Include="restliclient\RestliException.cs" />
     <Compile Include="restliclient\RestliCallback.cs" />
     <Compile Include="restliclient\transport\DefaultTransportClient.cs" />
     <Compile Include="restliclient\transport\RestliCallbackAdapter.cs" />

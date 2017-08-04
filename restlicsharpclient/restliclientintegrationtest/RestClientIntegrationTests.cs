@@ -34,16 +34,17 @@ namespace restlicsharpclient.restliclientintegrationtest
     [TestClass]
     public class RestClientIntegrationTests
     {
-        const int asyncTimeoutMillis = 3000;
+        /*
+        * These test makes the assumption that an instance of `restli-integration-test-server`
+        * is running at the urlPrefix (hostname and port) specified below.
+        */
+        const string urlPrefix = "http://localhost:1338";
+        const string badUrlPrefix = "http://badhostname:12345";
+        const int asyncTimeoutMillis = 6000;
 
         [TestMethod]
         public void GetGreeting_Sync()
         {
-            /*
-             * This test makes the assumption that an instance of `restli-integration-test-server`
-             * is running at the urlPrefix (hostname and port) specified below.
-             */
-            string urlPrefix = "http://localhost:1338";
             RestClient client = new RestClient(urlPrefix);
 
             GetRequestBuilder<int, Greeting> requestBuilder = new GetRequestBuilder<int, Greeting>("/basicCollection");
@@ -62,13 +63,62 @@ namespace restlicsharpclient.restliclientintegrationtest
         }
 
         [TestMethod]
+        public void GetGreeting_Sync_HttpError()
+        {
+            RestClient client = new RestClient(badUrlPrefix);
+
+            GetRequestBuilder<int, Greeting> requestBuilder = new GetRequestBuilder<int, Greeting>("/basicCollection");
+            requestBuilder.SetID(123);
+            GetRequest<int, Greeting> request = requestBuilder.Build();
+
+            try
+            {
+                EntityResponse<Greeting> response = client.RestRequestSync(request);
+            }
+            catch (RestliException e)
+            {
+                Assert.IsNull(e.details);
+                Assert.IsNotNull(e.Message);
+                Assert.IsNotNull(e.InnerException);
+                return;
+            }
+
+            Assert.Fail("Rest request should throw RestliException");
+        }
+
+        [TestMethod]
+        public void GetGreeting_Sync_ServerError()
+        {
+            RestClient client = new RestClient(urlPrefix);
+
+            GetRequestBuilder<int, Greeting> requestBuilder = new GetRequestBuilder<int, Greeting>("/basicCollection");
+            requestBuilder.SetID(-1);
+            GetRequest<int, Greeting> request = requestBuilder.Build();
+
+            try
+            {
+                EntityResponse<Greeting> response = client.RestRequestSync(request);
+            }
+            catch (RestliException e)
+            {
+                Assert.IsNotNull(e.Message);
+                Assert.IsNull(e.InnerException);
+
+                ErrorResponse details = e.details;
+                Assert.IsNotNull(details);
+                Assert.AreEqual(400, details.status);
+                Assert.AreEqual("Negative key.", details.message);
+                Assert.AreEqual("com.linkedin.restli.server.RestLiServiceException", details.exceptionClass);
+                Assert.IsTrue(details.hasStackTrace);
+                return;
+            }
+
+            Assert.Fail("Rest request should throw RestliException");
+        }
+
+        [TestMethod]
         public void GetGreeting_Async()
         {
-            /*
-             * This test makes the assumption that an instance of `restli-integration-test-server`
-             * is running at the urlPrefix (hostname and port) specified below.
-             */
-            string urlPrefix = "http://localhost:1338";
             RestClient client = new RestClient(urlPrefix);
 
             GetRequestBuilder<int, Greeting> requestBuilder = new GetRequestBuilder<int, Greeting>("/basicCollection");
@@ -78,18 +128,25 @@ namespace restlicsharpclient.restliclientintegrationtest
             AutoResetEvent blocker = new AutoResetEvent(false);
 
             Greeting greeting = null;
+            ClientErrorResponse errorResponse = null;
 
             RestliCallback<EntityResponse<Greeting>>.SuccessHandler successHandler = delegate (EntityResponse<Greeting> response)
             {
                 greeting = response.element;
                 blocker.Set();
             };
-            RestliCallback<EntityResponse<Greeting>> callback = new RestliCallback<EntityResponse<Greeting>>(successHandler);
+            RestliCallback<EntityResponse<Greeting>>.ErrorHandler errorHandler = delegate (ClientErrorResponse response)
+            {
+                errorResponse = response;
+                blocker.Set();
+            };
+            RestliCallback<EntityResponse<Greeting>> callback = new RestliCallback<EntityResponse<Greeting>>(successHandler, errorHandler);
 
             client.RestRequestAsync(request, callback);
 
             blocker.WaitOne(asyncTimeoutMillis);
 
+            Assert.IsNull(errorResponse);
             Assert.IsNotNull(greeting);
 
             Assert.AreEqual(123, greeting.id);
@@ -98,14 +155,97 @@ namespace restlicsharpclient.restliclientintegrationtest
         }
 
         [TestMethod]
+        public void GetGreeting_Async_ServerError()
+        {
+            RestClient client = new RestClient(urlPrefix);
+
+            GetRequestBuilder<int, Greeting> requestBuilder = new GetRequestBuilder<int, Greeting>("/basicCollection");
+            requestBuilder.SetID(-1);
+            GetRequest<int, Greeting> request = requestBuilder.Build();
+
+            AutoResetEvent blocker = new AutoResetEvent(false);
+
+            Greeting greeting = null;
+            ClientErrorResponse errorResponse = null;
+
+            RestliCallback<EntityResponse<Greeting>>.SuccessHandler successHandler = delegate (EntityResponse<Greeting> response)
+            {
+                greeting = response.element;
+                blocker.Set();
+            };
+            RestliCallback<EntityResponse<Greeting>>.ErrorHandler errorHandler = delegate (ClientErrorResponse response)
+            {
+                errorResponse = response;
+                blocker.Set();
+            };
+            RestliCallback<EntityResponse<Greeting>> callback = new RestliCallback<EntityResponse<Greeting>>(successHandler, errorHandler);
+
+            client.RestRequestAsync(request, callback);
+
+            blocker.WaitOne();
+            
+            Assert.IsNull(greeting);
+            Assert.IsNotNull(errorResponse);
+            Assert.AreEqual(400, errorResponse.status);
+
+            RestliException error = errorResponse.error;
+            Assert.IsNotNull(error);
+            Assert.IsNotNull(error.Message);
+            Assert.IsNull(error.InnerException);
+
+            ErrorResponse details = error.details;
+            Assert.IsNotNull(details);
+            Assert.AreEqual(400, details.status);
+            Assert.AreEqual("Negative key.", details.message);
+            Assert.AreEqual("com.linkedin.restli.server.RestLiServiceException", details.exceptionClass);
+            Assert.IsTrue(details.hasStackTrace);
+        }
+
+        [TestMethod]
+        public void GetGreeting_Async_HttpError()
+        {
+            RestClient client = new RestClient(badUrlPrefix);
+
+            GetRequestBuilder<int, Greeting> requestBuilder = new GetRequestBuilder<int, Greeting>("/basicCollection");
+            requestBuilder.SetID(123);
+            GetRequest<int, Greeting> request = requestBuilder.Build();
+
+            AutoResetEvent blocker = new AutoResetEvent(false);
+
+            Greeting greeting = null;
+            ClientErrorResponse errorResponse = null;
+
+            RestliCallback<EntityResponse<Greeting>>.SuccessHandler successHandler = delegate (EntityResponse<Greeting> response)
+            {
+                greeting = response.element;
+                blocker.Set();
+            };
+            RestliCallback<EntityResponse<Greeting>>.ErrorHandler errorHandler = delegate (ClientErrorResponse response)
+            {
+                errorResponse = response;
+                blocker.Set();
+            };
+            RestliCallback<EntityResponse<Greeting>> callback = new RestliCallback<EntityResponse<Greeting>>(successHandler, errorHandler);
+
+            client.RestRequestAsync(request, callback);
+
+            blocker.WaitOne();
+
+            Assert.IsNull(greeting);
+            Assert.IsNotNull(errorResponse);
+            Assert.AreEqual(500, errorResponse.status);
+
+            Assert.IsNotNull(errorResponse.error);
+            Assert.IsNull(errorResponse.error.details);
+            Assert.IsNotNull(errorResponse.error.Message);
+            Assert.IsNotNull(errorResponse.error.InnerException);
+        }
+
+        [TestMethod]
         public void CreateGreeting_Sync()
         {
-            /*
-             * This test makes the assumption that an instance of `restli-integration-test-server`
-             * is running at the urlPrefix (hostname and port) specified below.
-             */
-            string urlPrefix = "http://localhost:1338";
             RestClient client = new RestClient(urlPrefix);
+
             GreetingBuilder greetingBuilder = new GreetingBuilder();
             greetingBuilder.id = 0; // Dummy value
             greetingBuilder.message = "Create me!";
@@ -126,12 +266,8 @@ namespace restlicsharpclient.restliclientintegrationtest
         [TestMethod]
         public void CreateGreeting_Async()
         {
-            /*
-             * This test makes the assumption that an instance of `restli-integration-test-server`
-             * is running at the urlPrefix (hostname and port) specified below.
-             */
-            string urlPrefix = "http://localhost:1338";
             RestClient client = new RestClient(urlPrefix);
+
             GreetingBuilder greetingBuilder = new GreetingBuilder();
             greetingBuilder.id = 0; // Dummy value
             greetingBuilder.message = "Create me!";
@@ -145,18 +281,25 @@ namespace restlicsharpclient.restliclientintegrationtest
             AutoResetEvent blocker = new AutoResetEvent(false);
 
             CreateResponse<int, Greeting> createResponse = null;
+            ClientErrorResponse errorResponse = null;
 
             RestliCallback<CreateResponse<int, Greeting>>.SuccessHandler successHandler = delegate (CreateResponse<int, Greeting> response)
             {
                 createResponse = response;
                 blocker.Set();
             };
-            RestliCallback<CreateResponse<int, Greeting>> callback = new RestliCallback<CreateResponse<int, Greeting>>(successHandler);
+            RestliCallback<CreateResponse<int, Greeting>>.ErrorHandler errorHandler = delegate (ClientErrorResponse response)
+            {
+                errorResponse = response;
+                blocker.Set();
+            };
+            RestliCallback<CreateResponse<int, Greeting>> callback = new RestliCallback<CreateResponse<int, Greeting>>(successHandler, errorHandler);
             
             client.RestRequestAsync(request, callback);
 
             blocker.WaitOne(asyncTimeoutMillis);
 
+            Assert.IsNull(errorResponse);
             Assert.AreEqual(RestConstants.httpStatusCreated, createResponse.status);
             Assert.AreEqual(123, createResponse.key);
             CollectionAssert.AreEqual(new List<string>() { "/basicCollection/123" }, createResponse.headers[RestConstants.kHeaderLocation].ToList());
@@ -165,11 +308,6 @@ namespace restlicsharpclient.restliclientintegrationtest
         [TestMethod]
         public void FinderGreeting_Sync()
         {
-            /*
-             * This test makes the assumption that an instance of `restli-integration-test-server`
-             * is running at the urlPrefix (hostname and port) specified below.
-             */
-            string urlPrefix = "http://localhost:1338";
             RestClient client = new RestClient(urlPrefix);
 
             FinderRequestBuilder<Greeting, EmptyRecord> requestBuilder = new FinderRequestBuilder<Greeting, EmptyRecord>("/basicCollection");
@@ -192,11 +330,6 @@ namespace restlicsharpclient.restliclientintegrationtest
         [TestMethod]
         public void FinderGreeting_Async()
         {
-            /*
-             * This test makes the assumption that an instance of `restli-integration-test-server`
-             * is running at the urlPrefix (hostname and port) specified below.
-             */
-            string urlPrefix = "http://localhost:1338";
             RestClient client = new RestClient(urlPrefix);
 
             FinderRequestBuilder<Greeting, EmptyRecord> requestBuilder = new FinderRequestBuilder<Greeting, EmptyRecord>("/basicCollection");
@@ -207,17 +340,25 @@ namespace restlicsharpclient.restliclientintegrationtest
             AutoResetEvent blocker = new AutoResetEvent(false);
 
             CollectionResponse<Greeting, EmptyRecord> collectionResponse = null;
+            ClientErrorResponse errorResponse = null;
 
             RestliCallback<CollectionResponse<Greeting, EmptyRecord>>.SuccessHandler successHandler = delegate (CollectionResponse<Greeting, EmptyRecord> response)
             {
                 collectionResponse = response;
                 blocker.Set();
             };
-            RestliCallback<CollectionResponse<Greeting, EmptyRecord>> callback = new RestliCallback<CollectionResponse<Greeting, EmptyRecord>>(successHandler);
+            RestliCallback<CollectionResponse<Greeting, EmptyRecord>>.ErrorHandler errorHandler = delegate (ClientErrorResponse response)
+            {
+                errorResponse = response;
+                blocker.Set();
+            };
+            RestliCallback<CollectionResponse<Greeting, EmptyRecord>> callback = new RestliCallback<CollectionResponse<Greeting, EmptyRecord>>(successHandler, errorHandler);
 
             client.RestRequestAsync(request, callback);
 
             blocker.WaitOne(asyncTimeoutMillis);
+
+            Assert.IsNull(errorResponse);
 
             IReadOnlyList<Greeting> greetings = collectionResponse.elements;
 
@@ -230,13 +371,8 @@ namespace restlicsharpclient.restliclientintegrationtest
         }
 
         [TestMethod]
-        public void FinderGreeting_DictionaryRecord_Async()
+        public void FinderGreeting_DictionaryRecord_Sync()
         {
-            /*
-             * This test makes the assumption that an instance of `restli-integration-test-server`
-             * is running at the urlPrefix (hostname and port) specified below.
-             */
-            string urlPrefix = "http://localhost:1338";
             RestClient client = new RestClient(urlPrefix);
 
             FinderRequestBuilder<DictionaryRecordTemplate, EmptyRecord> requestBuilder =

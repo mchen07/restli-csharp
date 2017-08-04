@@ -58,13 +58,19 @@ namespace restlicsharpclient.restliclient.transport
             HttpWebRequest httpWebRequest = requestState.httpWebRequest;
             TransportCallback transportCallback = requestState.transportCallback;
 
-            HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.EndGetResponse(asyncResult);
+            HttpResponse httpResponse;
+            try
+            {
+                HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.EndGetResponse(asyncResult);
+                httpResponse = new HttpResponse(httpWebResponse);
+                httpWebResponse.Close();
+            }
+            catch (Exception e)
+            {
+                httpResponse = new HttpResponse(RestConstants.httpStatusInternalServerError, null, null, new RestliException("Error issuing asynchronous rest request", e));
+            }
 
-            HttpResponse httpResponse = new HttpResponse(httpWebResponse);
-
-            httpWebResponse.Close();
-
-            transportCallback.OnSuccess(httpResponse);
+            transportCallback.OnResponse(httpResponse);
         }
 
         public void RestRequestAsync(HttpRequest httpRequest, TransportCallback transportCallback)
@@ -110,17 +116,18 @@ namespace restlicsharpclient.restliclient.transport
 
             WebResponse webResponse;
             HttpWebResponse httpWebResponse;
+
+            HttpResponse httpResponse;
             try
             {
                 webResponse = httpWebRequest.GetResponse();
                 httpWebResponse = (HttpWebResponse)webResponse;
+                httpResponse = new HttpResponse(httpWebResponse);
             }
             catch (WebException e)
             {
-                throw new WebException(String.Format("{0}: {1} {2}", e.Message, httpRequest.httpMethod, httpRequest.url));
+                httpResponse = new HttpResponse(RestConstants.httpStatusInternalServerError, null, null, new RestliException("Error issuing synchronous rest request", e));
             }
-
-            HttpResponse httpResponse = new HttpResponse(httpWebResponse);
 
             return httpResponse;
         }

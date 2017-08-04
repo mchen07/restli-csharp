@@ -14,8 +14,6 @@
    limitations under the License.
 */
 
-using System;
-
 using restlicsharpclient.restliclient.transport;
 using restlicsharpclient.restliclient.request;
 using restlicsharpclient.restliclient.response;
@@ -58,6 +56,12 @@ namespace restlicsharpclient.restliclient
             HttpRequest httpRequest = ClientUtil.BuildHttpRequest(request, urlPrefix);
             HttpResponse httpResponse = transportClient.RestRequestSync(httpRequest);
             TransportResponse transportResponse = new TransportResponse(httpResponse);
+
+            if (transportResponse.hasError())
+            {
+                throw transportResponse.getError().error;
+            }
+
             return request.responseDecoder.DecodeResponse(transportResponse);
         }
     }

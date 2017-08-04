@@ -62,7 +62,7 @@ namespace restlicsharpclient.restliclienttest.decoder
                 { "foo", "bar" }
             };
 
-            HttpResponse httpResponse = new HttpResponse(200, headers, null);
+            HttpResponse httpResponse = new HttpResponse(200, headers, null, null);
             TransportResponse transportResponse = new TransportResponse(data, httpResponse);
 
             CollectionResponse<Greeting, EmptyRecord> response = decoder.DecodeResponse(transportResponse);
@@ -121,7 +121,7 @@ namespace restlicsharpclient.restliclienttest.decoder
                 { "foo", "bar" }
             };
 
-            HttpResponse httpResponse = new HttpResponse(200, headers, null);
+            HttpResponse httpResponse = new HttpResponse(200, headers, null, null);
             TransportResponse transportResponse = new TransportResponse(data, httpResponse);
 
             CollectionResponse<Greeting, EmptyRecord> response = decoder.DecodeResponse(transportResponse);
@@ -188,7 +188,7 @@ namespace restlicsharpclient.restliclienttest.decoder
                 { "foo", "bar" }
             };
 
-            HttpResponse httpResponse = new HttpResponse(200, headers, null);
+            HttpResponse httpResponse = new HttpResponse(200, headers, null, null);
             TransportResponse transportResponse = new TransportResponse(data, httpResponse);
 
             CollectionResponse<Greeting, Greeting> response = decoder.DecodeResponse(transportResponse);

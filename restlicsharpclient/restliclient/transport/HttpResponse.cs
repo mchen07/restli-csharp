@@ -34,13 +34,16 @@ namespace restlicsharpclient.restliclient.transport
         public int? status { get; }
         public IReadOnlyDictionary<string, string> headers { get; }
         public byte[] data { get; }
+        public RestliException error;
 
 
-        public HttpResponse(int? status, Dictionary<string, string> headers, byte[] data)
+        public HttpResponse(int? status, Dictionary<string, string> headers, byte[] data, RestliException error)
         {
             this.status = status;
-            this.headers = headers;
+            this.headers = headers ?? new Dictionary<string, string>();
             this.data = data;
+            
+            this.error = error;
         }
 
         public HttpResponse(HttpWebResponse httpWebResponse)

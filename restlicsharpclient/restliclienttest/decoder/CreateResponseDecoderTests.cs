@@ -42,7 +42,7 @@ namespace restlicsharpclient.restliclienttest.decoder
                 { RestConstants.kHeaderRestliId, "123" }
             };
 
-            HttpResponse httpResponse = new HttpResponse(RestConstants.httpStatusCreated, headers, null);
+            HttpResponse httpResponse = new HttpResponse(RestConstants.httpStatusCreated, headers, null, null);
             TransportResponse transportResponse = new TransportResponse(null, httpResponse);
 
             CreateResponse<int, Greeting> response = decoder.DecodeResponse(transportResponse);
@@ -65,7 +65,7 @@ namespace restlicsharpclient.restliclienttest.decoder
                 { RestConstants.kHeaderRestliId, "SYMBOL_1" }
             };
 
-            HttpResponse httpResponse = new HttpResponse(RestConstants.httpStatusCreated, headers, null);
+            HttpResponse httpResponse = new HttpResponse(RestConstants.httpStatusCreated, headers, null, null);
             TransportResponse transportResponse = new TransportResponse(null, httpResponse);
 
             CreateResponse<TestEnum, Greeting> response = decoder.DecodeResponse(transportResponse);
