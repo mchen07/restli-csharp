@@ -39,6 +39,7 @@ namespace restlicsharpclient.restliclientintegrationtest
         * is running at the urlPrefix (hostname and port) specified below.
         */
         const string urlPrefix = "http://localhost:1338";
+        const string badUrlPrefix = "http://badhostname:12345";
         const int asyncTimeoutMillis = 6000;
 
         [TestMethod]
@@ -59,6 +60,60 @@ namespace restlicsharpclient.restliclientintegrationtest
             Assert.AreEqual(123, greeting.id);
             Assert.AreEqual(Tone.Symbol.SINCERE, greeting.tone.symbol);
             Assert.AreEqual("Hello World!", greeting.message);
+        }
+
+        [TestMethod]
+        public void GetGreeting_Sync_HttpError()
+        {
+            RestClient client = new RestClient(badUrlPrefix);
+
+            GetRequestBuilder<int, Greeting> requestBuilder = new GetRequestBuilder<int, Greeting>("/basicCollection");
+            requestBuilder.SetID(123);
+            GetRequest<int, Greeting> request = requestBuilder.Build();
+
+            try
+            {
+                EntityResponse<Greeting> response = client.RestRequestSync(request);
+            }
+            catch (RestliException e)
+            {
+                Assert.IsNull(e.details);
+                Assert.IsNotNull(e.Message);
+                Assert.IsNotNull(e.InnerException);
+                return;
+            }
+
+            Assert.Fail("Rest request should throw RestliException");
+        }
+
+        [TestMethod]
+        public void GetGreeting_Sync_ServerError()
+        {
+            RestClient client = new RestClient(urlPrefix);
+
+            GetRequestBuilder<int, Greeting> requestBuilder = new GetRequestBuilder<int, Greeting>("/basicCollection");
+            requestBuilder.SetID(-1);
+            GetRequest<int, Greeting> request = requestBuilder.Build();
+
+            try
+            {
+                EntityResponse<Greeting> response = client.RestRequestSync(request);
+            }
+            catch (RestliException e)
+            {
+                Assert.IsNotNull(e.Message);
+                Assert.IsNull(e.InnerException);
+
+                ErrorResponse details = e.details;
+                Assert.IsNotNull(details);
+                Assert.AreEqual(400, details.status);
+                Assert.AreEqual("Negative key.", details.message);
+                Assert.AreEqual("com.linkedin.restli.server.RestLiServiceException", details.exceptionClass);
+                Assert.IsTrue(details.hasStackTrace);
+                return;
+            }
+
+            Assert.Fail("Rest request should throw RestliException");
         }
 
         [TestMethod]
@@ -100,7 +155,7 @@ namespace restlicsharpclient.restliclientintegrationtest
         }
 
         [TestMethod]
-        public void GetGreeting_Async_Fail()
+        public void GetGreeting_Async_ServerError()
         {
             RestClient client = new RestClient(urlPrefix);
 
@@ -111,7 +166,7 @@ namespace restlicsharpclient.restliclientintegrationtest
             AutoResetEvent blocker = new AutoResetEvent(false);
 
             Greeting greeting = null;
-            RestliException error = null;
+            ClientErrorResponse errorResponse = null;
 
             RestliCallback<EntityResponse<Greeting>>.SuccessHandler successHandler = delegate (EntityResponse<Greeting> response)
             {
@@ -120,7 +175,54 @@ namespace restlicsharpclient.restliclientintegrationtest
             };
             RestliCallback<EntityResponse<Greeting>>.ErrorHandler errorHandler = delegate (ClientErrorResponse response)
             {
-                error = response.error;
+                errorResponse = response;
+                blocker.Set();
+            };
+            RestliCallback<EntityResponse<Greeting>> callback = new RestliCallback<EntityResponse<Greeting>>(successHandler, errorHandler);
+
+            client.RestRequestAsync(request, callback);
+
+            blocker.WaitOne();
+            
+            Assert.IsNull(greeting);
+            Assert.IsNotNull(errorResponse);
+            Assert.AreEqual(400, errorResponse.status);
+
+            RestliException error = errorResponse.error;
+            Assert.IsNotNull(error);
+            Assert.IsNotNull(error.Message);
+            Assert.IsNull(error.InnerException);
+
+            ErrorResponse details = error.details;
+            Assert.IsNotNull(details);
+            Assert.AreEqual(400, details.status);
+            Assert.AreEqual("Negative key.", details.message);
+            Assert.AreEqual("com.linkedin.restli.server.RestLiServiceException", details.exceptionClass);
+            Assert.IsTrue(details.hasStackTrace);
+        }
+
+        [TestMethod]
+        public void GetGreeting_Async_HttpError()
+        {
+            RestClient client = new RestClient(badUrlPrefix);
+
+            GetRequestBuilder<int, Greeting> requestBuilder = new GetRequestBuilder<int, Greeting>("/basicCollection");
+            requestBuilder.SetID(123);
+            GetRequest<int, Greeting> request = requestBuilder.Build();
+
+            AutoResetEvent blocker = new AutoResetEvent(false);
+
+            Greeting greeting = null;
+            ClientErrorResponse errorResponse = null;
+
+            RestliCallback<EntityResponse<Greeting>>.SuccessHandler successHandler = delegate (EntityResponse<Greeting> response)
+            {
+                greeting = response.element;
+                blocker.Set();
+            };
+            RestliCallback<EntityResponse<Greeting>>.ErrorHandler errorHandler = delegate (ClientErrorResponse response)
+            {
+                errorResponse = response;
                 blocker.Set();
             };
             RestliCallback<EntityResponse<Greeting>> callback = new RestliCallback<EntityResponse<Greeting>>(successHandler, errorHandler);
@@ -130,8 +232,13 @@ namespace restlicsharpclient.restliclientintegrationtest
             blocker.WaitOne();
 
             Assert.IsNull(greeting);
-            Assert.IsNotNull(error);
-            Assert.IsNotNull(error.details);
+            Assert.IsNotNull(errorResponse);
+            Assert.AreEqual(500, errorResponse.status);
+
+            Assert.IsNotNull(errorResponse.error);
+            Assert.IsNull(errorResponse.error.details);
+            Assert.IsNotNull(errorResponse.error.Message);
+            Assert.IsNotNull(errorResponse.error.InnerException);
         }
 
         [TestMethod]
